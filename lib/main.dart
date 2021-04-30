@@ -6,7 +6,6 @@ import 'package:goa_bus/screens/login_screen.dart';
 import 'package:goa_bus/providers/login_provider.dart';
 
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
