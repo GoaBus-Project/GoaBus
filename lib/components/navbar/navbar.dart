@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:goa_bus/constants/color_palette.dart';
 class NavBar extends StatelessWidget {
   const NavBar({
     Key key,
@@ -8,6 +8,7 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Palette.primary,
       leading: Builder(
         builder: (BuildContext context) {
           return IconButton(
@@ -27,10 +28,10 @@ class NavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Test',
+            Text('GoaBus Admin Panel',
               style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w100,
                   color: Colors.white
               ),
             ),
