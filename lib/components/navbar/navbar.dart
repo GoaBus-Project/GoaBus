@@ -8,10 +8,19 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: Padding(
-        padding: const EdgeInsets.only(top: 28.0),
-        child: Image.asset('assets/GOA BUS-logos_black.png'),
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            icon: Image.asset(
+                'logo.png',
+                fit: BoxFit.contain
+            ),
+            onPressed: () { Scaffold.of(context).openDrawer(); },
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          );
+        },
       ),
+
       title: Center(
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -29,7 +38,11 @@ class NavBar extends StatelessWidget {
         ),
       ),
       actions: [
-
+        IconButton(
+          icon: const Icon(Icons.power_settings_new),
+          color: Colors.white,
+          onPressed: () {},
+        ),
       ],
     );
   }

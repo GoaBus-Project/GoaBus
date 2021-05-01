@@ -11,8 +11,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(70),
-          child: NavBar()
+          preferredSize: const Size.fromHeight(50),
+          child: NavBar(),
+      ),
+      drawer: Drawer(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+            ],
+          ),
+        ),
       ),
     );
   }
