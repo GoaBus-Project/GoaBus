@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/constants/color_pallete.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,10 +9,19 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-          child: Text("First flutter web app"),
-        )
+    return Scaffold(
+      body: Row(
+        children: [
+          Container(
+            color: Pallete.primary,
+            child: Column(
+              children: [
+              ],
+            )
+          ),
+          Column()
+        ],
+      ),
     );
   }
 }
