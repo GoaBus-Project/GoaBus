@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-class LoginProvider with ChangeNotifier {
+class HomeProvider with ChangeNotifier {
 
 }

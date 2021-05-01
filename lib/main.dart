@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/providers/home_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:goa_bus/screens/login_screen.dart';
@@ -22,6 +23,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => HomeProvider()),
       ],
       child: MaterialApp(
           home: LoginScreen()
