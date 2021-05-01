@@ -9,7 +9,6 @@ import 'package:goa_bus/providers/login_provider.dart';
 import 'package:goa_bus/screens/login_screen.dart';
 
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(GoaBusApp());
@@ -27,7 +26,7 @@ class _GoaBusAppState extends State<GoaBusApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => NavBarProvider()),
-        ChangeNotifierProvider(create: (context) => SideBarProvider()),
+        ChangeNotifierProvider(create: (context) => SideBarProvider.init()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
       ],
       child: MaterialApp(

@@ -8,31 +8,18 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Palette.primary,
-      leading: Builder(
-        builder: (BuildContext context) {
-          return IconButton(
-            icon: Image.asset(
-                'logo.png',
-                fit: BoxFit.contain
-            ),
-            onPressed: () { Scaffold.of(context).openDrawer(); },
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          );
-        },
-      ),
-
+      backgroundColor: Palette.navbarColor,
       title: Center(
         child: Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text('GoaBus Admin Panel',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w100,
-                  color: Colors.white
+                  color: Palette.fontColor
               ),
             ),
           ],
@@ -41,7 +28,7 @@ class NavBar extends StatelessWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.power_settings_new),
-          color: Colors.white,
+          color: Palette.fontColor,
           onPressed: () {},
         ),
       ],
