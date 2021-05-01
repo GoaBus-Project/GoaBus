@@ -25,9 +25,9 @@ class _GoaBusAppState extends State<GoaBusApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => NavBarProvider()),
         ChangeNotifierProvider(create: (context) => SideBarProvider()),
-        ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
       ],
       child: MaterialApp(
