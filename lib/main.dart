@@ -9,15 +9,15 @@ import 'package:goa_bus/providers/login_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(GoaBusApp());
 }
 
-class MyApp extends StatefulWidget {
+class GoaBusApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _GoaBusAppState createState() => _GoaBusAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _GoaBusAppState extends State<GoaBusApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
