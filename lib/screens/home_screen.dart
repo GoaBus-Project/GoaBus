@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/components/navbar/navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,10 +9,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-          child: Text("First flutter web app"),
-        )
+    return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: NavBar()
+      ),
     );
   }
 }
