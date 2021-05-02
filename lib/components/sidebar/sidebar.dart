@@ -14,10 +14,11 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) {
-    final SideBarProvider sideBarProvider = Provider.of<SideBarProvider>(context);
+    final SideBarProvider sideBarProvider =
+      Provider.of<SideBarProvider>(context, listen: true);
     return Container(
       decoration: BoxDecoration(
-          color: Palette.navbarColor,
+          color: Palette.primary,
           boxShadow: [
             BoxShadow(
                 color: Colors.grey[200], offset: Offset(3, 5), blurRadius: 17)
@@ -61,21 +62,13 @@ class _SideBarState extends State<SideBar> {
 
             SideBarItems(
               icon: Icons.category,
-              text: 'Time Table',
-              active: sideBarProvider.currentPage == DisplayedPage.TIMETABLE,
+              text: 'Bus Stops',
+              active: sideBarProvider.currentPage == DisplayedPage.BUSSTOPS,
               onTap: () {
-                sideBarProvider.changeCurrentPage(DisplayedPage.TIMETABLE);
+                sideBarProvider.changeCurrentPage(DisplayedPage.BUSSTOPS);
               },
             ),
 
-            SideBarItems(
-              icon: Icons.category,
-              text: 'Live Location',
-              active: sideBarProvider.currentPage == DisplayedPage.LOCATION,
-              onTap: () {
-                sideBarProvider.changeCurrentPage(DisplayedPage.LOCATION);
-              },
-            ),
             SideBarItems(
               icon: Icons.category,
               text: 'Settings',

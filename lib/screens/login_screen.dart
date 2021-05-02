@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/providers/login_provider.dart';
+import 'package:goa_bus/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               flex: 3,
               child: Container(
-                  color: Palette.primary,
+                  color: Palette.secondary,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -63,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                      width: 3, color: Palette.primary),
+                                      width: 3, color: Palette.secondary),
                                 ),
                               ),
                               child: Padding(
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   "Login".toUpperCase(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Palette.primary,
+                                    color: Palette.secondary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
@@ -165,9 +166,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   ElevatedButton(
                                     style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(Palette.primary),
+                                      backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
                                     ),
-                                    onPressed: () {  },
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context, MaterialPageRoute(
+                                          builder: (context) => HomeScreen(),
+                                      ));
+                                    },
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 15, right: 15, top: 11, bottom: 11),
                                       child: Text(

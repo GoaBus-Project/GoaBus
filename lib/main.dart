@@ -26,7 +26,7 @@ class _GoaBusAppState extends State<GoaBusApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => NavBarProvider()),
-        ChangeNotifierProvider(create: (context) => SideBarProvider.init()),
+        ChangeNotifierProvider(create: (context) => SideBarProvider()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
       ],
       child: MaterialApp(
