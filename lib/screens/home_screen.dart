@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/components/navbar/navbar.dart';
 import 'package:goa_bus/components/sidebar/sidebar.dart';
+import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_provider.dart';
 import 'package:goa_bus/screens/sidebar_pages/buses.dart';
 import 'package:goa_bus/screens/sidebar_pages/dashboard.dart';
 import 'package:goa_bus/screens/sidebar_pages/drivers.dart';
 import 'package:goa_bus/screens/sidebar_pages/settings.dart';
-import 'package:goa_bus/screens/sidebar_pages/timetable.dart';
+import 'package:goa_bus/screens/sidebar_pages/bus_stops.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,11 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 8, left: 10),
-                          child: Text(sideBarProv.activeHeading,
+                          padding: const EdgeInsets.only(top: 15, left: 50),
+                          child: Text(
+                            sideBarProv.activeHeading,
                             style: TextStyle(
-                              fontSize: 80,
+                              fontSize: 60,
                               fontWeight: FontWeight.bold,
+                              color: Palette.fontColor.withOpacity(0.6)
                             ),
                           ),
                         ),

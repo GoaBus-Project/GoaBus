@@ -28,7 +28,7 @@ class _SideBarState extends State<SideBar> {
         child: Column(
           children: [
             Image.asset(
-              Constants.MAIN_LOGO,
+              Constants.NAMED_MAIN_LOGO,
               height: 57.0,
               width: 57.0,
             ),
