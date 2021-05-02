@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/constants/color_palette.dart';
 
 class SideBarItems extends StatelessWidget {
   final String text;
@@ -10,8 +11,8 @@ class SideBarItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         onTap: onTap,
-        tileColor: active ? Color(0xffCAF0F8).withOpacity(.3) : Color(0xff0077B6),
-        leading: Icon(icon, color: Colors.white),
+        tileColor: active ? Color(0xff0077B6).withOpacity(.3) : Palette.navbarColor,
+        leading: Icon(icon, color: Palette.fontColor),
         title: Text(text)
     );
   }
