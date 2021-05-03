@@ -43,7 +43,7 @@ class _SideBarState extends State<SideBar> {
             ),
 
             SideBarItems(
-              icon: Icons.people,
+              icon: Icons.directions_bus,
               text: 'Buses',
               active: sideBarProvider.currentPage == DisplayedPage.BUSES,
               onTap: () {
@@ -52,7 +52,7 @@ class _SideBarState extends State<SideBar> {
             ),
 
             SideBarItems(
-              icon: Icons.shopping_cart,
+              icon: Icons.person,
               text: 'Drivers',
               active: sideBarProvider.currentPage == DisplayedPage.DRIVERS,
               onTap: () {
@@ -61,7 +61,7 @@ class _SideBarState extends State<SideBar> {
             ),
 
             SideBarItems(
-              icon: Icons.category,
+              icon: Icons.stop_circle_outlined,
               text: 'Bus Stops',
               active: sideBarProvider.currentPage == DisplayedPage.BUSSTOPS,
               onTap: () {
@@ -70,7 +70,7 @@ class _SideBarState extends State<SideBar> {
             ),
 
             SideBarItems(
-              icon: Icons.category,
+              icon: Icons.settings,
               text: 'Settings',
               active: sideBarProvider.currentPage == DisplayedPage.SETTINGS,
               onTap: () {

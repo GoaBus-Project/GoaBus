@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       sideBarProv.init();
     }
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       body: Row(
         children: [
           SideBar(),

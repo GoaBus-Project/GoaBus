@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/constants/color_palette.dart';
 
 class TableHeaderTile extends StatelessWidget {
   final String first;
@@ -14,19 +15,31 @@ class TableHeaderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
-      child:  Table(
-        children: [
-          TableRow(
-              children: [
-                TableCell(child: HeaderTileData(title: first)),
-                TableCell(child: HeaderTileData(title: second)),
-                TableCell(child: HeaderTileData(title: third)),
-                TableCell(child: Text('')),
-              ]
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.blue[200],
+            borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        child:  Card(
+          elevation: 5.0,
+          child: Table(
+            children: [
+              TableRow(
+                  decoration: BoxDecoration(
+                      color: Colors.blue[200],
+                  ),
+                  children: [
+                    TableCell(child: HeaderTileData(title: first)),
+                    TableCell(child: HeaderTileData(title: second)),
+                    TableCell(child: HeaderTileData(title: third)),
+                    TableCell(child: Text('')),
+                  ]
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -65,25 +78,31 @@ class TableBodyTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        color: Colors.blue,
-        child: Table(
-          children: [
-            TableRow(
-                children: [
-                  TileData(title: first),
-                  TileData(title: second),
-                  TileData(title: third),
-                  Center(
-                      child: IconButton(
-                          icon: Icon(Icons.more_outlined),
-                          onPressed: (){}
-                      )
-                  )
-                ]
-            )
-          ],
-        )
+    return Container(
+      height: 60.0,
+      child: Card(
+          color: Palette.listTileColor,
+          child: Table(
+            children: [
+              TableRow(
+                  children: [
+                    TileData(title: first),
+                    TileData(title: second),
+                    TileData(title: third),
+                    Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: IconButton(
+                              icon: Icon(Icons.more_outlined),
+                              onPressed: (){}
+                          ),
+                        )
+                    )
+                  ]
+              )
+            ],
+          )
+      ),
     );
   }
 }
@@ -97,13 +116,16 @@ class TileData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: SizedBox(
-          width: 200,
-          child: Text(title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0
-              )
+          width: 400,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Palette.fontColor,
+                    fontSize: 20.0
+                )
+            ),
           ),
         )
     );

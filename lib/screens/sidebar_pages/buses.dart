@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/components/table.dart';
+import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/buses_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
@@ -29,7 +30,7 @@ class _BusesState extends State<Buses> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
-                  height: 500,
+                  height: 400,
                   child: SmoothScrollWeb(
                     controller: _scrollController,
                     child: Scrollbar(
@@ -49,6 +50,20 @@ class _BusesState extends State<Buses> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50.0),
+                    child: FloatingActionButton.extended(
+                        backgroundColor: Palette.buttonColor,
+                        onPressed: (){},
+                        label: Text("Add Bus")
+
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         );

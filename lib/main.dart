@@ -1,5 +1,8 @@
+import 'package:goa_bus/providers/sidebar_providers/bus_stop_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/buses_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
 import 'package:goa_bus/screens/login_screen.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
@@ -30,6 +33,8 @@ class _GoaBusAppState extends State<GoaBusApp> {
         ChangeNotifierProvider(create: (context) => SideBarProvider()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
         ChangeNotifierProvider(create: (context) => BusesProvider()),
+        ChangeNotifierProvider(create: (context) => DriversProvider()),
+        ChangeNotifierProvider(create: (context) => BusStopProvider()),
       ],
       child: MaterialApp(
           home: LoginScreen()
