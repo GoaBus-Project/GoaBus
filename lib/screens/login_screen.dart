@@ -147,11 +147,38 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 300,
                           child: Column(
                             children: [
+                              Visibility(
+                                child: Text("Invalid email",
+                                  style: TextStyle(
+                                    color: Colors.red
+                                  ),
+                                ),
+                                visible: loginProv.emailAuth,
+                              ),
+                              Visibility(
+                                child: Text("Invalid password",
+                                  style: TextStyle(
+                                      color: Colors.red
+                                  ),
+                                ),
+                                visible: loginProv.passwordAuth,
+                              ),
+                              Visibility(
+                                child: Text("Incorrect details",
+                                  style: TextStyle(
+                                      color: Colors.red
+                                  ),
+                                ),
+                                visible: loginProv.showAuthenciationAlert,
+                              ),
                               TextFormField(
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText: 'Enter your email'
                                 ),
+                                onChanged: (email){
+                                  loginProv.email = email;
+                                },
                               ),
                               SizedBox(height: 15),
                               TextFormField(
@@ -159,6 +186,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     border: UnderlineInputBorder(),
                                     labelText: 'Enter your password'
                                 ),
+                                onChanged: (password){
+                                  loginProv.password = password;
+                                },
                               ),
                               SizedBox(height: 15),
                               Row(
@@ -169,10 +199,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
                                     ),
                                     onPressed: () {
-                                      Navigator.push(
-                                          context, MaterialPageRoute(
+                                      loginProv.login();
+                                      if(loginProv.authenticated) {
+                                        Navigator.push(
+                                            context, MaterialPageRoute(
                                           builder: (context) => HomeScreen(),
-                                      ));
+                                        ));
+                                      }
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 15, right: 15, top: 11, bottom: 11),
@@ -195,7 +228,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                  )
+                                  ),
+                                  Visibility(
+                                    child: CircularProgressIndicator(),
+                                    visible: loginProv.loading,
+                                  ),
                                 ],
                               )
                             ],

@@ -11,10 +11,12 @@ import 'package:goa_bus/providers/navbar_provider.dart';
 import 'package:goa_bus/providers/sidebar_provider.dart';
 import 'package:goa_bus/providers/home_provider.dart';
 import 'package:goa_bus/providers/login_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(GoaBusApp());
 }
 

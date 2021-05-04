@@ -59,7 +59,6 @@ class _BusesState extends State<Buses> {
                         backgroundColor: Palette.buttonColor,
                         onPressed: (){},
                         label: Text("Add Bus")
-
                     ),
                   )
                 ],
