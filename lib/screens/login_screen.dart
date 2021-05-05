@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goa_bus/constants/color_palette.dart';
@@ -12,6 +14,26 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // Initially password is obscure
+  bool _obscureText = true;
+
+  // Toggles the password show status
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  Widget _validationMessage(String message, bool visibility) {
+    return Visibility(
+      child: Text(message,
+        style: TextStyle(
+            color: message == "Signed in" ?  Colors.green : Colors.red
+        ),
+      ),
+      visible: visibility,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +72,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Consumer<LoginProvider>(
               builder: (context, loginProv, _) {
-                loginProv.setGreeting();
+                if(loginProv.authenticated) {
+                  Navigator.push(
+                      context, MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ));
+                }
                 return Expanded(
                     flex: 2,
                     child: Column(
@@ -85,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${loginProv.greet},",
+                                  "${loginProv.setGreeting()},",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.black,
@@ -147,47 +174,41 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 300,
                           child: Column(
                             children: [
-                              Visibility(
-                                child: Text("Invalid email",
-                                  style: TextStyle(
-                                    color: Colors.red
-                                  ),
-                                ),
-                                visible: loginProv.emailAuth,
+                              _validationMessage(
+                                  loginProv.authenticationMessage,
+                                  loginProv.showAuthenciationAlert
                               ),
-                              Visibility(
-                                child: Text("Invalid password",
-                                  style: TextStyle(
-                                      color: Colors.red
-                                  ),
-                                ),
-                                visible: loginProv.passwordAuth,
-                              ),
-                              Visibility(
-                                child: Text("Incorrect details",
-                                  style: TextStyle(
-                                      color: Colors.red
-                                  ),
-                                ),
-                                visible: loginProv.showAuthenciationAlert,
-                              ),
+                              SizedBox(height: 15),
                               TextFormField(
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText: 'Enter your email'
                                 ),
                                 onChanged: (email){
-                                  loginProv.email = email;
+                                  loginProv.setEmail(email);
                                 },
                               ),
                               SizedBox(height: 15),
                               TextFormField(
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
-                                    labelText: 'Enter your password'
+                                    labelText: 'Enter your password',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      // Based on passwordVisible state choose the icon
+                                      _obscureText
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                    onPressed: () {
+                                     _toggle();
+                                    },
+                                  ),
                                 ),
+                                obscureText: _obscureText,
                                 onChanged: (password){
-                                  loginProv.password = password;
+                                  loginProv.setPassword(password);
                                 },
                               ),
                               SizedBox(height: 15),
@@ -200,15 +221,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     onPressed: () {
                                       loginProv.login();
-                                      if(loginProv.authenticated) {
-                                        Navigator.push(
-                                            context, MaterialPageRoute(
-                                          builder: (context) => HomeScreen(),
-                                        ));
-                                      }
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 15, right: 15, top: 11, bottom: 11),
+                                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
                                       child: Text(
                                         "Login".toUpperCase(),
                                         textAlign: TextAlign.center,
@@ -229,12 +244,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                   ),
-                                  Visibility(
-                                    child: CircularProgressIndicator(),
-                                    visible: loginProv.loading,
-                                  ),
                                 ],
-                              )
+                              ),
+                              Visibility(
+                                child: CircularProgressIndicator(),
+                                visible: loginProv.loading,
+                              ),
                             ],
                           ),
                         ),
