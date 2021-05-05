@@ -247,7 +247,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ],
                               ),
                               Visibility(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Palette.primary,
+                                ),
                                 visible: loginProv.loading,
                               ),
                             ],
