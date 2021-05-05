@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Visibility(
       child: Text(message,
         style: TextStyle(
-            color: message == "Signed in" ?  Colors.green : Colors.red
+            color: message == "Signed in" ? Colors.green : Colors.red
         ),
       ),
       visible: visibility,
