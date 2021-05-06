@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             sideBarProv.activeHeading,
                             style: TextStyle(
-                              fontSize: 60,
+                              fontSize: 50,
                               fontWeight: FontWeight.bold,
                               color: Palette.fontColor.withOpacity(0.6)
                             ),

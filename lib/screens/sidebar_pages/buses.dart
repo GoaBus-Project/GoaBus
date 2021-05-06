@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/components/forms.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/buses_provider.dart';
@@ -23,14 +24,15 @@ class _BusesState extends State<Buses> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TableHeaderTile(
-                  first: "Name",
-                  second: "Number",
-                  third: "Current Location"
+                  first: "Number",
+                  second: "Start",
+                  third: "End"
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
-                  height: 400,
+                  height: MediaQuery.of(context).copyWith().size.height / 2,
+                  width: MediaQuery.of(context).copyWith().size.width,
                   child: SmoothScrollWeb(
                     controller: _scrollController,
                     child: Scrollbar(
@@ -41,9 +43,9 @@ class _BusesState extends State<Buses> {
                           itemCount: 20,
                           itemBuilder: (context, index) {
                             return TableBodyTile(
-                                first: "Dynamic Bus name",
-                                second: "Dynamic Bus Number",
-                                third: "Dynamic Location"
+                                first: "Dynamic Bus number",
+                                second: "Start Location",
+                                third: "End Location"
                             );
                           }),
                     ),
@@ -57,7 +59,35 @@ class _BusesState extends State<Buses> {
                     padding: const EdgeInsets.only(right: 50.0),
                     child: FloatingActionButton.extended(
                         backgroundColor: Palette.buttonColor,
-                        onPressed: (){},
+                        onPressed: (){
+                          showGeneralDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              barrierLabel: MaterialLocalizations.of(context)
+                                  .modalBarrierDismissLabel,
+                              barrierColor: Colors.black45,
+                              transitionDuration: const Duration(milliseconds: 200),
+                              pageBuilder: (BuildContext buildContext,
+                                  Animation animation,
+                                  Animation secondaryAnimation) {
+                                return Center(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width - 500,
+                                    height: MediaQuery.of(context).size.height -  100,
+                                    padding: EdgeInsets.all(20),
+                                    color: Colors.white,
+                                    child: Scaffold(
+                                      body: SmoothScrollWeb(
+                                          controller: _scrollController,
+                                          child: CustomForm()
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              );
+
+                        },
                         label: Text("Add Bus")
                     ),
                   )
