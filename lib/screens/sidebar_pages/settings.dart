@@ -45,60 +45,60 @@ class _SettingsState extends State<Settings> {
                                     ),
                                   ),
                                 ),
-                              Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  // TextFormField(
-                                  //   validator: (value) {
-                                  //     if (value == null || value.isEmpty) {
-                                  //       return 'Please enter some text';
-                                  //     }
-                                  //     return null;
-                                  //   },
-                                  //   decoration: InputDecoration(
-                                  //     labelText: 'Current Password',
-                                  //     icon: Icon(Icons.vpn_key_outlined),
-                                  //   ),
-                                  // ),
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      icon: const Icon(Icons.vpn_key_outlined),
-                                      labelText: 'Current Password',
+                                Form(
+                                 key: _formKey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      // TextFormField(
+                                      //   validator: (value) {
+                                      //     if (value == null || value.isEmpty) {
+                                      //       return 'Please enter some text';
+                                      //     }
+                                      //     return null;
+                                      //   },
+                                      //   decoration: InputDecoration(
+                                      //     labelText: 'Current Password',
+                                      //     icon: Icon(Icons.vpn_key_outlined),
+                                      //   ),
+                                      // ),
+                                    TextFormField(
+                                      decoration: const InputDecoration(
+                                        icon: const Icon(Icons.vpn_key_outlined),
+                                        labelText: 'Current Password',
+                                      ),
+                                      controller: textEditingController,
                                     ),
-                                    controller: textEditingController,
-                                  ),
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      icon: const Icon(Icons.vpn_key_outlined),
-                                      labelText: 'New Password',
+                                    TextFormField(
+                                      decoration: const InputDecoration(
+                                        icon: const Icon(Icons.vpn_key_outlined),
+                                        labelText: 'New Password',
+                                      ),
+                                      controller: textEditingController,
                                     ),
-                                    controller: textEditingController,
-                                  ),
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      icon: const Icon(Icons.vpn_key_outlined),
-                                      labelText: 'Confirm new Password',
+                                    TextFormField(
+                                      decoration: const InputDecoration(
+                                        icon: const Icon(Icons.vpn_key_outlined),
+                                        labelText: 'Confirm new Password',
+                                      ),
+                                      controller: textEditingController,
                                     ),
-                                    controller: textEditingController,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        if (_formKey.currentState.validate()) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(content: Text('Password changed')));
-                                        }
-                                      },
-                                      child: Text('Submit'),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          if (_formKey.currentState.validate()) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(content: Text('Password changed')));
+                                          }
+                                        },
+                                        child: Text('Submit'),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
+                                  ],
+                                ),
+                              )
                               ],
                             ),
                           );

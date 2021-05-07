@@ -96,18 +96,11 @@ class LoginProvider with ChangeNotifier {
         notifyListeners();
       }
     }
+  }
 
-   /* FirebaseAuth.instance
-        .authStateChanges()
-        .listen((User user) {
-      if (user == null) {
-        authenticated = false;
-        print('User is currently signed out!');
-      } else {
-        authenticated = true;
-        print('User is signed in!');
-      }
-    });*/
+  logout() async{
+    await LoginRepository().signOut();
+    print('User is signed out!');
   }
 
 }
