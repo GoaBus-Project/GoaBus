@@ -10,6 +10,7 @@ class LoginProvider with ChangeNotifier {
   bool loading = false;
   bool showAuthenciationAlert = false;
   bool authenticated = false;
+  bool googleAuthentication = false;
 
   String setGreeting() {
     String greet = '';
@@ -40,28 +41,33 @@ class LoginProvider with ChangeNotifier {
   login() async {
     loading = true;
     notifyListeners();
-    if(email == "") {
-      loading = false;
-      showAuthenciationAlert = true;
-      authenticationMessage = "Enter your email";
-      notifyListeners();
-    } else if(!email.contains("@") ||
-        (!email.contains(".com") && !email.contains(".in"))) {
-      loading = false;
-      showAuthenciationAlert = true;
-      authenticationMessage = "Incorrect email format";
-    } else if(password == "") {
-      loading = false;
-      showAuthenciationAlert = true;
-      authenticationMessage = "Enter your password";
-      notifyListeners();
-    } else {
+    if(!googleAuthentication) {
+      if (email == "") {
+        loading = false;
+        showAuthenciationAlert = true;
+        authenticationMessage = "Enter your email";
+        notifyListeners();
+      } else if (!email.contains("@") ||
+          (!email.contains(".com") && !email.contains(".in"))) {
+        loading = false;
+        showAuthenciationAlert = true;
+        authenticationMessage = "Incorrect email format";
+      } else if (password == "") {
+        loading = false;
+        showAuthenciationAlert = true;
+        authenticationMessage = "Enter your password";
+        notifyListeners();
+      }
+    }
+
+    if(!showAuthenciationAlert) {
       showAuthenciationAlert = false;
       loading = true;
       notifyListeners();
       try {
-        UserCredential userCredential =
-          await LoginRepository().getUserCredentials(email, password);
+        UserCredential userCredential = googleAuthentication ?
+          await LoginRepository().signInWithGoogle()
+          : await LoginRepository().getUserCredentials(email, password);
 
         if (userCredential == null) {
           loading = false;
@@ -96,9 +102,10 @@ class LoginProvider with ChangeNotifier {
         notifyListeners();
       }
     }
+
   }
 
-  logout() async{
+  logout() async {
     await LoginRepository().signOut();
     print('User is signed out!');
   }

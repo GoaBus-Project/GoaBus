@@ -141,7 +141,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                               ),
-                              onPressed: () {  },
+                              onPressed: () {
+                                loginProv.googleAuthentication = true;
+                                loginProv.login();
+                              },
                               child: SizedBox(
                                 height: 40,
                                 width: 300,

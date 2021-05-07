@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/components/navbar/navbar.dart';
 import 'package:goa_bus/components/sidebar/sidebar.dart';
 import 'package:goa_bus/constants/color_palette.dart';
+import 'package:goa_bus/providers/login_provider.dart';
 import 'package:goa_bus/providers/sidebar_provider.dart';
 import 'package:goa_bus/screens/sidebar_pages/buses.dart';
 import 'package:goa_bus/screens/sidebar_pages/dashboard.dart';
@@ -20,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    var loginProv = Provider.of<LoginProvider>(context);
+    loginProv.showAuthenciationAlert = false;
     firstLoad = true;
     super.initState();
   }
