@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+
   Widget _validationMessage(String message, bool visibility) {
     return Visibility(
       child: Text(message,
@@ -34,6 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
       visible: visibility,
     );
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,12 +75,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Consumer<LoginProvider>(
               builder: (context, loginProv, _) {
-                if(loginProv.authenticated) {
-                  Navigator.push(
-                      context, MaterialPageRoute(
-                    builder: (context) => HomeScreen(),
-                  ));
-                }
+                WidgetsBinding.instance.addPostFrameCallback((_){
+                  if(loginProv.authenticated) {
+                    Navigator.push(
+                        context, MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ));
+                  }
+                });
                 return Expanded(
                     flex: 2,
                     child: Column(

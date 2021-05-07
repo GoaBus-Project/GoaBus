@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:goa_bus/repositories/login_repository.dart';
 
 class LoginProvider with ChangeNotifier {
   List<String> greetings = ['Good Morning', 'Good Afternoon', 'Good Evening', 'Welcome'];
@@ -59,11 +60,9 @@ class LoginProvider with ChangeNotifier {
       loading = true;
       notifyListeners();
       try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-            email: email,
-            password: password,
-        );
+        UserCredential userCredential =
+          await LoginRepository().getUserCredentials(email, password);
+
         if (userCredential == null) {
           loading = false;
           authenticated = false;
