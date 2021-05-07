@@ -1,7 +1,6 @@
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/providers/login_provider.dart';
@@ -75,14 +74,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Consumer<LoginProvider>(
               builder: (context, loginProv, _) {
-                WidgetsBinding.instance.addPostFrameCallback((_){
-                  if(loginProv.authenticated) {
+                if(loginProv.authenticated) {
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
                     Navigator.push(
                         context, MaterialPageRoute(
                       builder: (context) => HomeScreen(),
                     ));
-                  }
-                });
+                  });
+                }
                 return Expanded(
                     flex: 2,
                     child: Column(
