@@ -13,7 +13,6 @@ class LoginRepository {
     // Create a new provider
     GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-    googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
     googleProvider.setCustomParameters({
       'login_hint': 'user@example.com'
     });
