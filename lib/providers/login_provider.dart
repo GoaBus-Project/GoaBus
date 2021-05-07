@@ -46,7 +46,6 @@ class LoginProvider with ChangeNotifier {
         loading = false;
         showAuthenciationAlert = true;
         authenticationMessage = "Enter your email";
-        notifyListeners();
       } else if (!email.contains("@") ||
           (!email.contains(".com") && !email.contains(".in"))) {
         loading = false;
@@ -56,14 +55,11 @@ class LoginProvider with ChangeNotifier {
         loading = false;
         showAuthenciationAlert = true;
         authenticationMessage = "Enter your password";
-        notifyListeners();
       }
+      notifyListeners();
     }
 
     if(!showAuthenciationAlert) {
-      showAuthenciationAlert = false;
-      loading = true;
-      notifyListeners();
       try {
         UserCredential userCredential = googleAuthentication ?
           await LoginRepository().signInWithGoogle()
@@ -86,6 +82,7 @@ class LoginProvider with ChangeNotifier {
         }
       } on FirebaseAuthException catch (e) {
         loading = false;
+        authenticated = false;
         if (e.code == 'user-not-found') {
           showAuthenciationAlert = true;
           authenticationMessage = "User not found!";
@@ -102,7 +99,6 @@ class LoginProvider with ChangeNotifier {
         notifyListeners();
       }
     }
-
   }
 
   Future<void> forgotPassword() async {
