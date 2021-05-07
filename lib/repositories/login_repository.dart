@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginRepository {
-  Future<UserCredential> getUserCredentials(String email, String password) async {
+  //local sign in
+  Future<UserCredential> localSignIn(String email, String password) async {
     return await FirebaseAuth.instance
         .signInWithEmailAndPassword(
       email: email,
@@ -9,6 +10,7 @@ class LoginRepository {
     );
   }
 
+  //Google sign in
   Future<UserCredential> signInWithGoogle() async {
     // Create a new provider
     GoogleAuthProvider googleProvider = GoogleAuthProvider();
@@ -24,6 +26,12 @@ class LoginRepository {
     // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
   }
 
+  //Reset password
+  Future<void> sendPasswordResetEmail(String email) async {
+    return FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
+  //Sign out
   Future<void> signOut() async{
     await FirebaseAuth.instance.signOut();
   }

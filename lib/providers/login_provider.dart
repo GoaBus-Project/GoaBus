@@ -38,7 +38,7 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  login() async {
+  Future<void> login() async {
     loading = true;
     notifyListeners();
     if(!googleAuthentication) {
@@ -67,7 +67,7 @@ class LoginProvider with ChangeNotifier {
       try {
         UserCredential userCredential = googleAuthentication ?
           await LoginRepository().signInWithGoogle()
-          : await LoginRepository().getUserCredentials(email, password);
+          : await LoginRepository().localSignIn(email, password);
 
         if (userCredential == null) {
           loading = false;
@@ -105,7 +105,25 @@ class LoginProvider with ChangeNotifier {
 
   }
 
-  logout() async {
+  Future<void> forgotPassword() async {
+    loading = true;
+    notifyListeners();
+    if(email.isEmpty) {
+      loading = false;
+      showAuthenciationAlert = true;
+      authenticationMessage = "Enter your email";
+      notifyListeners();
+    } else {
+      await LoginRepository().sendPasswordResetEmail(email);
+      loading = false;
+      showAuthenciationAlert = true;
+      authenticationMessage =
+        "Reset password link sent to email address";
+      notifyListeners();
+    }
+  }
+
+  Future<void> logout() async {
     await LoginRepository().signOut();
     print('User is signed out!');
   }

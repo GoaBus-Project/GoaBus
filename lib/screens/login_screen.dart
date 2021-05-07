@@ -243,7 +243,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      loginProv.forgotPassword();
+                                    },
                                     child: Text(
                                       "Forgot Password",
                                       textAlign: TextAlign.center,
