@@ -44,28 +44,21 @@ class LoginProvider with ChangeNotifier {
     loading = true;
     notifyListeners();
 
-    if(allowedLogins.contains(email)) {
-      if (!googleAuthentication) {
-        if (email == "") {
-          loading = false;
-          showAuthenciationAlert = true;
-          authenticationMessage = "Enter your email";
-        } else if (!email.contains("@") ||
-            (!email.contains(".com") && !email.contains(".in"))) {
-          loading = false;
-          showAuthenciationAlert = true;
-          authenticationMessage = "Incorrect email format";
-        } else if (password == "") {
-          loading = false;
-          showAuthenciationAlert = true;
-          authenticationMessage = "Enter your password";
-        }
-        notifyListeners();
+    if (!googleAuthentication) {
+      if (email == "") {
+        loading = false;
+        showAuthenciationAlert = true;
+        authenticationMessage = "Enter your email";
+      } else if (!email.contains("@") ||
+          (!email.contains(".com") && !email.contains(".in"))) {
+        loading = false;
+        showAuthenciationAlert = true;
+        authenticationMessage = "Incorrect email format";
+      } else if (password == "") {
+        loading = false;
+        showAuthenciationAlert = true;
+        authenticationMessage = "Enter your password";
       }
-    } else {
-      loading = false;
-      showAuthenciationAlert = true;
-      authenticationMessage = "Only admins are allowed to login";
       notifyListeners();
     }
 
@@ -83,12 +76,20 @@ class LoginProvider with ChangeNotifier {
           print('User is currently signed out!');
           notifyListeners();
         } else {
-          loading = false;
-          authenticated = true;
-          showAuthenciationAlert = true;
-          authenticationMessage = "Signed in";
-          print('User is signed in!');
-          notifyListeners();
+          if(allowedLogins.contains(userCredential.user.email)) {
+            loading = false;
+            authenticated = true;
+            showAuthenciationAlert = true;
+            authenticationMessage = "Signed in";
+            print('User is signed in!');
+            notifyListeners();
+          } else {
+            loading = false;
+            authenticated = false;
+            showAuthenciationAlert = true;
+            authenticationMessage = "Only admins are allowed to login";
+            notifyListeners();
+          }
         }
       } on FirebaseAuthException catch (e) {
         loading = false;
