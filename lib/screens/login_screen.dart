@@ -227,6 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
                                     ),
                                     onPressed: () {
+                                      loginProv.googleAuthentication = false;
                                       loginProv.login();
                                     },
                                     child: Padding(

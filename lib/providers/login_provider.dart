@@ -4,6 +4,7 @@ import 'package:goa_bus/repositories/login_repository.dart';
 
 class LoginProvider with ChangeNotifier {
   List<String> greetings = ['Good Morning', 'Good Afternoon', 'Good Evening', 'Welcome'];
+  List<String> allowedLogins = ['vishnair001@gmail.com', 'patildeepak188@gmail.com', 'goabusadmin@gmail.com'];
   String email = '';
   String password = '';
   String authenticationMessage = '';
@@ -39,9 +40,11 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future<void> login() async {
+    showAuthenciationAlert = false;
     loading = true;
     notifyListeners();
-    if(!googleAuthentication) {
+
+    if (!googleAuthentication) {
       if (email == "") {
         loading = false;
         showAuthenciationAlert = true;
@@ -73,12 +76,20 @@ class LoginProvider with ChangeNotifier {
           print('User is currently signed out!');
           notifyListeners();
         } else {
-          loading = false;
-          authenticated = true;
-          showAuthenciationAlert = true;
-          authenticationMessage = "Signed in";
-          print('User is signed in!');
-          notifyListeners();
+          if(allowedLogins.contains(userCredential.user.email)) {
+            loading = false;
+            authenticated = true;
+            showAuthenciationAlert = true;
+            authenticationMessage = "Signed in";
+            print('User is signed in!');
+            notifyListeners();
+          } else {
+            loading = false;
+            authenticated = false;
+            showAuthenciationAlert = true;
+            authenticationMessage = "Only admins are allowed to login";
+            notifyListeners();
+          }
         }
       } on FirebaseAuthException catch (e) {
         loading = false;
