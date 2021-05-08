@@ -4,6 +4,7 @@ import 'package:goa_bus/repositories/login_repository.dart';
 
 class LoginProvider with ChangeNotifier {
   List<String> greetings = ['Good Morning', 'Good Afternoon', 'Good Evening', 'Welcome'];
+  List<String> allowedLogins = ['vishnair001@gmail.com', 'patildeepak188@gmail.com', 'goabusadmin@gmail.com'];
   String email = '';
   String password = '';
   String authenticationMessage = '';
@@ -42,21 +43,29 @@ class LoginProvider with ChangeNotifier {
     showAuthenciationAlert = false;
     loading = true;
     notifyListeners();
-    if(!googleAuthentication) {
-      if (email == "") {
-        loading = false;
-        showAuthenciationAlert = true;
-        authenticationMessage = "Enter your email";
-      } else if (!email.contains("@") ||
-          (!email.contains(".com") && !email.contains(".in"))) {
-        loading = false;
-        showAuthenciationAlert = true;
-        authenticationMessage = "Incorrect email format";
-      } else if (password == "") {
-        loading = false;
-        showAuthenciationAlert = true;
-        authenticationMessage = "Enter your password";
+
+    if(allowedLogins.contains(email)) {
+      if (!googleAuthentication) {
+        if (email == "") {
+          loading = false;
+          showAuthenciationAlert = true;
+          authenticationMessage = "Enter your email";
+        } else if (!email.contains("@") ||
+            (!email.contains(".com") && !email.contains(".in"))) {
+          loading = false;
+          showAuthenciationAlert = true;
+          authenticationMessage = "Incorrect email format";
+        } else if (password == "") {
+          loading = false;
+          showAuthenciationAlert = true;
+          authenticationMessage = "Enter your password";
+        }
+        notifyListeners();
       }
+    } else {
+      loading = false;
+      showAuthenciationAlert = true;
+      authenticationMessage = "Only admins are allowed to login";
       notifyListeners();
     }
 
