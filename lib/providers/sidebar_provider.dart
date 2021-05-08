@@ -4,7 +4,7 @@ enum DisplayedPage {DASHBOARD, BUSES, DRIVERS, ROUTES, BUSSTOPS, SETTINGS}
 
 class SideBarProvider with ChangeNotifier {
   DisplayedPage currentPage;
-  List<String> navBarHeadings = ['Dashboard', 'Buses', 'Drivers', 'Bus Stops', 'Settings'];
+  List<String> navBarHeadings = ['Dashboard', 'Buses', 'Drivers', 'Routes', 'Bus Stops', 'Settings'];
   String activeHeading = '';
 
   init(){
