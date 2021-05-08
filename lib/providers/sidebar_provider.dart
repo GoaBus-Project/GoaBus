@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum DisplayedPage {DASHBOARD, BUSES, DRIVERS, BUSSTOPS, SETTINGS}
+enum DisplayedPage {DASHBOARD, BUSES, DRIVERS, ROUTES, BUSSTOPS, SETTINGS}
 
 class SideBarProvider with ChangeNotifier {
   DisplayedPage currentPage;

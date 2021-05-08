@@ -61,6 +61,15 @@ class _SideBarState extends State<SideBar> {
             ),
 
             SideBarItems(
+              icon: Icons.alt_route,
+              text: 'Routes',
+              active: sideBarProvider.currentPage == DisplayedPage.ROUTES,
+              onTap: () {
+                sideBarProvider.changeCurrentPage(DisplayedPage.ROUTES);
+              },
+            ),
+
+            SideBarItems(
               icon: Icons.stop_circle_outlined,
               text: 'Bus Stops',
               active: sideBarProvider.currentPage == DisplayedPage.BUSSTOPS,

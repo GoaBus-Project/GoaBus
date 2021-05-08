@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/components/forms/bus_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/bus_stop_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/routes_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
-class BusStops extends StatefulWidget {
+class Routes extends StatefulWidget {
   @override
-  _BusStopsState createState() => _BusStopsState();
+  _RoutesState createState() => _RoutesState();
 }
 
-class _BusStopsState extends State<BusStops> {
+class _RoutesState extends State<Routes> {
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    return Consumer<BusStopProvider>(
-      builder: (context, driverProv, _){
+    return Consumer<RoutesProvider>(
+      builder: (context, routeProv, _){
         return Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
@@ -24,14 +24,15 @@ class _BusStopsState extends State<BusStops> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TableHeaderTile(
-                  first: "Name",
-                  second: "",
+                  first: "Start",
+                  second: "End",
                   third: ""
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
-                  height: 400,
+                  height: MediaQuery.of(context).copyWith().size.height / 2,
+                  width: MediaQuery.of(context).copyWith().size.width,
                   child: SmoothScrollWeb(
                     controller: _scrollController,
                     child: Scrollbar(
@@ -42,8 +43,8 @@ class _BusStopsState extends State<BusStops> {
                           itemCount: 20,
                           itemBuilder: (context, index) {
                             return TableBodyTile(
-                                first: "Dynamic Stop Name",
-                                second: "",
+                                first: "First Stop",
+                                second: "Last Stop",
                                 third: ""
                             );
                           }),
@@ -85,8 +86,9 @@ class _BusStopsState extends State<BusStops> {
                                 );
                               }
                           );
+
                         },
-                        label: Text("Add Stops")
+                        label: Text("Create Route")
                     ),
                   )
                 ],

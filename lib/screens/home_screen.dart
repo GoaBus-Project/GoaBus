@@ -7,6 +7,7 @@ import 'package:goa_bus/providers/sidebar_provider.dart';
 import 'package:goa_bus/screens/sidebar_pages/buses.dart';
 import 'package:goa_bus/screens/sidebar_pages/dashboard.dart';
 import 'package:goa_bus/screens/sidebar_pages/drivers.dart';
+import 'package:goa_bus/screens/sidebar_pages/routes.dart';
 import 'package:goa_bus/screens/sidebar_pages/settings.dart';
 import 'package:goa_bus/screens/sidebar_pages/bus_stops.dart';
 import 'package:provider/provider.dart';
@@ -69,6 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Buses()
                         : sideBarProv.currentPage == DisplayedPage.DRIVERS ?
                     Drivers()
+                        : sideBarProv.currentPage == DisplayedPage.ROUTES ?
+                    Routes()
                         : sideBarProv.currentPage == DisplayedPage.BUSSTOPS ?
                     BusStops()
                         : Settings()

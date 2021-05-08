@@ -51,18 +51,6 @@ class _SettingsState extends State<Settings> {
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      // TextFormField(
-                                      //   validator: (value) {
-                                      //     if (value == null || value.isEmpty) {
-                                      //       return 'Please enter some text';
-                                      //     }
-                                      //     return null;
-                                      //   },
-                                      //   decoration: InputDecoration(
-                                      //     labelText: 'Current Password',
-                                      //     icon: Icon(Icons.vpn_key_outlined),
-                                      //   ),
-                                      // ),
                                     TextFormField(
                                       decoration: const InputDecoration(
                                         icon: const Icon(Icons.vpn_key_outlined),
