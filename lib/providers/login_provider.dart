@@ -39,6 +39,7 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future<void> login() async {
+    showAuthenciationAlert = false;
     loading = true;
     notifyListeners();
     if(!googleAuthentication) {
