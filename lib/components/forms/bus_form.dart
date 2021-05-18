@@ -77,6 +77,65 @@ class _BusFormState extends State<BusForm> {
           ],
         ),
         SizedBox(),
+        Row(
+          children: [
+            DropdownButton<String>(
+              hint: Text("Select Route"),
+              value: selectedRoute,
+              onChanged: (String Value) {
+                setState(() {
+                  selectedRoute = Value;
+                });
+              },
+              items: routes.map((String route) {
+                return DropdownMenuItem<String>(
+                  value: route,
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(width: 10,),
+                      Text(
+                        route,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+            SizedBox(width: 100.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'START TIME: ${_time.format(context)}',
+                  style: TextStyle(fontSize: 15.0),
+                ),
+                SizedBox(width: 8),
+                IconButton(
+                  padding: new EdgeInsets.all(0.0),
+                  icon: Icon(Icons.access_time),
+                  onPressed: _selectTime,
+                ),
+              ],
+            ),
+            SizedBox(width: 100.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'END TIME: ${_time.format(context)}',
+                  style: TextStyle(fontSize: 15.0),
+                ),
+                SizedBox(width: 8),
+                IconButton(
+                  padding: new EdgeInsets.all(0.0),
+                  icon: Icon(Icons.access_time),
+                  onPressed: _selectTime,
+                ),
+              ],
+            ),
+          ],
+        ),
         Container(
           height: MediaQuery.of(context).copyWith().size.height / 4,
           width: MediaQuery.of(context).copyWith().size.width,
@@ -92,61 +151,7 @@ class _BusFormState extends State<BusForm> {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        DropdownButton<String>(
-                          hint: Text("Select Route"),
-                          value: selectedRoute,
-                          onChanged: (String Value) {
-                            setState(() {
-                              selectedRoute = Value;
-                            });
-                          },
-                          items: routes.map((String route) {
-                            return DropdownMenuItem<String>(
-                              value: route,
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    route,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(width: 100.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'START TIME: ${_time.format(context)}',
-                              style: TextStyle(fontSize: 15.0),
-                            ),
-                            SizedBox(width: 8),
-                            IconButton(
-                              padding: new EdgeInsets.all(0.0),
-                              icon: Icon(Icons.access_time),
-                              onPressed: _selectTime,
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: 100.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'END TIME: ${_time.format(context)}',
-                              style: TextStyle(fontSize: 15.0),
-                            ),
-                            SizedBox(width: 8),
-                            IconButton(
-                              padding: new EdgeInsets.all(0.0),
-                              icon: Icon(Icons.access_time),
-                              onPressed: _selectTime,
-                            ),
-                          ],
-                        ),
+
                       ],
                     );
                   }),
