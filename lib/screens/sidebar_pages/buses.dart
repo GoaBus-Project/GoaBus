@@ -77,10 +77,7 @@ class _BusesState extends State<Buses> {
                                     padding: EdgeInsets.all(20),
                                     color: Colors.white,
                                     child: Scaffold(
-                                      body: SmoothScrollWeb(
-                                          controller: _scrollController,
-                                          child: BusForm()
-                                      ),
+                                      body: BusForm(),
                                     ),
                                   ),
                                 );
