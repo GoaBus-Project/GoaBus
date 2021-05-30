@@ -15,8 +15,8 @@ class RoutesModel {
   List<TripsModel> trips;
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
-    busNo: json["busNo"],
-    trips: json["trips"],
+    busNo: json["busNo"]??'',
+    trips: json["trips"]??[],
   );
 
   Map<String, dynamic> toJson() => {
