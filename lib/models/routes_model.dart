@@ -20,8 +20,8 @@ class RoutesModel {
   );
 
   Map<String, dynamic> toJson() => {
-    "busNo": busNo,
-    "trips": trips,
+    "busNo": busNo??'',
+    "trips": trips??[],
   };
 }
 

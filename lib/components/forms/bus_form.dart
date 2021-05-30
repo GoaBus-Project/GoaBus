@@ -13,13 +13,6 @@ class BusForm extends StatefulWidget {
 }
 
 class _BusFormState extends State<BusForm> {
-  List<String> routes = <String>[
-    "Route 1",
-    "route 2",
-    "Route 3",
-    "route 4",
-  ];
-
   Future<void> _selectTime(bool startTime, BusesProvider prov) async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
@@ -60,6 +53,9 @@ class _BusFormState extends State<BusForm> {
                       border: UnderlineInputBorder(),
                       labelText: "Enter Bus Number",
                     ),
+                    onChanged: (number) {
+                      busesProv.routesData.busNo = number;
+                    },
                   ),
                   SizedBox(height: 15),
                   Row(
@@ -81,7 +77,7 @@ class _BusFormState extends State<BusForm> {
                         onChanged: (String value) {
                           busesProv.setRoute(value);
                         },
-                        items: routes.map((String route) {
+                        items: busesProv.routes.map((String route) {
                           return DropdownMenuItem<String>(
                             value: route,
                             child: Row(
@@ -145,7 +141,11 @@ class _BusFormState extends State<BusForm> {
                               && busesProv.tripsData.route != null)
                             busesProv.addRoute();
                           else
-                            showAlertDialog(context: context, title: "Alert", message: "Please select route");
+                            showAlertDialog(
+                                context: context,
+                                title: "Alert",
+                                message: "Please select route"
+                            );
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
@@ -220,7 +220,24 @@ class _BusFormState extends State<BusForm> {
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      String checkData = busesProv.checkData();
+                      if(checkData == '') {
+                        if (await busesProv.saveRoutesData())
+                          Navigator.pop(context);
+                        else
+                          return showAlertDialog(
+                              context: context,
+                              title: 'Please try again',
+                              message: 'There was some problem while saving data'
+                          );
+                      } else {
+                        return showAlertDialog(
+                            context: context,
+                            title: 'Missing Data',
+                            message: checkData
+                        );
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),

@@ -81,9 +81,7 @@ class _BusesState extends State<Buses> {
                                     ),
                                   ),
                                 );
-                              }
-                              );
-
+                              });
                         },
                         label: Text("Add Bus")
                     ),
