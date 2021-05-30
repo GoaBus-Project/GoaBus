@@ -89,7 +89,7 @@ class _BusFormState extends State<BusForm> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'START TIME: ${_time.format(context)}',
+                    'Start Time: ${_time.format(context)}'.toUpperCase(),
                     style: TextStyle(fontSize: 15.0),
                   ),
                   SizedBox(width: 8),
@@ -105,7 +105,7 @@ class _BusFormState extends State<BusForm> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'END TIME: ${_time.format(context)}',
+                    'End Time: ${_time.format(context)}'.toUpperCase(),
                     style: TextStyle(fontSize: 15.0),
                   ),
                   SizedBox(width: 8),
