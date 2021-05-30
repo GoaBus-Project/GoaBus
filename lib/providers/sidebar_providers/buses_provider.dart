@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/models/routes_model.dart';
 import 'package:goa_bus/models/trips_model.dart';
+import 'package:goa_bus/repositories/routes_repository.dart';
 
 class BusesProvider with ChangeNotifier{
   RoutesModel routesData = RoutesModel();
   List<TripsModel> tripsDataList = [];
   TripsModel tripsData = TripsModel();
+
+  bool loading = false;
+
   String busNo = '';
 
   List<String> routes = <String>[
@@ -61,8 +65,12 @@ class BusesProvider with ChangeNotifier{
   }
 
   Future<bool> saveRoutesData() async {
-    bool success = false;
-    return success;
+    loading = true;
+    notifyListeners();
+    return await RoutesRepository().saveRoutes(routesData).whenComplete(() {
+      loading = false;
+      notifyListeners();
+    });
   }
 
 }

@@ -46,6 +46,7 @@ class _BusFormState extends State<BusForm> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 15),
                   TextFormField(
@@ -223,14 +224,21 @@ class _BusFormState extends State<BusForm> {
                     onPressed: () async {
                       String checkData = busesProv.checkData();
                       if(checkData == '') {
-                        if (await busesProv.saveRoutesData())
+                        if (await busesProv.saveRoutesData()) {
+                          busesProv.loading = false;
                           Navigator.pop(context);
-                        else
+                          return SnackBar(
+                            content: Text('Data saved'),
+                            backgroundColor: Palette.secondary,
+                          );
+                        } else {
+                          busesProv.loading = false;
                           return showAlertDialog(
                               context: context,
                               title: 'Please try again',
                               message: 'There was some problem while saving data'
                           );
+                        }
                       } else {
                         return showAlertDialog(
                             context: context,
@@ -251,6 +259,25 @@ class _BusFormState extends State<BusForm> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
+                  busesProv.loading?
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator(color: Palette.secondary)
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Saving data..',
+                        style: TextStyle(
+                          color: Colors.green
+                        ),
+                      ),
+                    ],
+                  ):Container(),
                 ],
               ),
             ),

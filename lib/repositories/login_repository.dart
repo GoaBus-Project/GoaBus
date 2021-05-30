@@ -32,5 +32,5 @@ class LoginRepository {
   }
 
   /// Sign out
-  Future<void> signOut() async{await FirebaseAuth.instance.signOut();}
+  Future<void> signOut() async {await FirebaseAuth.instance.signOut();}
 }
