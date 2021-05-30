@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/buses_provider.dart';
+import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:provider/provider.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
@@ -144,45 +145,7 @@ class _BusFormState extends State<BusForm> {
                               && busesProv.tripsData.route != null)
                             busesProv.addRoute();
                           else
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Center(
-                                    child: SizedBox(
-                                      height: 120,
-                                      width: 200,
-                                      child: Container(
-                                        color: Palette.listTileColor,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                              color: Palette.listTileColor,
-                                              child: Text(
-                                                "Please select route",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            MaterialButton(
-                                              child: Text(
-                                                'Ok'.toUpperCase(),
-                                                style: TextStyle(
-                                                  color: Colors.white
-                                                ),
-                                              ),
-                                              splashColor: Palette.primary,
-                                              color: Palette.secondary,
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                            );
+                            showAlertDialog(context: context, title: "Alert", message: "Please select route");
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
