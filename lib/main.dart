@@ -40,7 +40,7 @@ class _GoaBusAppState extends State<GoaBusApp> {
         ChangeNotifierProvider(create: (context) => BusStopProvider()),
         ChangeNotifierProvider(create: (context) => RoutesProvider()),
       ],
-      child: MaterialApp(home: HomeScreen()),
+      child: MaterialApp(home: LoginScreen()),
     );
   }
 

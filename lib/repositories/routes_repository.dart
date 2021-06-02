@@ -2,7 +2,7 @@ import 'package:goa_bus/models/routes_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class RoutesRepository {
-  /// Local sign in
+  /// save data to firestore dbm
   Future<bool> saveRoutes(RoutesModel routesData) async {
     bool success = false;
     final databaseReference = FirebaseDatabase.instance.reference();
