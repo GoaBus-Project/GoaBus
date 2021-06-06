@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:goa_bus/models/stops_model.dart';
+import 'package:goa_bus/repositories/bus_stops_repository.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+class BusStopFormProvider with ChangeNotifier {
+  BusStopsModel busStopsModel = BusStopsModel();
+  BusStop busStop = BusStop();
+
+  bool loading = false;
+
+  void setLatLng(LatLng latLng) {
+    busStop.lat = latLng.latitude.toString();
+    busStop.lng = latLng.longitude.toString();
+    notifyListeners();
+  }
+
+  LatLng getLatLng() {
+    return busStop.lat == null || busStop.lng == null ?
+        null : LatLng(double.parse(busStop.lat), double.parse(busStop.lng));
+  }
+
+  Future<bool> saveBusStop() async {
+    loading = true;
+    notifyListeners();
+    busStopsModel.busStops = [];
+    busStopsModel.busStops.add(busStop);
+    return await BusStopsRepository().saveBusStops(busStopsModel);
+  }
+}

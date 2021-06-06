@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/components/forms/stop_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/bus_stop_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
@@ -13,10 +13,17 @@ class BusStops extends StatefulWidget {
 
 class _BusStopsState extends State<BusStops> {
   @override
+  void initState() {
+    final prov = Provider.of<BusStopProvider>(context, listen: false);
+    prov.getData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
     return Consumer<BusStopProvider>(
-      builder: (context, driverProv, _){
+      builder: (context, prov, _) {
         return Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
@@ -28,7 +35,20 @@ class _BusStopsState extends State<BusStops> {
                   second: "",
                   third: ""
               ),
+              prov.loading?
               Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                        color: Palette.secondary,
+                      )
+                  ),
+                ),
+              )
+              :Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
                   height: 400,
@@ -39,10 +59,10 @@ class _BusStopsState extends State<BusStops> {
                           physics: NeverScrollableScrollPhysics(),
                           controller: _scrollController,
                           scrollDirection: Axis.vertical,
-                          itemCount: 20,
+                          itemCount: prov.busStopsModel.busStops?.length??0,
                           itemBuilder: (context, index) {
                             return TableBodyTile(
-                                first: "Dynamic Stop Name",
+                                first: prov.busStopsModel.busStops[index].stopName,
                                 second: "",
                                 third: ""
                             );
