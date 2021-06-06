@@ -27,67 +27,63 @@ class _SettingsState extends State<Settings> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Stack(
-                              clipBehavior: Clip.none,
-                              children: <Widget>[
-                                Positioned(
-                                  right: -40.0,
-                                  top: -40.0,
-                                  child: InkResponse(
-                                    splashColor: Palette.primary,
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: CircleAvatar(
-                                      child: Icon(Icons.close),
-                                      backgroundColor: Palette.buttonColor,
-                                    ),
-                                  ),
-                                ),
-                                Form(
-                                 key: _formKey,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                    TextFormField(
-                                      decoration: const InputDecoration(
-                                        icon: const Icon(Icons.vpn_key_outlined),
-                                        labelText: 'Current Password',
-                                      ),
-                                      controller: textEditingController,
-                                    ),
-                                    TextFormField(
-                                      decoration: const InputDecoration(
-                                        icon: const Icon(Icons.vpn_key_outlined),
-                                        labelText: 'New Password',
-                                      ),
-                                      controller: textEditingController,
-                                    ),
-                                    TextFormField(
-                                      decoration: const InputDecoration(
-                                        icon: const Icon(Icons.vpn_key_outlined),
-                                        labelText: 'Confirm new Password',
-                                      ),
-                                      controller: textEditingController,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          if (_formKey.currentState.validate()) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(content: Text('Password changed')));
-                                          }
+                          return Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width - 1000,
+                              height: MediaQuery.of(context).size.height - 500,
+                              padding: EdgeInsets.all(20),
+                              color: Colors.white,
+                              child: Scaffold(
+                                  body: Column(
+                                    children: [
+                                      TextFormField(
+                                        decoration: InputDecoration(
+                                          border: UnderlineInputBorder(),
+                                          labelText: "Current Password",
+                                        ),
+                                        onChanged: (value) {
+
                                         },
-                                        child: Text('Submit'),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                      TextFormField(
+                                        decoration: InputDecoration(
+                                          border: UnderlineInputBorder(),
+                                          labelText: "New Password",
+                                        ),
+                                        onChanged: (value) {
+
+                                        },
+                                      ),
+                                      TextFormField(
+                                        decoration: InputDecoration(
+                                          border: UnderlineInputBorder(),
+                                          labelText: "Confirm New Password",
+                                        ),
+                                        onChanged: (value) {
+
+                                        },
+                                      ),
+                                      SizedBox(height: 10),
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                                        ),
+                                        onPressed: (){},
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                                          child: Text(
+                                            "Save".toUpperCase(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Palette.fontColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
                               )
-                              ],
                             ),
                           );
                         });
@@ -102,7 +98,62 @@ class _SettingsState extends State<Settings> {
                 FloatingActionButton.extended(
                   label: Text("Organisation Settings",style: TextStyle(color: Colors.white),),
                   backgroundColor: Palette.buttonColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Center(
+                            child: Container(
+                                width: MediaQuery.of(context).size.width - 1000,
+                                height: MediaQuery.of(context).size.height - 500,
+                                padding: EdgeInsets.all(20),
+                                color: Colors.white,
+                                child: Scaffold(
+                                    body: Column(
+                                      children: [
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            labelText: "New Name",
+                                          ),
+                                          onChanged: (value) {
+
+                                          },
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            labelText: "New Logo",
+                                          ),
+                                          onChanged: (value) {
+
+                                          },
+                                        ),
+                                        SizedBox(height: 30),
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                            backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                                          ),
+                                          onPressed: (){},
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                                            child: Text(
+                                              "Save".toUpperCase(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Palette.fontColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                )
+                            ),
+                          );
+                        });
+                  },
                 ),
               ],
             ),
@@ -113,7 +164,21 @@ class _SettingsState extends State<Settings> {
                 FloatingActionButton.extended(
                   label: Text("About",style: TextStyle(color: Colors.white),),
                   backgroundColor: Palette.buttonColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Center(
+                            child: Container(
+                                width: MediaQuery.of(context).size.width - 1000,
+                                height: MediaQuery.of(context).size.height - 500,
+                                padding: EdgeInsets.all(20),
+                                color: Colors.white,
+                                child: Scaffold()
+                            ),
+                          );
+                        });
+                  },
                 ),
               ],
             ),

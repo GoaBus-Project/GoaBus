@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goa_bus/components/forms/bus_form.dart';
+import 'package:goa_bus/components/forms/driver_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
@@ -71,14 +71,14 @@ class _DriversState extends State<Drivers> {
                                   Animation secondaryAnimation) {
                                 return Center(
                                   child: Container(
-                                    width: MediaQuery.of(context).size.width - 500,
+                                    width: MediaQuery.of(context).size.width - 1000,
                                     height: MediaQuery.of(context).size.height -  100,
                                     padding: EdgeInsets.all(20),
                                     color: Colors.white,
                                     child: Scaffold(
                                       body: SmoothScrollWeb(
                                           controller: _scrollController,
-                                          child: BusForm()
+                                          child: DriverForm()
                                       ),
                                     ),
                                   ),

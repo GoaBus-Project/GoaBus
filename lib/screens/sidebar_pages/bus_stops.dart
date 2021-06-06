@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goa_bus/components/forms/bus_form.dart';
+import 'package:goa_bus/components/forms/stop_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/bus_stop_provider.dart';
@@ -78,7 +78,7 @@ class _BusStopsState extends State<BusStops> {
                                     child: Scaffold(
                                       body: SmoothScrollWeb(
                                           controller: _scrollController,
-                                          child: BusForm()
+                                          child: StopForm()
                                       ),
                                     ),
                                   ),

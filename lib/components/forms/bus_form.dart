@@ -267,7 +267,7 @@ class _BusFormState extends State<BusForm> {
                       SizedBox(
                         height: 15,
                         width: 15,
-                        child: CircularProgressIndicator(color: Palette.secondary)
+                        child: CircularProgressIndicator(backgroundColor: Palette.secondary)
                       ),
                       SizedBox(width: 10),
                       Text(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goa_bus/components/forms/bus_form.dart';
+import 'package:goa_bus/components/forms/route_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/routes_provider.dart';
@@ -77,10 +77,7 @@ class _RoutesState extends State<Routes> {
                                     padding: EdgeInsets.all(20),
                                     color: Colors.white,
                                     child: Scaffold(
-                                      body: SmoothScrollWeb(
-                                          controller: _scrollController,
-                                          child: BusForm()
-                                      ),
+                                      body:RouteForm()
                                     ),
                                   ),
                                 );
