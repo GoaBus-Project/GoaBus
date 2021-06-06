@@ -70,12 +70,9 @@ class _StopFormState extends State<StopForm> {
             ),
             Expanded(
               flex: 1,
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  prov.loading?
-                  CircularProgressIndicator(color: Palette.secondary)
-                      : Container(),
-                  SizedBox(height: 30),
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
@@ -109,6 +106,10 @@ class _StopFormState extends State<StopForm> {
                       ),
                     ),
                   ),
+                  SizedBox(width: 40),
+                  prov.loading?
+                  CircularProgressIndicator(color: Palette.secondary)
+                      : Container(),
                 ],
               ),
             ),
