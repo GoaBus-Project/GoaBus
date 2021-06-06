@@ -6,14 +6,27 @@ class SideBarItems extends StatelessWidget {
   final IconData icon;
   final bool active;
   final Function onTap;
-  const SideBarItems({Key key, this.icon, this.text, this.active, this.onTap}) : super(key: key);
+  const SideBarItems({Key key, this.icon, this.text, this.active, this.onTap})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        onTap: onTap,
-        tileColor: active ? Color(0xff0077B6).withOpacity(.3) : Palette.primary,
-        leading: Icon(icon, color: Palette.fontColor),
-        title: Text(text)
+    return MaterialButton(
+      height: 80,
+      splashColor: Palette.secondary,
+      onPressed: onTap,
+      color: active? Color(0xff0077B6).withOpacity(.3) : Palette.primary,
+      child: Row(
+        children: [
+          SizedBox(width: 10),
+          Icon(icon, color: Palette.fontColor),
+          SizedBox(width: 20),
+          Text(
+            text,
+            style: TextStyle(fontSize: 20),
+          )
+        ],
+      ),
     );
   }
 }
