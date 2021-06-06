@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:goa_bus/constants/color_palette.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_form_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:smooth_scroll_web/smooth_scroll_web.dart';
+import 'package:provider/provider.dart';
 
 class StopForm extends StatefulWidget {
   @override
@@ -12,74 +15,106 @@ class StopForm extends StatefulWidget {
 
 class _StopFormState extends State<StopForm> {
   Completer<GoogleMapController> _controller = Completer();
-  List<Marker> marker=[];
-  LatLng markedPoint;
+  List<Marker> marker = [];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 450,
-          child: GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: LatLng(15.485121538731942, 73.82125134810553),
-              zoom: 10.0,
-            ),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-              },
-            markers: Set.from(marker),
-            onTap: (LatLng tappedPoint){
-              setState(() {
-                marker=[];
-                marker.add(Marker(
-                  markerId: MarkerId(tappedPoint.toString()),
-                  position: tappedPoint
-                ));
-                markedPoint=tappedPoint;
-              });
-            },
-          ),
-        ),
-        SizedBox(height: 20),
-        Row(
+    return Consumer<BusStopFormProvider>(
+      builder: (BuildContext context, prov, _) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 400,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: "Stop Name",
+            Expanded(
+              flex: 5,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(15.485121538731942, 73.82125134810553),
+                  zoom: 10.0,
                 ),
-                onChanged: (number) {
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+                markers: Set<Marker>.from(marker),
+                onTap: (LatLng tappedPoint) {
+                  marker = [];
+                  prov.setLatLng(tappedPoint);
+                  marker.add(Marker(
+                      markerId: MarkerId(prov.getLatLng().toString()),
+                      position: prov.getLatLng()
+                  ));
                 },
               ),
             ),
-            SizedBox(width: 30),
-            markedPoint==null?Text("Select a Bus Stop from the map",style: TextStyle(fontSize: 20))
-                :Text(markedPoint.toString(), style: TextStyle(fontSize: 20),)
-          ],
-        ),
-        SizedBox(height: 50),
-        ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
-            ),
-            onPressed: (){},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
-              child: Text(
-                "Save".toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Palette.fontColor,
-                  fontWeight: FontWeight.bold,
-                ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  Container(
+                    width: 400,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: "Stop Name",
+                      ),
+                      onChanged: (value) {
+                        prov.busStop.stopName = value;
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 30),
+                  prov.getLatLng() == null?
+                  Text("Select a Bus Stop from the map",style: TextStyle(fontSize: 20))
+                      :Text(prov.getLatLng().toString(), style: TextStyle(fontSize: 20))
+                ],
               ),
             ),
-        ),
-      ],
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  prov.loading?
+                  CircularProgressIndicator(color: Palette.secondary)
+                      : Container(),
+                  SizedBox(height: 30),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                    ),
+                    onPressed: () async {
+                      await prov.saveBusStop().then((success) {
+                        if(success) {
+                          final busStopProv = Provider.of<BusStopProvider>(context, listen: false);
+                          busStopProv.getData();
+                          Navigator.pop(context);
+                          prov.loading = false;
+                        } else {
+                          prov.loading = false;
+                          showAlertDialog(
+                              context: context,
+                              title: "Save Failed",
+                              message: "Couldn't add bus stop, please try again"
+                          );
+                        }
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                      child: Text(
+                        "Save".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Palette.fontColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

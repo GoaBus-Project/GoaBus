@@ -6,4 +6,5 @@ class Constants {
   static const String GOOGLE_LOGO = 'google-logo.png';
 
   static const String ROUTES_COLLECTION = 'Routes';
+  static const String BUS_STOPS_COLLECTION = 'Bus Stops';
 }
