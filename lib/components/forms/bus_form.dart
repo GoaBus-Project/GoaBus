@@ -13,7 +13,7 @@ class BusForm extends StatefulWidget {
 }
 
 class _BusFormState extends State<BusForm> {
-  Future<void> _selectTime(bool startTime, BusesProvider prov) async {
+  /*Future<void> _selectTime(bool startTime, BusesProvider prov) async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
       initialTime: startTime ?
@@ -34,7 +34,7 @@ class _BusFormState extends State<BusForm> {
     if(prov.tripsData.endTime == null)
       prov.tripsData.endTime = TimeOfDay(hour: 12, minute: 00);
     super.initState();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _BusFormState extends State<BusForm> {
       builder: (context, busesProv, _) {
         return Column(
           children: [
-            Padding(
+           /* Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -280,7 +280,7 @@ class _BusFormState extends State<BusForm> {
                   ):Container(),
                 ],
               ),
-            ),
+            ),*/
           ],
         );
       },

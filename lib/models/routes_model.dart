@@ -11,10 +11,10 @@ class RoutesModel {
     this.routes,
   });
 
-  List<Route> routes;
+  List<BusRoute> routes;
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
-    routes: List<Route>.from(json["routes"].map((x) => Route.fromJson(x))),
+    routes: List<BusRoute>.from(json["routes"].map((x) => BusRoute.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -22,8 +22,8 @@ class RoutesModel {
   };
 }
 
-class Route {
-  Route({
+class BusRoute {
+  BusRoute({
     this.name,
     this.start,
     this.end,
@@ -33,21 +33,20 @@ class Route {
   String name;
   BusStop start;
   BusStop end;
-  List<Intermediate> intermediate;
+  Intermediate intermediate;
 
-  factory Route.fromJson(Map<String, dynamic> json) => Route(
+  factory BusRoute.fromJson(Map<String, dynamic> json) => BusRoute(
     name: json["name"],
     start: json["start"],
     end: json["end"],
-    intermediate:
-      List<Intermediate>.from(json["intermediate"].map((x) => Intermediate.fromJson(x)))??[],
+    intermediate: json["intermediate"],
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
     "start": start,
     "end": end,
-    "intermediate": List<dynamic>.from(intermediate.map((x) => x.toJson()))??[],
+    "intermediate": intermediate,
   };
 }
 

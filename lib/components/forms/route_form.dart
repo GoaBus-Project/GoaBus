@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:goa_bus/constants/color_palette.dart';
+import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/providers/sidebar_providers/routes_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
@@ -11,13 +12,18 @@ class RouteForm extends StatefulWidget {
 }
 
 class _RouteFormState extends State<RouteForm> {
-  List<String> example=["stop1","stop2","stop3"];
   List<String> intermediateStops = [];
+
+  @override
+  void initState() {
+    final prov = Provider.of<RoutesProvider>(context, listen: false);
+    prov.init();
+    prov.getStops();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    String selectedStartStop;
-    String selectedIntermediateStop;
-    String selectedEndStop;
     final ScrollController _scrollController = ScrollController();
     return Consumer<RoutesProvider>(
       builder: (context, routesProv, _) {
@@ -34,8 +40,8 @@ class _RouteFormState extends State<RouteForm> {
                       border: UnderlineInputBorder(),
                       labelText: "Route Name (Start-End)",
                     ),
-                    onChanged: (number) {
-                      // routesProv.routesData.busNo = number;
+                    onChanged: (value) {
+                      routesProv.route.name = value;
                     },
                   ),
                   SizedBox(height: 15),
@@ -52,16 +58,19 @@ class _RouteFormState extends State<RouteForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      DropdownButton<String>(
+                      routesProv.busStops.isEmpty?
+                          Text("No saved stops",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: Constants.alertFontSize
+                          ))
+                      :DropdownButton<String>(
                         hint: Text("Start Bus Stop"),
-                        value: selectedStartStop,
+                        value: routesProv.route.start.stopName,
                         onChanged: (String value) {
-                          // busesProv.setRoute(value);
-                          setState(() {
-                            selectedStartStop = value;
-                          });
+                          routesProv.setStartStop(value);
                         },
-                        items: example.map((String route) {
+                        items: routesProv.busStops.map((String route) {
                           return DropdownMenuItem<String>(
                             value: route,
                             child: Row(
@@ -83,16 +92,19 @@ class _RouteFormState extends State<RouteForm> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          DropdownButton<String>(
+                          routesProv.busStops.isEmpty?
+                          Text("No saved stops",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: Constants.alertFontSize
+                              ))
+                          :DropdownButton<String>(
                             hint: Text("Intermediate Bus Stops"),
-                            value: selectedIntermediateStop,
+                            value: routesProv.selectedIntermediateStop,
                             onChanged: (String value) {
-                              // busesProv.setRoute(value);
-
-                                selectedIntermediateStop = value;
-
+                              routesProv.setIntermediateStop(value);
                             },
-                            items: example.map((String route) {
+                            items: routesProv.busStops.map((String route) {
                               return DropdownMenuItem<String>(
                                 value: route,
                                 child: Row(
@@ -108,34 +120,24 @@ class _RouteFormState extends State<RouteForm> {
                             }).toList(),
                           ),
 
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
-                            ),
-                            onPressed: () {
-                              // if(busesProv.tripsData.route != ""
-                              //     && busesProv.tripsData.route != null)
-                              //   busesProv.addRoute();
-                              // else
-                              //   showAlertDialog(
-                              //       context: context,
-                              //       title: "Alert",
-                              //       message: "Please select route"
-                              //   );
-
-                              setState(() {
-                                intermediateStops.add(selectedIntermediateStop);
-                              });
-
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
-                              child: Text(
-                                "Add".toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Palette.fontColor,
-                                  fontWeight: FontWeight.bold,
+                          Visibility(
+                            visible: routesProv.selectedIntermediateStop != null,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                              ),
+                              onPressed: () {
+                                routesProv.addIntermediateStop();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                                child: Text(
+                                  "Add".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Palette.fontColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
@@ -148,14 +150,16 @@ class _RouteFormState extends State<RouteForm> {
                         child: SmoothScrollWeb(
                           controller: _scrollController,
                           child: Scrollbar(
-                            child: ListView.builder(
+                            child: routesProv.route.intermediate.stop == null?
+                            Container()
+                            :ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 controller: _scrollController,
                                 scrollDirection: Axis.vertical,
-                                itemCount: intermediateStops.length,
+                                itemCount: routesProv.route.intermediate.stop.length??0,
                                 itemBuilder: (context, index) {
-                                  return intermediateStops.length==0?Text("Select Intermediate Stops"):Container(
+                                  return Container(
                                     child: Card(
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,7 +167,7 @@ class _RouteFormState extends State<RouteForm> {
                                           Padding(
                                             padding: const EdgeInsets.only(left: 10.0),
                                             child: Text(
-                                              intermediateStops[index],
+                                              routesProv.route.intermediate.stop[index].stopName,
                                               style: TextStyle(fontSize: 20.0),
                                             ),
                                           ),
@@ -172,7 +176,7 @@ class _RouteFormState extends State<RouteForm> {
                                             child: IconButton(
                                                 icon: Icon(Icons.delete),
                                                 onPressed: (){
-
+                                                  routesProv.removeIntermediateStop(index);
                                                 }
                                             ),
                                           )
@@ -190,16 +194,19 @@ class _RouteFormState extends State<RouteForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      DropdownButton<String>(
+                      routesProv.busStops.isEmpty?
+                      Text("No saved stops",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: Constants.alertFontSize
+                          ))
+                      :DropdownButton<String>(
                         hint: Text("End Bus Stop"),
-                        value: selectedEndStop,
+                        value: routesProv.route.end.stopName,
                         onChanged: (String value) {
-                          // busesProv.setRoute(value);
-                          setState(() {
-                            selectedEndStop = value;
-                          });
+                          routesProv.setEndStop(value);
                         },
-                        items: example.map((String route) {
+                        items: routesProv.busStops.map((String route) {
                           return DropdownMenuItem<String>(
                             value: route,
                             child: Row(
@@ -222,30 +229,30 @@ class _RouteFormState extends State<RouteForm> {
                       backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
                     ),
                     onPressed: () async {
-                      // String checkData = busesProv.checkData();
-                      // if(checkData == '') {
-                      //   if (await busesProv.saveRoutesData()) {
-                      //     busesProv.loading = false;
-                      //     Navigator.pop(context);
-                      //     return SnackBar(
-                      //       content: Text('Data saved'),
-                      //       backgroundColor: Palette.secondary,
-                      //     );
-                      //   } else {
-                      //     busesProv.loading = false;
-                      //     return showAlertDialog(
-                      //         context: context,
-                      //         title: 'Please try again',
-                      //         message: 'There was some problem while saving data'
-                      //     );
-                      //   }
-                      // } else {
-                      //   return showAlertDialog(
-                      //       context: context,
-                      //       title: 'Missing Data',
-                      //       message: checkData
-                      //   );
-                      // }
+                      String checkData = routesProv.checkData();
+                      if(checkData == 'success') {
+                        if (await routesProv.saveRoutesData()) {
+                          routesProv.loading = false;
+                          Navigator.pop(context);
+                          return SnackBar(
+                            content: Text('Data saved'),
+                            backgroundColor: Palette.secondary,
+                          );
+                        } else {
+                          routesProv.loading = false;
+                          return showAlertDialog(
+                              context: context,
+                              title: 'Please try again',
+                              message: 'There was some problem while saving data'
+                          );
+                        }
+                      } else {
+                        return showAlertDialog(
+                            context: context,
+                            title: 'Missing Data',
+                            message: checkData
+                        );
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
@@ -260,24 +267,9 @@ class _RouteFormState extends State<RouteForm> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  // busesProv.loading?
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     SizedBox(
-                  //         height: 15,
-                  //         width: 15,
-                  //         child: CircularProgressIndicator(backgroundColor: Palette.secondary)
-                  //     ),
-                  //     SizedBox(width: 10),
-                  //     Text(
-                  //       'Saving data..',
-                  //       style: TextStyle(
-                  //           color: Colors.green
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ):Container(),
+                  routesProv.loading?
+                  CircularProgressIndicator(color: Palette.secondary)
+                      : Container(),
                 ],
               ),
             ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/models/routes_model.dart';
-import 'package:goa_bus/models/trips_model.dart';
 import 'package:goa_bus/repositories/routes_repository.dart';
 
 class BusesProvider with ChangeNotifier{
   RoutesModel routesData = RoutesModel();
-  List<TripsModel> tripsDataList = [];
-  TripsModel tripsData = TripsModel();
+
+  BusRoute route = BusRoute();
 
   bool loading = false;
 
@@ -19,9 +18,8 @@ class BusesProvider with ChangeNotifier{
     "route 4",
   ];
 
-  void init() {
-    tripsDataList = [];
-    tripsData.startTime = TimeOfDay(hour: 12, minute: 00);
+  /*void init() {
+    routes.startTime = TimeOfDay(hour: 12, minute: 00);
     tripsData.endTime = TimeOfDay(hour: 12, minute: 00);
   }
 
@@ -71,6 +69,6 @@ class BusesProvider with ChangeNotifier{
       loading = false;
       notifyListeners();
     });
-  }
+  }*/
 
 }

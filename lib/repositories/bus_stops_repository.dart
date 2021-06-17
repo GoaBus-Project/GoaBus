@@ -20,7 +20,6 @@ class BusStopsRepository {
           success = true;
         })
         .onError((error, stackTrace) {
-          success = false;
           print("Failed to add stop: $error");
         });
     return success;
