@@ -59,11 +59,7 @@ class _RouteFormState extends State<RouteForm> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       routesProv.busStops.isEmpty?
-                          Text("No saved stops",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: Constants.alertFontSize
-                          ))
+                      Container()
                       :DropdownButton<String>(
                         hint: Text("Start Bus Stop"),
                         value: routesProv.route.start.stopName,
@@ -195,11 +191,7 @@ class _RouteFormState extends State<RouteForm> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       routesProv.busStops.isEmpty?
-                      Text("No saved stops",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: Constants.alertFontSize
-                          ))
+                      Container()
                       :DropdownButton<String>(
                         hint: Text("End Bus Stop"),
                         value: routesProv.route.end.stopName,

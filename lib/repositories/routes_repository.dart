@@ -12,19 +12,20 @@ class RoutesRepository {
           .collection(Constants.ROUTES_COLLECTION)
           .doc(routesData.name);
 
-    CollectionReference intermediateStops =
-      FirebaseFirestore.instance
-          .collection(Constants.INTERMEDIATE_STOPS_COLLECTION);
+    /// Create intermediate comma separated string to upload
+    String intermediateStops = '';
+    if(routesData.intermediate.stop.isNotEmpty) {
+      intermediateStops = routesData.intermediate.stop[0].stopName.toString();
+      routesData.intermediate.stop.forEach((element) {
+        if(intermediateStops != element.stopName)
+          intermediateStops =
+              intermediateStops + ',' + element.stopName.toString();
+      });
+    }
 
     await routes.set({
       'start': routesData.start.stopName.toString(),
-      // 'intermediate': routesData.intermediate.stop
-      /*routesData.intermediate.stop.forEach((element) {
-        intermediateStops.doc(element.stopName).set({
-          "lat": element.lat,
-          "lng": element.lng,
-        });
-      }),*/
+      'intermediate': intermediateStops,
       'end': routesData.end.stopName.toString(),
     })
         .whenComplete(() => {
