@@ -78,21 +78,31 @@ class _StopFormState extends State<StopForm> {
                       backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
                     ),
                     onPressed: () async {
-                      await prov.saveBusStop().then((success) {
-                        if(success) {
-                          final busStopProv = Provider.of<BusStopProvider>(context, listen: false);
-                          busStopProv.getData();
-                          Navigator.pop(context);
-                          prov.loading = false;
-                        } else {
-                          prov.loading = false;
-                          showAlertDialog(
-                              context: context,
-                              title: "Save Failed",
-                              message: "Couldn't add bus stop, please try again"
-                          );
-                        }
-                      });
+                      String checkData = prov.checkData();
+                      if(checkData == '' || checkData == 'success') {
+                        await prov.saveBusStop().then((success) async {
+                          if(success) {
+                            await Provider.of<BusStopProvider>(context, listen: false).getData();
+                            prov.loading = false;
+                            Navigator.pop(context);
+                          } else {
+                            prov.loading = false;
+                            showAlertDialog(
+                                context: context,
+                                title: "Save Failed",
+                                message: "Couldn't add bus stop, please try again"
+                            );
+                          }
+                        });
+                      } else {
+                        prov.loading = false;
+                        return showAlertDialog(
+                            context: context,
+                            title: 'Missing Data',
+                            message: checkData
+                        );
+                      }
+
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),

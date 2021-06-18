@@ -4,7 +4,7 @@ import 'package:goa_bus/models/stops_model.dart';
 import 'package:goa_bus/repositories/bus_stops_repository.dart';
 import 'package:goa_bus/repositories/routes_repository.dart';
 
-class RoutesProvider with ChangeNotifier {
+class RoutesFormProvider with ChangeNotifier {
   BusRoute route = BusRoute();
 
   BusStopsModel busStopsModel = BusStopsModel();
@@ -74,6 +74,8 @@ class RoutesProvider with ChangeNotifier {
   }
 
   Future<bool> saveRoutesData() async {
+    loading = true;
+    notifyListeners();
     return await RoutesRepository().saveRoutes(route).whenComplete(() {
       loading = false;
       notifyListeners();

@@ -2,7 +2,8 @@ import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_
 import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/buses_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
-import 'package:goa_bus/providers/sidebar_providers/routes_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/route_providers/routes_form_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/route_providers/routes_provider.dart';
 import 'package:goa_bus/screens/home_screen.dart';
 import 'package:goa_bus/screens/login_screen.dart';
 
@@ -40,6 +41,7 @@ class _GoaBusAppState extends State<GoaBusApp> {
         ChangeNotifierProvider(create: (context) => DriversProvider()),
         ChangeNotifierProvider(create: (context) => BusStopProvider()),
         ChangeNotifierProvider(create: (context) => BusStopFormProvider()),
+        ChangeNotifierProvider(create: (context) => RoutesFormProvider()),
         ChangeNotifierProvider(create: (context) => RoutesProvider()),
       ],
       child: MaterialApp(home: LoginScreen()),

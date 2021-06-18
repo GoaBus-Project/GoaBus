@@ -7,7 +7,6 @@ class Constants {
 
   static const String ROUTES_COLLECTION = 'Routes';
   static const String BUS_STOPS_COLLECTION = 'Bus Stops';
-  static const String INTERMEDIATE_STOPS_COLLECTION = 'Intermediate Stops';
 
   static const double alertFontSize = 20;
 }

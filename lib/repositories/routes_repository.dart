@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/models/routes_model.dart';
+import 'package:goa_bus/models/stops_model.dart';
+
+import 'bus_stops_repository.dart';
 
 class RoutesRepository {
   /// Save data to firestore db
@@ -23,6 +26,7 @@ class RoutesRepository {
       });
     }
 
+    /// Upload to server
     await routes.set({
       'start': routesData.start.stopName.toString(),
       'intermediate': intermediateStops,
@@ -38,23 +42,61 @@ class RoutesRepository {
     return success;
   }
 
-  /*/// Fetch data
-  Future<List<RoutesModel>> fetchRoutes() async {
-    List<RoutesModel> routesData = [];
-    FirebaseFirestore.instance
+  /// Fetch data
+  Future<RoutesModel> fetchRoutes() async {
+    RoutesModel routes = RoutesModel();
+    routes.routes = [];
+    BusStopsModel busStopsModel = BusStopsModel();
+
+    /// Fetch bus stops for lat lng
+    busStopsModel = await BusStopsRepository().fetchBusStops();
+
+    await FirebaseFirestore.instance
         .collection(Constants.ROUTES_COLLECTION)
         .get()
         .then((QuerySnapshot querySnapshot) {
-          RoutesModel route = RoutesModel();
           querySnapshot.docs.forEach((doc) {
-            route.busNo = doc.toString();;
-            trip.route = doc["route"];
-            trip.startTime = doc["startTime"] as TimeOfDay;
-            trip.endTime = doc["endTime"] as TimeOfDay;
-            route.trips.add(trip);
-            routesData.add(route);
+            BusRoute busRoute = BusRoute();
+            busRoute.intermediate = Intermediate();
+            busRoute.intermediate.stop = [];
+            busRoute.start = BusStop();
+            busRoute.end = BusStop();
+
+            List<String> intermediateStops =
+                doc["intermediate"].toString().split(",")??"";
+
+            busRoute.name = doc.id.toString();
+            busRoute.start.stopName = doc["start"].toString();
+            busRoute.end.stopName = doc["end"].toString();
+
+            /// For each retrieved route
+            intermediateStops.forEach((stopName) {
+              BusStop busStop = BusStop();
+              busStop.stopName = stopName.toString();
+              /// assign lat lng
+              busStopsModel.busStops.forEach((busStopData) {
+                if(busStopData.stopName == stopName.toString()) {
+                  busStop.lat = busStopData.lat;
+                  busStop.lng = busStopData.lng;
+                }
+              });
+              busRoute.intermediate.stop.add(busStop);
+            });
+            routes.routes.add(busRoute);
           });
         });
-    return routesData;
-  }*/
+
+    routes.routes.forEach((element) {
+      print("Name: ${element.name}\n"
+          "Start: ${element.start.stopName}\n"
+          "End: ${element.end.stopName}\n");
+      element.intermediate.stop.forEach((intermediate) {
+        print("Stop name: ${intermediate.stopName}\n"
+            "Lat: ${intermediate.lat}\n"
+            "Lng: ${intermediate.lng}\n"
+        );
+      });
+    });
+    return routes;
+  }
 }

@@ -20,6 +20,18 @@ class BusStopFormProvider with ChangeNotifier {
         null : LatLng(double.parse(busStop.lat), double.parse(busStop.lng));
   }
 
+  String checkData() {
+    String message = '';
+    if(busStop.stopName == "")
+      message = "Please enter stop name";
+    else if(busStop.lat == null
+        || busStop.lng == null)
+      message = "Please select location";
+    else
+      message = "success";
+    return message;
+  }
+
   Future<bool> saveBusStop() async {
     loading = true;
     notifyListeners();

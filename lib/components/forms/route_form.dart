@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/constants/constants.dart';
-import 'package:goa_bus/providers/sidebar_providers/routes_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/route_providers/routes_form_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/route_providers/routes_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
@@ -16,16 +17,21 @@ class _RouteFormState extends State<RouteForm> {
 
   @override
   void initState() {
-    final prov = Provider.of<RoutesProvider>(context, listen: false);
+    final prov = Provider.of<RoutesFormProvider>(context, listen: false);
     prov.init();
     prov.getStops();
     super.initState();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    return Consumer<RoutesProvider>(
+    return Consumer<RoutesFormProvider>(
       builder: (context, routesProv, _) {
         return Column(
           children: [
@@ -216,52 +222,58 @@ class _RouteFormState extends State<RouteForm> {
                     ],
                   ),
                   SizedBox(height: 30),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
-                    ),
-                    onPressed: () async {
-                      String checkData = routesProv.checkData();
-                      if(checkData == 'success') {
-                        if (await routesProv.saveRoutesData()) {
-                          routesProv.loading = false;
-                          Navigator.pop(context);
-                          return SnackBar(
-                            content: Text('Data saved'),
-                            backgroundColor: Palette.secondary,
-                          );
-                        } else {
-                          routesProv.loading = false;
-                          return showAlertDialog(
-                              context: context,
-                              title: 'Please try again',
-                              message: 'There was some problem while saving data'
-                          );
-                        }
-                      } else {
-                        return showAlertDialog(
-                            context: context,
-                            title: 'Missing Data',
-                            message: checkData
-                        );
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
-                      child: Text(
-                        "Save".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Palette.fontColor,
-                          fontWeight: FontWeight.bold,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                        ),
+                        onPressed: () async {
+                          String checkData = routesProv.checkData();
+                          if(checkData == 'success' || checkData == '') {
+                            if (await routesProv.saveRoutesData()) {
+                              await Provider.of<RoutesProvider>(context, listen: false).fetchRoutes();
+                              routesProv.loading = false;
+                              Navigator.pop(context);
+                              return SnackBar(
+                                content: Text('Data saved'),
+                                backgroundColor: Palette.secondary,
+                              );
+                            } else {
+                              routesProv.loading = false;
+                              return showAlertDialog(
+                                  context: context,
+                                  title: 'Save Failed',
+                                  message: 'There was some problem while saving data'
+                              );
+                            }
+                          } else {
+                            return showAlertDialog(
+                                context: context,
+                                title: 'Missing Data',
+                                message: checkData
+                            );
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                          child: Text(
+                            "Save".toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Palette.fontColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      SizedBox(width: 40),
+                      routesProv.loading?
+                      CircularProgressIndicator(color: Palette.secondary)
+                          : Container(),
+                    ],
                   ),
-                  SizedBox(height: 10),
-                  routesProv.loading?
-                  CircularProgressIndicator(color: Palette.secondary)
-                      : Container(),
                 ],
               ),
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/components/forms/route_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/routes_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/route_providers/routes_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
@@ -12,6 +12,14 @@ class Routes extends StatefulWidget {
 }
 
 class _RoutesState extends State<Routes> {
+  @override
+  void initState() {
+    final prov = Provider.of<RoutesProvider>(context, listen: false);
+    prov.loading = true;
+    prov.fetchRoutes();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
@@ -28,7 +36,20 @@ class _RoutesState extends State<Routes> {
                   second: "End",
                   third: ""
               ),
+              routeProv.loading?
               Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                        color: Palette.secondary,
+                      )
+                  ),
+                ),
+              )
+              :Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
                   height: MediaQuery.of(context).copyWith().size.height / 2,
@@ -40,11 +61,11 @@ class _RoutesState extends State<Routes> {
                           physics: NeverScrollableScrollPhysics(),
                           controller: _scrollController,
                           scrollDirection: Axis.vertical,
-                          itemCount: 20,
+                          itemCount: routeProv.routesModel.routes.length??0,
                           itemBuilder: (context, index) {
                             return TableBodyTile(
-                                first: "First Stop",
-                                second: "Last Stop",
+                                first: routeProv.routesModel.routes[index].start.stopName,
+                                second: routeProv.routesModel.routes[index].end.stopName,
                                 third: ""
                             );
                           }),

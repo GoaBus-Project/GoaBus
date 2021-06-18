@@ -34,13 +34,13 @@ class BusStop {
 
   factory BusStop.fromJson(Map<String, dynamic> json) => BusStop(
     stopName: json["stopName"],
-    lat: json["lat"],
-    lng: json["lng"],
+    lat: json["lat"]??"",
+    lng: json["lng"]??"",
   );
 
   Map<String, dynamic> toJson() => {
     "stopName": stopName,
-    "lat": lat,
-    "lng": lng,
+    "lat": lat??"",
+    "lng": lng??"",
   };
 }
