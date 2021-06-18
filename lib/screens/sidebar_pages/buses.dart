@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/components/forms/bus_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/buses_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_form_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
@@ -15,7 +15,7 @@ class _BusesState extends State<Buses> {
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    return Consumer<BusesProvider>(
+    return Consumer<BusesFormProvider>(
       builder: (context, busProv, _){
         return Padding(
           padding: const EdgeInsets.only(top: 20),

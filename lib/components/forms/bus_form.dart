@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/buses_provider.dart';
+import 'package:goa_bus/constants/constants.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_form_provider.dart';
 import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:provider/provider.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
 class BusForm extends StatefulWidget {
@@ -13,11 +13,11 @@ class BusForm extends StatefulWidget {
 }
 
 class _BusFormState extends State<BusForm> {
-  /*Future<void> _selectTime(bool startTime, BusesProvider prov) async {
+  Future<void> _selectTime(bool startTime, BusesFormProvider prov) async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
       initialTime: startTime ?
-      prov.tripsData.startTime : prov.tripsData.endTime,
+      prov.trip.startTime : prov.trip.endTime,
     );
     if (newTime != null) {
       startTime? prov.setStartTime(newTime)
@@ -27,23 +27,19 @@ class _BusFormState extends State<BusForm> {
 
   @override
   void initState() {
-    final prov = Provider.of<BusesProvider>(context, listen: false);
+    final prov = Provider.of<BusesFormProvider>(context, listen: false);
     prov.init();
-    if(prov.tripsData.startTime == null)
-      prov.tripsData.startTime = TimeOfDay(hour: 12, minute: 00);
-    if(prov.tripsData.endTime == null)
-      prov.tripsData.endTime = TimeOfDay(hour: 12, minute: 00);
     super.initState();
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    return Consumer<BusesProvider>(
+    return Consumer<BusesFormProvider>(
       builder: (context, busesProv, _) {
         return Column(
           children: [
-           /* Padding(
+            Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,7 +51,7 @@ class _BusFormState extends State<BusForm> {
                       labelText: "Enter Bus Number",
                     ),
                     onChanged: (number) {
-                      busesProv.routesData.busNo = number;
+                      busesProv.busData.busNo = number;
                     },
                   ),
                   SizedBox(height: 15),
@@ -72,9 +68,26 @@ class _BusFormState extends State<BusForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DropdownButton<String>(
+                      busesProv.routesLoading?
+                      SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 15),
+                          child: CircularProgressIndicator(
+                              color: Palette.secondary
+                          ),
+                        ),
+                      )
+                      :busesProv.routes.length == 0?
+                      Text("No saved routes",
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: Constants.alertFontSize
+                      ))
+                      :DropdownButton<String>(
                         hint: Text("Select Route"),
-                        value: busesProv.tripsData.route,
+                        value: busesProv.trip.routeName,
                         onChanged: (String value) {
                           busesProv.setRoute(value);
                         },
@@ -99,7 +112,7 @@ class _BusFormState extends State<BusForm> {
                         children: [
                           Text(
                             'Start Time: '
-                                '${busesProv.tripsData.startTime.format(context)}'
+                                '${busesProv.trip.startTime.format(context)}'
                                 .toUpperCase(),
                             style: TextStyle(fontSize: 15.0),
                           ),
@@ -119,7 +132,7 @@ class _BusFormState extends State<BusForm> {
                         children: [
                           Text(
                             'End Time: '
-                                '${busesProv.tripsData.endTime.format(context)}'
+                                '${busesProv.trip.endTime.format(context)}'
                                 .toUpperCase(),
                             style: TextStyle(fontSize: 15.0),
                           ),
@@ -138,8 +151,8 @@ class _BusFormState extends State<BusForm> {
                           backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
                         ),
                         onPressed: () {
-                          if(busesProv.tripsData.route != ""
-                              && busesProv.tripsData.route != null)
+                          if(busesProv.trip.routeName != ""
+                              && busesProv.trip.routeName != null)
                             busesProv.addRoute();
                           else
                             showAlertDialog(
@@ -169,7 +182,7 @@ class _BusFormState extends State<BusForm> {
                     child: SmoothScrollWeb(
                       controller: _scrollController,
                       child: Scrollbar(
-                        child: busesProv.tripsDataList.length==0?
+                        child: busesProv.busData.trips.length == 0?
                         Center(
                           child: Text(
                             "Select Routes And Save",
@@ -181,7 +194,7 @@ class _BusFormState extends State<BusForm> {
                           physics: NeverScrollableScrollPhysics(),
                           controller: _scrollController,
                           scrollDirection: Axis.vertical,
-                          itemCount: busesProv.tripsDataList.length??0,
+                          itemCount: busesProv.busData.trips.length??0,
                           itemBuilder: (context, index) {
                             return Container(
                               child: Card(
@@ -191,13 +204,13 @@ class _BusFormState extends State<BusForm> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 10.0),
                                       child: Text(
-                                        busesProv.tripsDataList[index].route,
+                                        busesProv.busData.trips[index].routeName,
                                         style: TextStyle(fontSize: 20.0),
                                       ),
                                     ),
-                                    Text(busesProv.tripsDataList[index].startTime
+                                    Text(busesProv.busData.trips[index].startTime
                                         .format(context)),
-                                    Text(busesProv.tripsDataList[index].endTime
+                                    Text(busesProv.busData.trips[index].endTime
                                         .format(context)),
                                     Padding(
                                       padding: const EdgeInsets.only(right:10.0),
@@ -280,7 +293,7 @@ class _BusFormState extends State<BusForm> {
                   ):Container(),
                 ],
               ),
-            ),*/
+            ),
           ],
         );
       },
