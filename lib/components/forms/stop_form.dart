@@ -18,6 +18,12 @@ class _StopFormState extends State<StopForm> {
   List<Marker> marker = [];
 
   @override
+  void initState() {
+    Provider.of<BusStopFormProvider>(context, listen: false).init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<BusStopFormProvider>(
       builder: (BuildContext context, prov, _) {

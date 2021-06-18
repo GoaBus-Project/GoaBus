@@ -9,6 +9,12 @@ class BusStopFormProvider with ChangeNotifier {
 
   bool loading = false;
 
+  init() {
+    busStop.stopName = "";
+    busStop.lat = null;
+    busStop.lng = null;
+  }
+
   void setLatLng(LatLng latLng) {
     busStop.lat = latLng.latitude.toString();
     busStop.lng = latLng.longitude.toString();
