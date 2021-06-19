@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/constants/color_palette.dart';
+import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,11 @@ class NavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Image.asset(
+            Constants.MAIN_LOGO,
+            height: 57.0,
+            width: 57.0,
+          ),
           Text('Admin Panel',
             style: TextStyle(
                 fontSize: 20,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goa_bus/components/sidebar/sidebar_items/sidebar_items.dart';
 import 'package:goa_bus/constants/color_palette.dart';
@@ -27,12 +28,23 @@ class _SideBarState extends State<SideBar> {
       child: Container(
         child: Column(
           children: [
-            Image.asset(
-              Constants.NAMED_MAIN_LOGO,
-              height: 57.0,
-              width: 57.0,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  Constants.MAIN_LOGO,
+                  height: 57.0,
+                  width: 57.0,
+                ),
+                Text('Goa Bus',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Palette.fontColor
+                  ),
+                ),
+              ],
             ),
-
             SideBarItems(
               icon: Icons.dashboard,
               text: 'Dashboard',
