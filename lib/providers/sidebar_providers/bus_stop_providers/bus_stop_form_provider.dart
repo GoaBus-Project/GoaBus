@@ -4,7 +4,6 @@ import 'package:goa_bus/repositories/bus_stops_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BusStopFormProvider with ChangeNotifier {
-  BusStopsModel busStopsModel = BusStopsModel();
   BusStop busStop = BusStop();
 
   bool loading = false;
@@ -41,8 +40,9 @@ class BusStopFormProvider with ChangeNotifier {
   Future<bool> saveBusStop() async {
     loading = true;
     notifyListeners();
-    busStopsModel.busStops = [];
-    busStopsModel.busStops.add(busStop);
-    return await BusStopsRepository().save(busStopsModel);
+    return await BusStopsRepository().save(busStop).whenComplete(() {
+      loading = false;
+      notifyListeners();
+    });
   }
 }

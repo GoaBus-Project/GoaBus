@@ -3,7 +3,7 @@ import 'package:goa_bus/components/details/driver_details.dart';
 import 'package:goa_bus/components/forms/driver_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/driver_providers/drivers_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 

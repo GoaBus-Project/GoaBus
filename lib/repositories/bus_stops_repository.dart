@@ -4,16 +4,16 @@ import 'package:goa_bus/models/stops_model.dart';
 
 class BusStopsRepository {
   /// Save data to firestore db
-  Future<bool> save(BusStopsModel busStopsModel) async {
+  Future<bool> save(BusStop busStop) async {
     bool success = false;
-    /// Create a CollectionReference called busStops that references the firestore collection
+    /// Create a CollectionReference called 'Bus Stops' that references the firestore collection
     CollectionReference busStops =
     FirebaseFirestore.instance
         .collection(Constants.BUS_STOPS_COLLECTION);
 
-    await busStops.doc(busStopsModel.busStops[0].stopName).set({
-      'lat': busStopsModel.busStops[0].lat.toString(),
-      'lng': busStopsModel.busStops[0].lng.toString(),
+    await busStops.doc(busStop.stopName).set({
+      'lat': busStop.lat.toString(),
+      'lng': busStop.lng.toString(),
     })
         .whenComplete(() {
           print("Stop added");
