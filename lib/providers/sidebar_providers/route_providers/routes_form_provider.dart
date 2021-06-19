@@ -76,7 +76,7 @@ class RoutesFormProvider with ChangeNotifier {
   Future<bool> saveRoutesData() async {
     loading = true;
     notifyListeners();
-    return await RoutesRepository().saveRoutes(route).whenComplete(() {
+    return await RoutesRepository().save(route).whenComplete(() {
       loading = false;
       notifyListeners();
     });

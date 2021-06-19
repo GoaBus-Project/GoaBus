@@ -14,9 +14,7 @@ class Routes extends StatefulWidget {
 class _RoutesState extends State<Routes> {
   @override
   void initState() {
-    final prov = Provider.of<RoutesProvider>(context, listen: false);
-    prov.loading = true;
-    prov.fetchRoutes();
+    Provider.of<RoutesProvider>(context, listen: false).init();
     super.initState();
   }
 

@@ -15,8 +15,7 @@ class BusStops extends StatefulWidget {
 class _BusStopsState extends State<BusStops> {
   @override
   void initState() {
-    final prov = Provider.of<BusStopProvider>(context, listen: false);
-    prov.getData();
+    Provider.of<BusStopProvider>(context, listen: false).init();
     super.initState();
   }
 

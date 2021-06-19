@@ -4,7 +4,7 @@ import 'package:goa_bus/models/stops_model.dart';
 
 class BusStopsRepository {
   /// Save data to firestore db
-  Future<bool> saveBusStops(BusStopsModel busStopsModel) async {
+  Future<bool> save(BusStopsModel busStopsModel) async {
     bool success = false;
     /// Create a CollectionReference called busStops that references the firestore collection
     CollectionReference busStops =
@@ -16,7 +16,7 @@ class BusStopsRepository {
       'lng': busStopsModel.busStops[0].lng.toString(),
     })
         .whenComplete(() {
-          print("Data added");
+          print("Stop added");
           success = true;
         })
         .onError((error, stackTrace) {
