@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goa_bus/common/alert_dialog_screen.dart';
+import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +11,26 @@ class DriverForm extends StatefulWidget {
 }
 
 class _DriverFormState extends State<DriverForm> {
+  Image image;
   @override
   Widget build(BuildContext context) {
     return Consumer<DriversProvider>(
       builder: (context, driverProv, _) {
         return Column(
           children: [
+            image==null?
+            FloatingActionButton(
+                child: Icon(Icons.open_in_browser),
+                onPressed: () async {
+                  final _image = await FlutterWebImagePicker.getImage;
+                  setState(() {
+                    image = _image;
+                  });
+                }
+            )
+            :Container(
+              child: Center(child: image != null ? image : Text('No data...')),
+            ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(

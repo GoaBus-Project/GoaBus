@@ -56,6 +56,33 @@ class _BusFormState extends State<BusForm> {
                   ),
                   SizedBox(height: 15),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      DropdownButton<String>(
+                        hint: Text("Select Driver"),
+                        value: busesProv.trip.routeName,
+                        onChanged: (String value) {
+                          busesProv.setRoute(value);
+                        },
+                        items: busesProv.routes.map((String route) {
+                          return DropdownMenuItem<String>(
+                            value: route,
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(width: 10),
+                                Text(
+                                  route,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(

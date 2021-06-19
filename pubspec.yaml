@@ -26,6 +26,7 @@ dependencies:
 
   provider: ^5.0.0
   smooth_scroll_web: ^0.0.4
+  flutter_web_image_picker: ^0.0.2
 
   firebase_core: ^1.2.0
   firebase_auth: ^1.2.0
