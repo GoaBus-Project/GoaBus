@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/components/details/bus_details.dart';
 import 'package:goa_bus/components/forms/bus_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
@@ -45,7 +46,8 @@ class _BusesState extends State<Buses> {
                             return TableBodyTile(
                                 first: "Dynamic Bus number",
                                 second: "Start Location",
-                                third: "End Location"
+                                third: "End Location",
+                                details: BusDetails(),
                             );
                           }),
                     ),

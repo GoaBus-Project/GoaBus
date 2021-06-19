@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/components/details/bus_stop_details.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 
 class TableHeaderTile extends StatelessWidget {
@@ -25,6 +26,12 @@ class TableHeaderTile extends StatelessWidget {
         child:  Card(
           elevation: 5.0,
           child: Table(
+            columnWidths: {
+              0: FlexColumnWidth(4),
+              1: FlexColumnWidth(4),
+              2: FlexColumnWidth(4),
+              3: FlexColumnWidth(2),
+            },
             children: [
               TableRow(
                   decoration: BoxDecoration(
@@ -85,44 +92,101 @@ class TableBodyTile extends StatelessWidget {
       child: Card(
           color: Palette.listTileColor,
           child: Table(
+            columnWidths: {
+              0: FlexColumnWidth(4),
+              1: FlexColumnWidth(4),
+              2: FlexColumnWidth(4),
+              3: FlexColumnWidth(2),
+            },
             children: [
               TableRow(
                   children: [
                     TileData(title: first),
                     TileData(title: second),
                     TileData(title: third),
-                    Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: IconButton(
-                              icon: Icon(Icons.more_outlined),
-                              onPressed: (){
-                                showGeneralDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    barrierLabel: MaterialLocalizations.of(context)
-                                        .modalBarrierDismissLabel,
-                                    barrierColor: Colors.black45,
-                                    transitionDuration: const Duration(milliseconds: 200),
-                                    pageBuilder: (BuildContext buildContext,
-                                        Animation animation,
-                                        Animation secondaryAnimation) {
-                                      return Center(
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width - 500,
-                                          height: MediaQuery.of(context).size.height - 100,
-                                          padding: EdgeInsets.all(20),
-                                          color: Colors.white,
-                                          child: Scaffold(
-                                            body: details,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                );
-                              }
-                          ),
-                        )
+                    Row(
+                      children: [
+                        Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: IconButton(
+                                  tooltip: "More Details",
+                                  icon: Icon(Icons.more_outlined),
+                                  onPressed: (){
+                                    showGeneralDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        barrierLabel: MaterialLocalizations.of(context)
+                                            .modalBarrierDismissLabel,
+                                        barrierColor: Colors.black45,
+                                        transitionDuration: const Duration(milliseconds: 200),
+                                        pageBuilder: (BuildContext buildContext,
+                                            Animation animation,
+                                            Animation secondaryAnimation) {
+                                          return Center(
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width - 1000,
+                                              height: MediaQuery.of(context).size.height - 100,
+                                              padding: EdgeInsets.all(20),
+                                              color: Colors.white,
+                                              child: Scaffold(
+                                                body: details,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                    );
+                                  }
+                              ),
+                            )
+                        ),
+                        details is BusStopDetails?
+                        Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: IconButton(
+                                  tooltip: "Time Table",
+                                  icon: Icon(Icons.access_time_outlined),
+                                  onPressed: (){
+                                    showGeneralDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        barrierLabel: MaterialLocalizations.of(context)
+                                            .modalBarrierDismissLabel,
+                                        barrierColor: Colors.black45,
+                                        transitionDuration: const Duration(milliseconds: 200),
+                                        pageBuilder: (BuildContext buildContext,
+                                            Animation animation,
+                                            Animation secondaryAnimation) {
+                                          return Center(
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width - 800,
+                                              height: MediaQuery.of(context).size.height - 100,
+                                              padding: EdgeInsets.all(20),
+                                              color: Colors.white,
+                                              child: Scaffold(
+                                                body: Container(),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                    );
+                                  }
+                              ),
+                            )
+                        ) :Container(),
+                        Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: IconButton(
+                                  tooltip: "Delete",
+                                  icon: Icon(Icons.delete),
+                                  onPressed: (){
+                                  }
+                              ),
+                            )
+                        ),
+                      ],
                     )
                   ]
               )

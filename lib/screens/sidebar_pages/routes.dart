@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/components/details/route_details.dart';
 import 'package:goa_bus/components/forms/route_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
@@ -66,7 +67,8 @@ class _RoutesState extends State<Routes> {
                             return TableBodyTile(
                                 first: routeProv.routesModel.routes[index].start.stopName,
                                 second: routeProv.routesModel.routes[index].end.stopName,
-                                third: ""
+                                third: "",
+                                details: RouteDetails(),
                             );
                           }),
                     ),
