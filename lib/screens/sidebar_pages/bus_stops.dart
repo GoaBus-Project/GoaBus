@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/components/forms/stop_form.dart';
+import 'package:goa_bus/components/forms/time_table_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_provider.dart';
@@ -74,6 +75,41 @@ class _BusStopsState extends State<BusStops> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50.0),
+                    child: FloatingActionButton.extended(
+                        backgroundColor: Palette.buttonColor,
+                        onPressed: (){
+                          showGeneralDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              barrierLabel: MaterialLocalizations.of(context)
+                                  .modalBarrierDismissLabel,
+                              barrierColor: Colors.black45,
+                              transitionDuration: const Duration(milliseconds: 200),
+                              pageBuilder: (BuildContext buildContext,
+                                  Animation animation,
+                                  Animation secondaryAnimation) {
+                                return Center(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width - 500,
+                                    height: MediaQuery.of(context).size.height -  100,
+                                    padding: EdgeInsets.all(20),
+                                    color: Colors.white,
+                                    child: Scaffold(
+                                      body: SmoothScrollWeb(
+                                          controller: _scrollController,
+                                          child: TimeTableForm()
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                          );
+                        },
+                        label: Text("Create Time Table")
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(right: 50.0),
                     child: FloatingActionButton.extended(

@@ -44,7 +44,7 @@ class _DriversState extends State<Drivers> {
                             return TableBodyTile(
                                 first: "Dynamic Driver Name",
                                 second: "Dynamic Driver Number",
-                                third: "Dynamic bus name"
+                                third: "Dynamic bus name",
                             );
                           }),
                     ),
