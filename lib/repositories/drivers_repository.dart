@@ -1,27 +1,27 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/models/drivers_model.dart';
+import 'package:http/http.dart' as http;
 
 class DriversRepository {
-  Future<String> uploadImage(Image image) async {
+  Future<String> uploadImage(Uint8List image, String name) async {
     String firebaseImagePath = '';
     FirebaseStorage storage = FirebaseStorage.instance;
 
     /// Create a reference to the location you want to upload to in firebase
-    Reference ref = storage.ref().child("DriverImages");
+    Reference ref = storage.ref().child(name);
 
     /// Upload the file to firebase
-    UploadTask uploadTask = ref.putBlob(image.image).onError((error, stackTrace) {
-      print('Image upload error: ' + error);
-      return null;
-    });
+    UploadTask uploadTask = ref.putData(image);
 
     /// Waits till the file is uploaded then stores the download url
-    uploadTask.then((res) async {
+    await uploadTask.then((res) async {
       firebaseImagePath = await res.ref.getDownloadURL();
     });
+
     return firebaseImagePath;
   }
 
@@ -29,8 +29,8 @@ class DriversRepository {
     bool success = false;
     String imagePath = '';
 
-    if(driver.image != null)
-      imagePath = await uploadImage(driver.image);
+    if(driver.image.isNotEmpty)
+      imagePath = await uploadImage(driver.image, driver.name);
 
     if((imagePath != '' && imagePath != null)
         || driver.image == null) {
@@ -58,6 +58,21 @@ class DriversRepository {
 
   Future<DriversModel> fetchDrivers() async {
     DriversModel driversModel = DriversModel();
+    driversModel.drivers = [];
+
+    await FirebaseFirestore.instance
+        .collection(Constants.DRIVERS_COLLECTION)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      await querySnapshot.docs.forEach((doc) async {
+        Driver driver = Driver();
+        print(doc['profilePath'].toString());
+        http.Response response = await http.get(doc['profilePath'] as Uri);
+        driver.image = response.bodyBytes;
+        print(driver.image.toString());
+        driversModel.drivers.add(driver);
+      });
+    });
     return driversModel;
   }
 }
