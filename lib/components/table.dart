@@ -68,12 +68,14 @@ class TableBodyTile extends StatelessWidget {
   final String first;
   final String second;
   final String third;
+  final Widget details;
 
   const TableBodyTile({
     Key key,
     this.first,
     this.second,
     this.third,
+    this.details,
   }) : super(key: key);
 
   @override
@@ -95,7 +97,29 @@ class TableBodyTile extends StatelessWidget {
                           child: IconButton(
                               icon: Icon(Icons.more_outlined),
                               onPressed: (){
-
+                                showGeneralDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    barrierLabel: MaterialLocalizations.of(context)
+                                        .modalBarrierDismissLabel,
+                                    barrierColor: Colors.black45,
+                                    transitionDuration: const Duration(milliseconds: 200),
+                                    pageBuilder: (BuildContext buildContext,
+                                        Animation animation,
+                                        Animation secondaryAnimation) {
+                                      return Center(
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width - 500,
+                                          height: MediaQuery.of(context).size.height - 100,
+                                          padding: EdgeInsets.all(20),
+                                          color: Colors.white,
+                                          child: Scaffold(
+                                            body: details,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                );
                               }
                           ),
                         )
