@@ -16,14 +16,14 @@ class BusesRepository {
     /// Create trips string which is comma separated to upload
     String trips = '';
     if(bus.trips.isNotEmpty) {
-      /*trips = bus.trips[0].routeName.toString() + ';'
+      trips = bus.trips[0].routeName.toString() + ';'
           + bus.trips[0].startTime.hour.toString()
           + ":" + bus.trips[0].startTime.minute.toString() + ';'
           + bus.trips[0].endTime.hour.toString()
-          + ":" + bus.trips[0].endTime.minute.toString();*/
-      trips = bus.trips[0].routeName.toString() + ';'
+          + ":" + bus.trips[0].endTime.minute.toString();
+      /*trips = bus.trips[0].routeName.toString() + ';'
           + bus.trips[0].startTime.toString() + ';'
-          + bus.trips[0].endTime.toString();
+          + bus.trips[0].endTime.toString();*/
 
       bus.trips.forEach((element) {
         if(trips != element.routeName)
@@ -84,14 +84,14 @@ class BusesRepository {
           /// Separate time and route name
           List<String> tripData = element.split(";")??[];
 
-          /*trip.routeName = tripData[0].toString();
-          trip.startTime = tripData[1] as TimeOfDay;
+          trip.routeName = tripData[0].toString();
+          /*trip.startTime = tripData[1] as TimeOfDay;
           trip.endTime = tripData[2] as TimeOfDay;*/
-          int hour =  int.parse(tripData[1].split(":").first);
-          int min =  int.parse(tripData[1].split(":").last);
+          int hour = int.parse(tripData[1].split(":").first);
+          int min = int.parse(tripData[1].split(":").last);
           trip.startTime = TimeOfDay(hour: hour, minute: min);
-          hour =  int.parse(tripData[2].split(":").first);
-          min =  int.parse(tripData[2].split(":").last);
+          hour = int.parse(tripData[2].split(":").first);
+          min = int.parse(tripData[2].split(":").last);
           trip.endTime = TimeOfDay(hour: hour, minute: min);
 
           bus.trips.add(trip);
