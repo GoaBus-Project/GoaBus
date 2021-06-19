@@ -24,11 +24,6 @@ class _RouteFormState extends State<RouteForm> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
     return Consumer<RoutesFormProvider>(
@@ -233,7 +228,7 @@ class _RouteFormState extends State<RouteForm> {
                           String checkData = routesProv.checkData();
                           if(checkData == 'success' || checkData == '') {
                             if (await routesProv.saveRoutesData()) {
-                              await Provider.of<RoutesProvider>(context, listen: false).fetchRoutes();
+                              await Provider.of<RoutesProvider>(context, listen: false).getData();
                               routesProv.loading = false;
                               Navigator.pop(context);
                               return SnackBar(
@@ -244,7 +239,7 @@ class _RouteFormState extends State<RouteForm> {
                               routesProv.loading = false;
                               return showAlertDialog(
                                   context: context,
-                                  title: 'Save Failed',
+                                  title: 'Please try again',
                                   message: 'There was some problem while saving data'
                               );
                             }

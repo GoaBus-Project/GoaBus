@@ -7,7 +7,7 @@ import 'bus_stops_repository.dart';
 
 class RoutesRepository {
   /// Save data to firestore db
-  Future<bool> saveRoutes(BusRoute routesData) async {
+  Future<bool> save(BusRoute routesData) async {
     bool success = false;
     /// Create a DocumentReference called routes that references the firestore collection
     DocumentReference routes =
@@ -63,7 +63,7 @@ class RoutesRepository {
             busRoute.end = BusStop();
 
             List<String> intermediateStops =
-                doc["intermediate"].toString().split(",")??"";
+                doc["intermediate"].toString().split(",")??[];
 
             busRoute.name = doc.id.toString();
             busRoute.start.stopName = doc["start"].toString();
@@ -85,19 +85,6 @@ class RoutesRepository {
             routes.routes.add(busRoute);
           });
         });
-
-    // TODO Just for printing purpose, to be removed after adding details
-    routes.routes.forEach((element) {
-      print("Name: ${element.name}\n"
-          "Start: ${element.start.stopName}\n"
-          "End: ${element.end.stopName}\n");
-      element.intermediate.stop.forEach((intermediate) {
-        print("Stop name: ${intermediate.stopName}\n"
-            "Lat: ${intermediate.lat}\n"
-            "Lng: ${intermediate.lng}\n"
-        );
-      });
-    });
     return routes;
   }
 }

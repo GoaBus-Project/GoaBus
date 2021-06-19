@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:goa_bus/components/details/bus_details.dart';
 import 'package:goa_bus/components/forms/bus_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_form_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
@@ -14,9 +13,15 @@ class Buses extends StatefulWidget {
 
 class _BusesState extends State<Buses> {
   @override
+  void initState() {
+    Provider.of<BusesProvider>(context, listen: false).init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    return Consumer<BusesFormProvider>(
+    return Consumer<BusesProvider>(
       builder: (context, busProv, _){
         return Padding(
           padding: const EdgeInsets.only(top: 20),
@@ -26,10 +31,23 @@ class _BusesState extends State<Buses> {
             children: [
               TableHeaderTile(
                   first: "Number",
-                  second: "Start",
-                  third: "End"
+                  second: "Driver",
+                  third: ""
               ),
+              busProv.loading?
               Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                        color: Palette.secondary,
+                      )
+                  ),
+                ),
+              )
+              :Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
                   height: MediaQuery.of(context).copyWith().size.height / 2,
@@ -41,13 +59,12 @@ class _BusesState extends State<Buses> {
                           physics: NeverScrollableScrollPhysics(),
                           controller: _scrollController,
                           scrollDirection: Axis.vertical,
-                          itemCount: 20,
+                          itemCount: busProv.busesModel.buses.length??0,
                           itemBuilder: (context, index) {
                             return TableBodyTile(
-                                first: "Dynamic Bus number",
-                                second: "Start Location",
-                                third: "End Location",
-                                details: BusDetails(),
+                                first: busProv.busesModel.buses[index].busNo,
+                                second: busProv.busesModel.buses[index].driver,
+                                third: ""
                             );
                           }),
                     ),
@@ -75,7 +92,7 @@ class _BusesState extends State<Buses> {
                                 return Center(
                                   child: Container(
                                     width: MediaQuery.of(context).size.width - 500,
-                                    height: MediaQuery.of(context).size.height -  100,
+                                    height: MediaQuery.of(context).size.height - 100,
                                     padding: EdgeInsets.all(20),
                                     color: Colors.white,
                                     child: Scaffold(

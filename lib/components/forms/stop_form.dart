@@ -95,7 +95,7 @@ class _StopFormState extends State<StopForm> {
                             prov.loading = false;
                             showAlertDialog(
                                 context: context,
-                                title: "Save Failed",
+                                title: "Please try again",
                                 message: "Couldn't add bus stop, please try again"
                             );
                           }

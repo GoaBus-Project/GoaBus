@@ -4,6 +4,7 @@ import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_form_provider.dart';
 import 'package:goa_bus/common/alert_dialog_screen.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
@@ -13,6 +14,12 @@ class BusForm extends StatefulWidget {
 }
 
 class _BusFormState extends State<BusForm> {
+  @override
+  void initState() {
+    Provider.of<BusesFormProvider>(context, listen: false).init();
+    super.initState();
+  }
+
   Future<void> _selectTime(bool startTime, BusesFormProvider prov) async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
@@ -20,16 +27,9 @@ class _BusFormState extends State<BusForm> {
       prov.trip.startTime : prov.trip.endTime,
     );
     if (newTime != null) {
-      startTime? prov.setStartTime(newTime)
-          : prov.setEndTime(newTime);
+      startTime?
+      prov.setStartTime(newTime) : prov.setEndTime(newTime);
     }
-  }
-
-  @override
-  void initState() {
-    final prov = Provider.of<BusesFormProvider>(context, listen: false);
-    prov.init();
-    super.initState();
   }
 
   @override
@@ -60,9 +60,9 @@ class _BusFormState extends State<BusForm> {
                     children: [
                       DropdownButton<String>(
                         hint: Text("Select Driver"),
-                        value: busesProv.trip.routeName,
+                        value: busesProv.busData.driver,
                         onChanged: (String value) {
-                          busesProv.setRoute(value);
+                          busesProv.setDriver(value);
                         },
                         items: busesProv.routes.map((String route) {
                           return DropdownMenuItem<String>(
@@ -257,67 +257,54 @@ class _BusFormState extends State<BusForm> {
                     ),
                   ),
                   SizedBox(height: 30),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
-                    ),
-                    onPressed: () async {
-                      String checkData = busesProv.checkData();
-                      if(checkData == '') {
-                        if (await busesProv.saveRoutesData()) {
-                          busesProv.loading = false;
-                          Navigator.pop(context);
-                          return SnackBar(
-                            content: Text('Data saved'),
-                            backgroundColor: Palette.secondary,
-                          );
-                        } else {
-                          busesProv.loading = false;
-                          return showAlertDialog(
-                              context: context,
-                              title: 'Please try again',
-                              message: 'There was some problem while saving data'
-                          );
-                        }
-                      } else {
-                        return showAlertDialog(
-                            context: context,
-                            title: 'Missing Data',
-                            message: checkData
-                        );
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
-                      child: Text(
-                        "Save".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Palette.fontColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  busesProv.loading?
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 15,
-                        width: 15,
-                        child: CircularProgressIndicator(backgroundColor: Palette.secondary)
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Saving data..',
-                        style: TextStyle(
-                          color: Colors.green
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                        ),
+                        onPressed: () async {
+                          String checkData = busesProv.checkData();
+                          if(checkData == '' || checkData == 'success') {
+                            if (await busesProv.saveBusesData()) {
+                              await Provider.of<BusesProvider>(context, listen: false).getData();
+                              busesProv.loading = false;
+                              Navigator.pop(context);
+                            } else {
+                              busesProv.loading = false;
+                              return showAlertDialog(
+                                  context: context,
+                                  title: 'Please try again',
+                                  message: 'There was some problem while saving data'
+                              );
+                            }
+                          } else {
+                            return showAlertDialog(
+                                context: context,
+                                title: 'Missing Data',
+                                message: checkData
+                            );
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                          child: Text(
+                            "Save".toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Palette.fontColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
+                      SizedBox(width: 40),
+                      busesProv.loading?
+                      CircularProgressIndicator(color: Palette.secondary)
+                          : Container(),
                     ],
-                  ):Container(),
+                  ),
                 ],
               ),
             ),

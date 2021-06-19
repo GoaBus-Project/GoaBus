@@ -43,6 +43,6 @@ class BusStopFormProvider with ChangeNotifier {
     notifyListeners();
     busStopsModel.busStops = [];
     busStopsModel.busStops.add(busStop);
-    return await BusStopsRepository().saveBusStops(busStopsModel);
+    return await BusStopsRepository().save(busStopsModel);
   }
 }

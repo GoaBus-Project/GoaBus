@@ -7,11 +7,16 @@ class RoutesProvider with ChangeNotifier {
 
   bool loading = false;
 
-  Future<void> fetchRoutes() async {
+  init() async {
+    routesModel.routes = [];
     loading = true;
-    routesModel = await RoutesRepository().fetchRoutes().whenComplete(() {
-      loading = false;
-      notifyListeners();
-    });
+    await getData();
+  }
+
+  Future<void> getData() async {
+    loading = true;
+    routesModel = await RoutesRepository().fetchRoutes().whenComplete(()
+      => loading = false);
+    notifyListeners();
   }
 }
