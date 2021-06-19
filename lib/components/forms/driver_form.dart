@@ -1,11 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/driver_providers/drivers_form_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/driver_providers/drivers_provider.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:provider/provider.dart';
 
 class DriverForm extends StatefulWidget {
@@ -24,7 +26,8 @@ class _DriverFormState extends State<DriverForm> {
             FloatingActionButton(
                 child: Icon(Icons.open_in_browser),
                 onPressed: () async {
-                  Image _image = await FlutterWebImagePicker.getImage;
+                  Uint8List _image =
+                    await ImagePickerWeb.getImage(outputType: ImageType.bytes);
                   driverProv.setProfile(_image);
                 }
             )
@@ -33,7 +36,7 @@ class _DriverFormState extends State<DriverForm> {
               child: CircleAvatar(
                 radius: 100,
                 backgroundColor: Colors.transparent,
-                child: driverProv.driver.image,
+                child: Image.memory(driverProv.driver.image),
               ),
             ),
             Padding(

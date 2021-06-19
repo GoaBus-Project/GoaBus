@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'dart:typed_data';
 
 DriversModel driversModelFromJson(String str) => DriversModel.fromJson(json.decode(str));
 
@@ -30,7 +29,7 @@ class Driver {
     this.address,
   });
 
-  Image image;
+  Uint8List image;
   String name;
   String contact;
   String address;

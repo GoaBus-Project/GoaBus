@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:goa_bus/models/drivers_model.dart';
 import 'package:goa_bus/repositories/drivers_repository.dart';
@@ -14,7 +16,7 @@ class DriversFormProvider with ChangeNotifier {
     driver.address = "";
   }
 
-  void setProfile(Image image) {
+  void setProfile(Uint8List image) {
     driver.image = image;
     notifyListeners();
   }
