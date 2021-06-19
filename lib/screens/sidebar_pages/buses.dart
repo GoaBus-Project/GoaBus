@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/components/details/bus_details.dart';
 import 'package:goa_bus/components/forms/bus_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
@@ -62,9 +63,10 @@ class _BusesState extends State<Buses> {
                           itemCount: busProv.busesModel.buses.length??0,
                           itemBuilder: (context, index) {
                             return TableBodyTile(
-                                first: busProv.busesModel.buses[index].busNo,
-                                second: busProv.busesModel.buses[index].driver,
-                                third: ""
+                              first: busProv.busesModel.buses[index].busNo,
+                              second: busProv.busesModel.buses[index].driver,
+                              third: "",
+                              details: BusDetails(),
                             );
                           }),
                     ),
