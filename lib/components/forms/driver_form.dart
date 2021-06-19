@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
@@ -28,8 +29,13 @@ class _DriverFormState extends State<DriverForm> {
                   });
                 }
             )
-            :Container(
-              child: Center(child: image != null ? image : Text('No data...')),
+            : ClipOval(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: CircleAvatar(
+                radius: 100,
+                backgroundColor: Colors.transparent,
+                child: image,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
