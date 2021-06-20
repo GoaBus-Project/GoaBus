@@ -70,8 +70,8 @@ class DriversRepository {
             driver.name = doc['name'];
             driver.contact = doc['contact'];
             driver.address = doc['address'];
-
-            http.Response response = await http.get(doc['profilePath'] as Uri);
+            print(doc['profilePath']);
+            http.Response response = await http.get(Uri.parse(doc['profilePath']));
             driver.image = response.bodyBytes;
             print(driver.image.toString());
             driversModel.drivers.add(driver);
