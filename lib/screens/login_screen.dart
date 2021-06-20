@@ -13,16 +13,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // Initially password is obscure
+  /// Initially password is obscure
   bool _obscureText = true;
 
-  // Toggles the password show status
+  /// Toggles the password show status
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
     });
   }
-
 
   Widget _validationMessage(String message, bool visibility) {
     return Visibility(
@@ -34,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
       visible: visibility,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

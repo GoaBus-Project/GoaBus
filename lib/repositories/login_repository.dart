@@ -26,6 +26,24 @@ class LoginRepository {
     // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
   }
 
+  /// Authenticate user
+  Future<bool> authenticateUser() async {
+    bool authenticated = false;
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User user) {
+      if (user == null) {
+        authenticated = false;
+        print('User is currently signed out!');
+      } else {
+        authenticated = true;
+        print('User is signed in!');
+      }
+      return authenticated;
+    });
+    return authenticated;
+  }
+
   /// Reset password
   Future<void> sendPasswordResetEmail(String email) async {
     return FirebaseAuth.instance.sendPasswordResetEmail(email: email);

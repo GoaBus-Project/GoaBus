@@ -23,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     var loginProv = Provider.of<LoginProvider>(context, listen: false);
-    loginProv.showAuthenciationAlert = false;
     firstLoad = true;
+    loginProv.init();
     super.initState();
   }
 
