@@ -66,7 +66,7 @@ class _BusesState extends State<Buses> {
                               first: busProv.busesModel.buses[index].busNo,
                               second: busProv.busesModel.buses[index].driver,
                               third: "",
-                              details: BusDetails(),
+                              details: BusDetails(index: index),
                             );
                           }),
                     ),

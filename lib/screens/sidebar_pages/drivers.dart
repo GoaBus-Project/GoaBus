@@ -78,7 +78,7 @@ class _DriversState extends State<Drivers> {
                                     driverProv.driversModel.drivers[index].name,
                                     driverProv.driversModel.drivers[index].contact)
                                     .busNo,
-                                details: DriverDetails(),
+                                details: DriverDetails(index: index),
                             );
                           }),
                     ),
