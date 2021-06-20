@@ -66,7 +66,11 @@ class DriversRepository {
         .then((QuerySnapshot querySnapshot) async {
       await querySnapshot.docs.forEach((doc) async {
         Driver driver = Driver();
-        print(doc['profilePath'].toString());
+
+        driver.name = doc['name'];
+        driver.contact = doc['contact'];
+        driver.address = doc['address'];
+
         http.Response response = await http.get(doc['profilePath'] as Uri);
         driver.image = response.bodyBytes;
         print(driver.image.toString());
