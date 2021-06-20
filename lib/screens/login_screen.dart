@@ -79,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       builder: (context) => HomeScreen(),
                     ));
                   });
+                  loginProv.showAuthenciationAlert = false;
                 }
                 return Expanded(
                     flex: 2,

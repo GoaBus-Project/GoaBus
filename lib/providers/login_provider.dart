@@ -15,7 +15,6 @@ class LoginProvider with ChangeNotifier {
 
   void init() async {
     showAuthenciationAlert = false;
-    showAuthenciationAlert = false;
   }
 
   String setGreeting() {
@@ -117,6 +116,7 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
+  /// Forgot password
   Future<void> forgotPassword() async {
     loading = true;
     notifyListeners();
