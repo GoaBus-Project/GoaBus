@@ -56,7 +56,14 @@ class _BusStopsState extends State<BusStops> {
                   child: SmoothScrollWeb(
                     controller: _scrollController,
                     child: Scrollbar(
-                      child: ListView.builder(
+                      child: prov.busStopsModel.busStops?.length==0?
+                      Center(
+                        child: Text(
+                          "No BusStop Data Available",
+                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                        ),
+                      )
+                      :ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           controller: _scrollController,
                           scrollDirection: Axis.vertical,

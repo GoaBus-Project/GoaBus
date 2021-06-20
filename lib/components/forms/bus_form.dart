@@ -225,34 +225,49 @@ class _BusFormState extends State<BusForm> {
                           itemBuilder: (context, index) {
                             return Container(
                               child: Card(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                child: Table(
+                                  columnWidths: {
+                                    0: FlexColumnWidth(4),
+                                    1: FlexColumnWidth(4),
+                                    2: FlexColumnWidth(4),
+                                    3: FlexColumnWidth(1),
+                                  },
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10.0),
-                                      child: Text(
-                                        busesProv.busData.trips[index].routeName,
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                    ),
-                                    Text(busesProv.busData.trips[index].startTime
-                                        .format(context)),
-                                    Text(busesProv.busData.trips[index].endTime
-                                        .format(context)),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right:10.0),
-                                      child: IconButton(
-                                          icon: Icon(Icons.delete),
-                                          onPressed: (){
-                                            busesProv.removeRoute(index);
-                                          }
-                                      ),
+                                    TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10.0,top: 10.0),
+                                            child: Text(
+                                              busesProv.busData.trips[index].routeName,
+                                              style: TextStyle(fontSize: 20.0),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:10.0),
+                                            child: Text(busesProv.busData.trips[index].startTime
+                                                .format(context)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:10.0),
+                                            child: Text(busesProv.busData.trips[index].endTime
+                                                .format(context)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right:10.0),
+                                            child: IconButton(
+                                                icon: Icon(Icons.delete),
+                                                onPressed: (){
+                                                  busesProv.removeRoute(index);
+                                                }
+                                            ),
+                                          )
+                                        ]
                                     )
                                   ],
                                 ),
                               ),
                             );
-                        }),
+                          }),
                       ),
                     ),
                   ),

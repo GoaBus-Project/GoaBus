@@ -27,6 +27,7 @@ class _DriverFormState extends State<DriverForm> {
                   setState(() {
                     image = _image;
                   });
+                  print(_image);
                 }
             )
             : ClipOval(
