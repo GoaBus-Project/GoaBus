@@ -7,7 +7,7 @@ class BusesRepository {
   Future<bool> save(Bus bus) async {
     bool success = false;
 
-    /// Create a DocumentReference called routes that references the firestore collection
+    /// Create a DocumentReference called Buses that references the firestore collection
     DocumentReference routes =
     FirebaseFirestore.instance
         .collection(Constants.BUSES_COLLECTION)
@@ -21,6 +21,8 @@ class BusesRepository {
           + ":" + bus.trips[0].startTime.minute.toString() + ';'
           + bus.trips[0].endTime.hour.toString()
           + ":" + bus.trips[0].endTime.minute.toString();
+
+      // TODO Context to be added
       /*trips = bus.trips[0].routeName.toString() + ';'
           + bus.trips[0].startTime.toString() + ';'
           + bus.trips[0].endTime.toString();*/

@@ -1,10 +1,5 @@
-// To parse this JSON data, do
-//
-//     final driversModel = driversModelFromJson(jsonString);
-
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'dart:typed_data';
 
 DriversModel driversModelFromJson(String str) => DriversModel.fromJson(json.decode(str));
 
@@ -18,11 +13,11 @@ class DriversModel {
   List<Driver> drivers;
 
   factory DriversModel.fromJson(Map<String, dynamic> json) => DriversModel(
-    drivers: List<Driver>.from(json["drivers"].map((x) => Driver.fromJson(x))),
+    drivers: List<Driver>.from(json["drivers"].map((x) => Driver.fromJson(x)))??[],
   );
 
   Map<String, dynamic> toJson() => {
-    "drivers": List<dynamic>.from(drivers.map((x) => x.toJson())),
+    "drivers": List<dynamic>.from(drivers.map((x) => x.toJson()))??[],
   };
 }
 
@@ -34,7 +29,7 @@ class Driver {
     this.address,
   });
 
-  Image image;
+  Uint8List image;
   String name;
   String contact;
   String address;

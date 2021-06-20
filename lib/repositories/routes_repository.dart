@@ -9,7 +9,7 @@ class RoutesRepository {
   /// Save data to firestore db
   Future<bool> save(BusRoute routesData) async {
     bool success = false;
-    /// Create a DocumentReference called routes that references the firestore collection
+    /// Create a DocumentReference called Routes that references the firestore collection
     DocumentReference routes =
       FirebaseFirestore.instance
           .collection(Constants.ROUTES_COLLECTION)

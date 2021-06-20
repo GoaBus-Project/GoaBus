@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goa_bus/components/details/driver_details.dart';
 import 'package:goa_bus/components/forms/driver_form.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
-import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/driver_providers/drivers_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
@@ -13,6 +14,12 @@ class Drivers extends StatefulWidget {
 }
 
 class _DriversState extends State<Drivers> {
+  @override
+  void initState() {
+    Provider.of<DriversProvider>(context, listen: false).init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
@@ -28,6 +35,27 @@ class _DriversState extends State<Drivers> {
                   first: "Name",
                   second: "Contact Number",
                   third: "Bus Driving"
+              ),
+              driverProv.loading?
+              Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                        color: Palette.secondary,
+                      )
+                  ),
+                ),
+              )
+              :ClipOval(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.transparent,
+                  child: Image.memory(driverProv.driversModel.drivers[0].image),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),

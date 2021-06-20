@@ -2,7 +2,8 @@ import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_provider
 import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_form_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/bus_stop_providers/bus_stop_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_form_provider.dart';
-import 'package:goa_bus/providers/sidebar_providers/drivers_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/driver_providers/drivers_form_provider.dart';
+import 'package:goa_bus/providers/sidebar_providers/driver_providers/drivers_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/route_providers/routes_form_provider.dart';
 import 'package:goa_bus/providers/sidebar_providers/route_providers/routes_provider.dart';
 import 'package:goa_bus/screens/home_screen.dart';
@@ -40,6 +41,7 @@ class _GoaBusAppState extends State<GoaBusApp> {
         ChangeNotifierProvider(create: (context) => HomeProvider()),
         ChangeNotifierProvider(create: (context) => BusesFormProvider()),
         ChangeNotifierProvider(create: (context) => DriversProvider()),
+        ChangeNotifierProvider(create: (context) => DriversFormProvider()),
         ChangeNotifierProvider(create: (context) => BusesProvider()),
         ChangeNotifierProvider(create: (context) => BusesFormProvider()),
         ChangeNotifierProvider(create: (context) => BusStopProvider()),
