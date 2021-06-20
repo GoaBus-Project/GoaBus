@@ -73,7 +73,7 @@ class _BusStopsState extends State<BusStops> {
                                 first: prov.busStopsModel.busStops[index].stopName,
                                 second: "",
                                 third: "",
-                                details: BusStopDetails(),
+                                details: BusStopDetails(index: index),
                             );
                           }),
                     ),
