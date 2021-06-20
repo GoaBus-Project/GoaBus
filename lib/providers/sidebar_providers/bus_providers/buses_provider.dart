@@ -13,6 +13,8 @@ class BusesProvider with ChangeNotifier {
     await getData();
   }
 
+
+
   Future<void> getData() async {
     loading = true;
     busesModel = await BusesRepository().fetchBuses()

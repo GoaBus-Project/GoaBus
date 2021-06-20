@@ -24,18 +24,21 @@ class DriversModel {
 class Driver {
   Driver({
     this.image,
+    this.imagePath,
     this.name,
     this.contact,
     this.address,
   });
 
   Uint8List image;
+  String imagePath;
   String name;
   String contact;
   String address;
 
   factory Driver.fromJson(Map<String, dynamic> json) => Driver(
     image: json["image"],
+    imagePath: json["imagePath"]??"",
     name: json["name"]??"",
     contact: json["contact"]??"",
     address: json["address"]??"",
@@ -43,6 +46,7 @@ class Driver {
 
   Map<String, dynamic> toJson() => {
     "image": image,
+    "imagePath": imagePath??"",
     "name": name??"",
     "contact": contact??"",
     "address": address??"",

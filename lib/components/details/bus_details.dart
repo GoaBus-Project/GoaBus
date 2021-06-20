@@ -3,6 +3,9 @@ import 'package:goa_bus/constants/color_palette.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 
 class BusDetails extends StatefulWidget {
+  final int index;
+
+  const BusDetails({Key key, @required this.index}) : assert(index != null);
   @override
   _BusDetailsState createState() => _BusDetailsState();
 }
