@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/models/buses_model.dart';
+import 'package:goa_bus/models/drivers_model.dart';
 import 'package:goa_bus/models/routes_model.dart';
 import 'package:goa_bus/repositories/buses_repository.dart';
+import 'package:goa_bus/repositories/drivers_repository.dart';
 import 'package:goa_bus/repositories/routes_repository.dart';
 
 class BusesFormProvider with ChangeNotifier {
@@ -11,17 +13,30 @@ class BusesFormProvider with ChangeNotifier {
 
   RoutesModel routesModelData = RoutesModel();
 
-  bool loading = false, routesLoading = false;
+  DriversModel _driversModel = DriversModel();
+
+  bool loading = false, routesLoading = false, driversLoading = false;
 
   List<String> routes = [];
 
 
-  void init() {
+  void init() async {
     busData.trips = <Trip>[];
     busData.driver = null;
     trip.startTime = TimeOfDay(hour: 12, minute: 00);
     trip.endTime = TimeOfDay(hour: 12, minute: 00);
     getRoutes();
+    driversLoading = true;
+    _driversModel = await DriversRepository().fetchDrivers()
+        .whenComplete(() => driversLoading = false);
+  }
+
+  List<String> getDrivers() {
+    List<String> drivers = [];
+    _driversModel.drivers.forEach((element) {
+      drivers.add(element.name + " - " + element.contact);
+    });
+    return drivers;
   }
 
   Future<void> getRoutes() async {

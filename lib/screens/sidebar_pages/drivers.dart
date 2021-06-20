@@ -36,7 +36,7 @@ class _DriversState extends State<Drivers> {
                   second: "Contact Number",
                   third: "Bus Driving"
               ),
-              driverProv.loading?
+              /*driverProv.loading?
               Padding(
                 padding: const EdgeInsets.only(top: 150),
                 child: SizedBox(
@@ -56,7 +56,7 @@ class _DriversState extends State<Drivers> {
                   backgroundColor: Colors.transparent,
                   child: Image.memory(driverProv.driversModel.drivers[0].image),
                 ),
-              ),
+              ),*/
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
@@ -68,12 +68,16 @@ class _DriversState extends State<Drivers> {
                           physics: NeverScrollableScrollPhysics(),
                           controller: _scrollController,
                           scrollDirection: Axis.vertical,
-                          itemCount: 20,
+                          itemCount: driverProv.driversModel.drivers.length??0,
                           itemBuilder: (context, index) {
                             return TableBodyTile(
-                                first: "Dynamic Driver Name",
-                                second: "Dynamic Driver Number",
-                                third: "Dynamic bus name",
+                                first: driverProv.driversModel.drivers[index].name,
+                                second: driverProv.driversModel.drivers[index].contact,
+                                third: driverProv
+                                    .getBusNo(
+                                    driverProv.driversModel.drivers[index].name,
+                                    driverProv.driversModel.drivers[index].contact)
+                                    .busNo,
                                 details: DriverDetails(),
                             );
                           }),

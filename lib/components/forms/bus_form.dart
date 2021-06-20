@@ -58,13 +58,30 @@ class _BusFormState extends State<BusForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      DropdownButton<String>(
+                      busesProv.driversLoading?
+                      SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 15),
+                          child: CircularProgressIndicator(
+                              color: Palette.secondary
+                          ),
+                        ),
+                      )
+                      :busesProv.getDrivers().length == 0?
+                      Text("No saved drivers",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: Constants.alertFontSize
+                          ))
+                      :DropdownButton<String>(
                         hint: Text("Select Driver"),
                         value: busesProv.busData.driver,
                         onChanged: (String value) {
                           busesProv.setDriver(value);
                         },
-                        items: busesProv.routes.map((String route) {
+                        items: busesProv.getDrivers().map((String route) {
                           return DropdownMenuItem<String>(
                             value: route,
                             child: Row(

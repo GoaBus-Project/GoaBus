@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/models/drivers_model.dart';
-import 'package:http/http.dart' as http;
 
 class DriversRepository {
   Future<String> uploadImage(Uint8List image, String name) async {
@@ -59,21 +58,28 @@ class DriversRepository {
   Future<DriversModel> fetchDrivers() async {
     DriversModel driversModel = DriversModel();
     driversModel.drivers = [];
-
     await FirebaseFirestore.instance
         .collection(Constants.DRIVERS_COLLECTION)
         .get()
         .then((QuerySnapshot querySnapshot) async {
           querySnapshot.docs.forEach((doc) async {
             Driver driver = Driver();
+            driver.image = null;
 
             driver.name = doc['name'];
             driver.contact = doc['contact'];
             driver.address = doc['address'];
+            driver.imagePath = doc['profilePath'];
+            // driver.image = (await NetworkAssetBundle(
+            //     Uri.parse(driver.imagePath))
+            //     .load(driver.imagePath))
+            //     .buffer
+            //     .asUint8List();
+            // print('profile path' + driver.image.toString());
+            // http.Response response = await http.get(doc['profilePath'] as Uri);
+            // driver.image = await http.readBytes(Uri.parse(doc['profilePath']));
+            // print('success' + driver.image.toString());
 
-            http.Response response = await http.get(doc['profilePath'] as Uri);
-            driver.image = response.bodyBytes;
-            print(driver.image.toString());
             driversModel.drivers.add(driver);
         });
     });
