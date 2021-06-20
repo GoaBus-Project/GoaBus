@@ -36,27 +36,27 @@ class _DriversState extends State<Drivers> {
                   second: "Contact Number",
                   third: "Bus Driving"
               ),
-              driverProv.loading?
-              Padding(
-                padding: const EdgeInsets.only(top: 150),
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: Center(
-                      child: CircularProgressIndicator(
-                        color: Palette.secondary,
-                      )
-                  ),
-                ),
-              )
-              :ClipOval(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.transparent,
-                  child: Image.memory(driverProv.driversModel.drivers[0].image),
-                ),
-              ),
+              // driverProv.loading?
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 150),
+              //   child: SizedBox(
+              //     width: 50,
+              //     height: 50,
+              //     child: Center(
+              //         child: CircularProgressIndicator(
+              //           color: Palette.secondary,
+              //         )
+              //     ),
+              //   ),
+              // )
+              // :ClipOval(
+              //   clipBehavior: Clip.antiAliasWithSaveLayer,
+              //   child: CircleAvatar(
+              //     radius: 20,
+              //     backgroundColor: Colors.transparent,
+              //     child: Image.memory(driverProv.driversModel.drivers[0].image),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(

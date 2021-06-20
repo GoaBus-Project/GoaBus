@@ -68,6 +68,7 @@ class DriversRepository {
         Driver driver = Driver();
         print(doc['profilePath'].toString());
         http.Response response = await http.get(doc['profilePath'] as Uri);
+        print(response);
         driver.image = response.bodyBytes;
         print(driver.image.toString());
         driversModel.drivers.add(driver);
