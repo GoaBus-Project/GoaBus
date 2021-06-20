@@ -59,6 +59,7 @@ class RoutesRepository {
             BusRoute busRoute = BusRoute();
             busRoute.intermediate = Intermediate();
             busRoute.intermediate.stop = [];
+            busRoute.intermediate.stop = [];
             busRoute.start = BusStop();
             busRoute.end = BusStop();
 
@@ -69,11 +70,25 @@ class RoutesRepository {
             busRoute.start.stopName = doc["start"].toString();
             busRoute.end.stopName = doc["end"].toString();
 
+            /// assign lat lng to start and stop route
+            busStopsModel.busStops.forEach((busStopData) {
+              if(busStopData.stopName == busRoute.start.stopName) {
+                busRoute.start.lat = busStopData.lat;
+                busRoute.start.lng = busStopData.lng;
+              }
+              if(busStopData.stopName == busRoute.end.stopName) {
+                busRoute.end.lat = busStopData.lat;
+                busRoute.end.lng = busStopData.lng;
+              }
+            });
+
             /// For each retrieved route
             intermediateStops.forEach((stopName) {
               BusStop busStop = BusStop();
+              busStop.lat = "";
+              busStop.lng = "";
               busStop.stopName = stopName.toString();
-              /// assign lat lng
+              /// assign lat lng to intermediate routes
               busStopsModel.busStops.forEach((busStopData) {
                 if(busStopData.stopName == stopName.toString()) {
                   busStop.lat = busStopData.lat;
