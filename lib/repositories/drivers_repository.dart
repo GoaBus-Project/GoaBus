@@ -64,18 +64,14 @@ class DriversRepository {
         .collection(Constants.DRIVERS_COLLECTION)
         .get()
         .then((QuerySnapshot querySnapshot) async {
-        querySnapshot.docs.forEach((doc) async {
-          Driver driver = Driver();
-
-          driver.name = doc['profilePath'];
-          driver.contact = doc['contact'];
-          driver.address = doc['address'];
-
-          http.Response response = await http.get(doc['profilePath'] as Uri);
-          driver.image = response.bodyBytes;
-          print(driver.image.toString());
-          driversModel.drivers.add(driver);
-        });
+      await querySnapshot.docs.forEach((doc) async {
+        Driver driver = Driver();
+        print(doc['profilePath'].toString());
+        http.Response response = await http.get(doc['profilePath'] as Uri);
+        driver.image = response.bodyBytes;
+        print(driver.image.toString());
+        driversModel.drivers.add(driver);
+      });
     });
     return driversModel;
   }
