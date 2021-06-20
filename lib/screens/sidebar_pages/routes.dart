@@ -73,7 +73,7 @@ class _RoutesState extends State<Routes> {
                                 first: routeProv.routesModel.routes[index].start.stopName,
                                 second: routeProv.routesModel.routes[index].end.stopName,
                                 third: "",
-                                details: RouteDetails(),
+                                details: RouteDetails(index: index),
                             );
                           }),
                     ),
