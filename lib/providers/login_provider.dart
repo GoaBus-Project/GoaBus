@@ -136,5 +136,8 @@ class LoginProvider with ChangeNotifier {
   }
 
   /// Sign out
-  Future<void> logout() async {await LoginRepository().signOut();}
+  Future<void> logout() async {
+    authenticated = false;
+    await LoginRepository().signOut();
+  }
 }
