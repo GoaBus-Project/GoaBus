@@ -175,17 +175,6 @@ class TableBodyTile extends StatelessWidget {
                               ),
                             )
                         ) :Container(),
-                        Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: IconButton(
-                                  tooltip: "Delete",
-                                  icon: Icon(Icons.delete),
-                                  onPressed: (){
-                                  }
-                              ),
-                            )
-                        ),
                       ],
                     )
                   ]

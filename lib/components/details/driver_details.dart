@@ -19,9 +19,24 @@ class _DriverDetailsState extends State<DriverDetails> {
           Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Driver's image"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: IconButton(
+                              tooltip: "Delete",
+                              iconSize: 30,
+                              icon: Icon(Icons.delete),
+                              onPressed: (){
+                              }
+                          ),
+                        )
+                    ),
+                  ],
+                ),
                 Table(
                   columnWidths: {
                     0: FlexColumnWidth(3),

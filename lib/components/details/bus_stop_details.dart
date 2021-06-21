@@ -40,13 +40,30 @@ class _BusStopDetailsState extends State<BusStopDetails> {
                 flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 15, left: 50),
-                  child: Text(
-                    prov.busStopsModel.busStops[widget.index].stopName,
-                    style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold,
-                        color: Palette.fontColor.withOpacity(0.6)
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        prov.busStopsModel.busStops[widget.index].stopName,
+                        style: TextStyle(
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                            color: Palette.fontColor.withOpacity(0.6)
+                        ),
+                      ),
+                      Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: IconButton(
+                                tooltip: "Delete",
+                                iconSize: 30,
+                                icon: Icon(Icons.delete),
+                                onPressed: (){
+                                }
+                            ),
+                          )
+                      ),
+                    ],
                   ),
                 ),
               ),

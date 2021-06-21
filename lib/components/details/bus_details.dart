@@ -20,6 +20,23 @@ class _BusDetailsState extends State<BusDetails> {
       builder: (context, prov, _ ) {
         return Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: IconButton(
+                          tooltip: "Delete",
+                          iconSize: 30,
+                          icon: Icon(Icons.delete),
+                          onPressed: (){
+                          }
+                      ),
+                    )
+                ),
+              ],
+            ),
             Table(
               columnWidths: {
                 0: FlexColumnWidth(3),
