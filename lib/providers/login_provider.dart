@@ -5,13 +5,17 @@ import 'package:goa_bus/repositories/login_repository.dart';
 class LoginProvider with ChangeNotifier {
   List<String> greetings = ['Good Morning', 'Good Afternoon', 'Good Evening', 'Welcome'];
   List<String> allowedLogins = ['vishnair001@gmail.com', 'patildeepak188@gmail.com', 'goabusadmin@gmail.com'];
-  String email = '';
-  String password = '';
-  String authenticationMessage = '';
-  bool loading = false;
-  bool showAuthenciationAlert = false;
-  bool authenticated = false;
-  bool googleAuthentication = false;
+  String email = '',
+        password = '',
+        authenticationMessage = '';
+  bool loading = false,
+      showAuthenciationAlert = false,
+      authenticated = false,
+      googleAuthentication = false;
+
+  void init() async {
+    showAuthenciationAlert = false;
+  }
 
   String setGreeting() {
     String greet = '';
@@ -112,6 +116,7 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
+  /// Forgot password
   Future<void> forgotPassword() async {
     loading = true;
     notifyListeners();
@@ -130,9 +135,9 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
+  /// Sign out
   Future<void> logout() async {
+    authenticated = false;
     await LoginRepository().signOut();
-    print('User is signed out!');
   }
-
 }

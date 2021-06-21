@@ -28,7 +28,7 @@ class DriversRepository {
     bool success = false;
     String imagePath = '';
 
-    if(driver.image.isNotEmpty)
+    if(driver.image != null)
       imagePath = await uploadImage(driver.image, driver.name);
 
     if((imagePath != '' && imagePath != null)

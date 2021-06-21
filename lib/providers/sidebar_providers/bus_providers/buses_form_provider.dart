@@ -22,13 +22,15 @@ class BusesFormProvider with ChangeNotifier {
 
   void init() async {
     busData.trips = <Trip>[];
-    busData.driver = null;
     trip.startTime = TimeOfDay(hour: 12, minute: 00);
     trip.endTime = TimeOfDay(hour: 12, minute: 00);
-    getRoutes();
     driversLoading = true;
+    await getRoutes();
     _driversModel = await DriversRepository().fetchDrivers()
-        .whenComplete(() => driversLoading = false);
+        .whenComplete(() {
+          driversLoading = false;
+          notifyListeners();
+        });
   }
 
   List<String> getDrivers() {

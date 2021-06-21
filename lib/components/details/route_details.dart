@@ -22,15 +22,19 @@ class _RouteDetailsState extends State<RouteDetails> {
   void initState() {
     final prov = Provider.of<RoutesProvider>(context, listen: false);
     /// add start point marker
-    markers.add(Marker(
-        markerId: MarkerId(LatLng(double.parse(prov.routesModel.routes[widget.index].start.lat),
-            double.parse(prov.routesModel.routes[widget.index].start.lng)).toString()),
+    markers.add(
+        Marker(
+        markerId: MarkerId(
+            LatLng(double.parse(prov.routesModel.routes[widget.index].start.lat),
+            double.parse(prov.routesModel.routes[widget.index].start.lng)).toString()
+        ),
         position: LatLng(double.parse(prov.routesModel.routes[widget.index].start.lat),
             double.parse(prov.routesModel.routes[widget.index].start.lng))
     ));
     /// add intermediate points markers
     prov.routesModel.routes[widget.index].intermediate.stop.forEach((element) {
-      markers.add(Marker(
+      markers.add(
+          Marker(
           markerId: MarkerId(
               LatLng(double.parse(element.lat),
               double.parse(element.lng)).toString()),
@@ -38,9 +42,12 @@ class _RouteDetailsState extends State<RouteDetails> {
       ));
     });
     /// add end point marker
-    markers.add(Marker(
-        markerId: MarkerId(LatLng(double.parse(prov.routesModel.routes[widget.index].end.lat),
-            double.parse(prov.routesModel.routes[widget.index].end.lng)).toString()),
+    markers.add(
+        Marker(
+        markerId: MarkerId(
+            LatLng(double.parse(prov.routesModel.routes[widget.index].end.lat),
+            double.parse(prov.routesModel.routes[widget.index].end.lng)).toString()
+        ),
         position: LatLng(double.parse(prov.routesModel.routes[widget.index].end.lat),
             double.parse(prov.routesModel.routes[widget.index].end.lng))
     ));
