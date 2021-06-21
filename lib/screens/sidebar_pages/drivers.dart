@@ -57,14 +57,33 @@ class _DriversState extends State<Drivers> {
                   child: Image.memory(driverProv.driversModel.drivers[0].image),
                 ),
               ),*/
+              driverProv.loading?
               Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                        color: Palette.secondary,
+                      )
+                  ),
+                ),
+              )
+              :Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
                   height: 400,
                   child: SmoothScrollWeb(
                     controller: _scrollController,
                     child: Scrollbar(
-                      child: ListView.builder(
+                      child: driverProv.driversModel.drivers.length==0?
+                      Center(
+                        child: Text(
+                          "No Drivers Available",
+                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                        ),
+                      ) :ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           controller: _scrollController,
                           scrollDirection: Axis.vertical,

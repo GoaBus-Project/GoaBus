@@ -24,22 +24,31 @@ class BusesModel {
 
 class Bus {
   Bus({
+    this.lat,
+    this.lng,
     this.driver,
     this.busNo,
     this.trips,
   });
 
+  double lat;
+  double lng;
   String driver;
   String busNo;
   List<Trip> trips;
 
   factory Bus.fromJson(Map<String, dynamic> json) => Bus(
+    /// set default location to panjim
+    lat: json["lat"]??15.496777,
+    lng: json["lng"]??73.827827,
     driver: json["driver"]??"",
     busNo: json["busNo"]??"",
     trips: List<Trip>.from(json["trips"].map((x) => Trip.fromJson(x)))??[],
   );
 
   Map<String, dynamic> toJson() => {
+    "lat": lat??15.496777,
+    "lng": lng??73.827827,
     "driver": driver??"",
     "busNo": busNo??"",
     "trips": List<dynamic>.from(trips.map((x) => x.toJson()))??[],
