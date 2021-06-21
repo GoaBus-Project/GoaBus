@@ -13,12 +13,20 @@ class BusesProvider with ChangeNotifier {
     await getData();
   }
 
-
-
   Future<void> getData() async {
     loading = true;
     busesModel = await BusesRepository().fetchBuses()
         .whenComplete(() => loading = false);
     notifyListeners();
+  }
+
+  Future<bool> delete(int index) async {
+    bool success = false;
+    String busNo = busesModel.buses[index].busNo;
+    /// Delete from model to update listview
+    busesModel.buses.removeAt(index);
+    notifyListeners();
+    success = await BusesRepository().deleteBus(busNo);
+    return success;
   }
 }

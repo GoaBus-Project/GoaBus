@@ -104,4 +104,17 @@ class BusesRepository {
     });
     return buses;
   }
+
+  /// Delete bus
+  Future<bool> deleteBus(String busNumber) async {
+    bool success = false;
+    /// Delete driver data from drivers collection
+    await FirebaseFirestore.instance
+        .collection(Constants.BUSES_COLLECTION)
+        .doc(busNumber)
+        .delete()
+        .whenComplete(() => success = true)
+        .onError((error, stackTrace) => print(error));
+    return success;
+  }
 }

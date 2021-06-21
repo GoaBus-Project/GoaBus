@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:goa_bus/components/details/bus_location_details.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
@@ -15,6 +16,54 @@ class BusDetails extends StatefulWidget {
 }
 
 class _BusDetailsState extends State<BusDetails> {
+  void showConfirmationDialog(BusesProvider prov) {
+    /// set up Yes button
+    Widget yesButton = MaterialButton(
+        child: Text(
+          'Yes'.toUpperCase(),
+          style: TextStyle(color: Colors.white),
+        ),
+        splashColor: Colors.redAccent,
+        color: Colors.red,
+        onPressed: () async {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          if(!await prov.delete(widget.index)) {
+            return showAlertDialog(
+              context: context,
+              title: 'Error',
+              message: 'Deletion failed, please try again',
+            );
+          }
+        }
+    );
+    /// set up No button
+    Widget noButton = MaterialButton(
+        child: Text(
+          'No'.toUpperCase(),
+          style: TextStyle(
+              color: Colors.white
+          ),
+        ),
+        splashColor: Palette.primary,
+        color: Palette.secondary,
+        onPressed: () {Navigator.pop(context);}
+    );
+    /// show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete'),
+          content: Text('Are you sure?'),
+          actions: [
+            yesButton,
+            noButton
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
@@ -67,7 +116,8 @@ class _BusDetailsState extends State<BusDetails> {
                           tooltip: "Delete",
                           iconSize: 30,
                           icon: Icon(Icons.delete_outline),
-                          onPressed: (){
+                          onPressed: () {
+                            showConfirmationDialog(prov);
                           }
                       ),
                     )
