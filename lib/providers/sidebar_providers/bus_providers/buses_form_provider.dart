@@ -22,6 +22,10 @@ class BusesFormProvider with ChangeNotifier {
 
   void init() async {
     busData.trips = <Trip>[];
+    routes = [];
+    busData.busNo = null;
+    busData.driver = null;
+    trip.routeName = null;
     trip.startTime = TimeOfDay(hour: 12, minute: 00);
     trip.endTime = TimeOfDay(hour: 12, minute: 00);
     driversLoading = true;

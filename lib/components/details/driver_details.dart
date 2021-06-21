@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/driver_providers/drivers_provider.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,60 @@ class DriverDetails extends StatefulWidget {
 }
 
 class _DriverDetailsState extends State<DriverDetails> {
+  void showConfirmationDialog(DriversProvider prov) {
+    /// set up Yes button
+    Widget yesButton = MaterialButton(
+        child: Text(
+          'Yes'.toUpperCase(),
+          style: TextStyle(
+              color: Colors.white
+          ),
+        ),
+        splashColor: Palette.primary,
+        color: Palette.secondary,
+        onPressed: () async {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          if(!await prov.delete(widget.index)) {
+            return showAlertDialog(
+              context: context,
+              title: 'Error',
+              message: 'Deletion failed, please try again',
+            );
+          }
+        }
+    );
+    /// set up No button
+    Widget noButton = MaterialButton(
+        child: Text(
+          'No'.toUpperCase(),
+          style: TextStyle(
+              color: Colors.white
+          ),
+        ),
+        splashColor: Colors.redAccent,
+        color: Colors.red,
+        onPressed: () {Navigator.pop(context);}
+    );
+    /// set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('Delete'),
+      content: Text('Are you sure?'),
+      actions: [
+        yesButton,
+        noButton
+      ],
+    );
+
+    /// show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<DriversProvider>(
@@ -30,7 +85,8 @@ class _DriverDetailsState extends State<DriverDetails> {
                               tooltip: "Delete",
                               iconSize: 30,
                               icon: Icon(Icons.delete),
-                              onPressed: (){
+                              onPressed: () async {
+                                showConfirmationDialog(prov);
                               }
                           ),
                         )

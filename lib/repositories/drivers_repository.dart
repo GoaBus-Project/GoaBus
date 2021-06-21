@@ -3,9 +3,12 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:goa_bus/constants/constants.dart';
+import 'package:goa_bus/models/buses_model.dart';
 import 'package:goa_bus/models/drivers_model.dart';
+import 'package:goa_bus/repositories/buses_repository.dart';
 
 class DriversRepository {
+  /// Upload drivers photo
   Future<String> uploadImage(Uint8List image, String name) async {
     String firebaseImagePath = '';
     FirebaseStorage storage = FirebaseStorage.instance;
@@ -24,6 +27,7 @@ class DriversRepository {
     return firebaseImagePath;
   }
 
+  /// Save driver data
   Future<bool> save(Driver driver) async {
     bool success = false;
     String imagePath = '';
@@ -55,6 +59,7 @@ class DriversRepository {
     return success;
   }
 
+  /// Fetch drivers data
   Future<DriversModel> fetchDrivers() async {
     DriversModel driversModel = DriversModel();
     driversModel.drivers = [];
@@ -79,10 +84,44 @@ class DriversRepository {
             // http.Response response = await http.get(doc['profilePath'] as Uri);
             // driver.image = await http.readBytes(Uri.parse(doc['profilePath']));
             // print('success' + driver.image.toString());
-
             driversModel.drivers.add(driver);
         });
     });
     return driversModel;
+  }
+
+  /// Delete driver
+  Future<bool> deleteDriver(String driverName) async {
+    bool success = false;
+
+    /// Delete from buses
+    BusesModel busesModel = BusesModel();
+    busesModel = await BusesRepository().fetchBuses();
+    String busNo = "";
+
+    busesModel.buses.forEach((element) {
+      if(element.driver.trim() == driverName.trim())
+        busNo = element.busNo.toString();
+    });
+    if(busNo != "") {
+      await FirebaseFirestore.instance
+          .collection(Constants.BUSES_COLLECTION)
+          .doc(busNo)
+          .update({"driver": "No Driver"})
+          .whenComplete(() => success = true)
+          .onError((error, stackTrace) {
+        success = false;
+        print(error);
+      });
+    }
+
+    /// Delete driver data from drivers collection
+    await FirebaseFirestore.instance
+        .collection(Constants.DRIVERS_COLLECTION)
+        .doc(driverName)
+        .delete()
+        .whenComplete(() => success = true)
+        .onError((error, stackTrace) => print(error));
+    return success;
   }
 }

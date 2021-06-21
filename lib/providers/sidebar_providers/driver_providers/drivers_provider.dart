@@ -29,4 +29,20 @@ class DriversProvider with ChangeNotifier {
     busesModel = await BusesRepository().fetchBuses();
     notifyListeners();
   }
+
+  Future<bool> delete(int index) async {
+    bool success = false;
+    String driverID =
+        driversModel.drivers[index].name + " - " + driversModel.drivers[index].contact;
+    success = await DriversRepository()
+        .deleteDriver(driverID);
+
+    /// Delete from model to update listview
+    int busIndex = busesModel.buses.indexWhere((element) =>
+      element.driver.trim() == driverID.trim());
+    if(busIndex != -1) busesModel.buses.removeAt(busIndex);
+    driversModel.drivers.removeAt(index);
+    notifyListeners();
+    return success;
+  }
 }
