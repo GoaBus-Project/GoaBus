@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:goa_bus/components/details/bus_location_details.dart';
+import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_provider.dart';
 import 'package:provider/provider.dart';
@@ -21,15 +23,50 @@ class _BusDetailsState extends State<BusDetails> {
         return Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: IconButton(
+                          tooltip: "Show Live Location",
+                          icon: Icon(Icons.location_on_outlined),
+                          onPressed: (){
+                            showGeneralDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                barrierLabel: MaterialLocalizations.of(context)
+                                    .modalBarrierDismissLabel,
+                                barrierColor: Colors.black45,
+                                transitionDuration: const Duration(milliseconds: 200),
+                                pageBuilder: (BuildContext buildContext,
+                                    Animation animation,
+                                    Animation secondaryAnimation) {
+                                  return Center(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width - 800,
+                                      height: MediaQuery.of(context).size.height - 100,
+                                      padding: EdgeInsets.all(20),
+                                      color: Colors.white,
+                                      child: Scaffold(
+                                        body: BusLocationDetails(index: widget.index),
+                                      ),
+                                    ),
+                                  );
+                                }
+                            );
+                          }
+                      ),
+                    )
+                ),
+                SizedBox(width: 30),
                 Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5.0),
                       child: IconButton(
                           tooltip: "Delete",
                           iconSize: 30,
-                          icon: Icon(Icons.delete),
+                          icon: Icon(Icons.delete_outline),
                           onPressed: (){
                           }
                       ),
@@ -37,6 +74,7 @@ class _BusDetailsState extends State<BusDetails> {
                 ),
               ],
             ),
+            SizedBox(height: 30,),
             Table(
               columnWidths: {
                 0: FlexColumnWidth(3),
@@ -105,23 +143,23 @@ class _BusDetailsState extends State<BusDetails> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, left: 50),
-                  child: Text(
-                    "Trips:",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Palette.fontColor
-                    ),
-                  ),
-                ),
-              ],
+            SizedBox(height: 30),
+            TableHeaderTile(
+              first: "",
+              second: "TRIPS",
+              third: "",
             ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 15, left: 50),
+            //   child: Text(
+            //     "Trips:",
+            //     style: TextStyle(
+            //         fontSize: 25,
+            //         fontWeight: FontWeight.bold,
+            //         color: Palette.fontColor
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 10),
             Container(
               height: MediaQuery

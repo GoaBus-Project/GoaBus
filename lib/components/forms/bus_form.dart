@@ -261,21 +261,27 @@ class _BusFormState extends State<BusForm> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(top:10.0),
-                                            child: Text(busesProv.busData.trips[index].startTime
-                                                .format(context)),
+                                            child: Center(
+                                              child: Text(busesProv.busData.trips[index].startTime
+                                                  .format(context)),
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(top:10.0),
-                                            child: Text(busesProv.busData.trips[index].endTime
-                                                .format(context)),
+                                            child: Center(
+                                              child: Text(busesProv.busData.trips[index].endTime
+                                                  .format(context)),
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(right:10.0),
-                                            child: IconButton(
-                                                icon: Icon(Icons.delete),
-                                                onPressed: (){
-                                                  busesProv.removeRoute(index);
-                                                }
+                                            child: Center(
+                                              child: IconButton(
+                                                  icon: Icon(Icons.delete),
+                                                  onPressed: (){
+                                                    busesProv.removeRoute(index);
+                                                  }
+                                              ),
                                             ),
                                           )
                                         ]
