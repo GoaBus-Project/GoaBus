@@ -27,8 +27,8 @@ class _BusDetailsState extends State<BusDetails> {
         color: Colors.red,
         onPressed: () async {
           Navigator.pop(context);
-          Navigator.pop(context);
-          if(!await prov.delete(widget.index)) {
+          if(!await prov.delete(widget.index).whenComplete(() =>
+              Navigator.pop(context))) {
             return showAlertDialog(
               context: context,
               title: 'Error',
