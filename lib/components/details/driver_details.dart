@@ -22,8 +22,8 @@ class _DriverDetailsState extends State<DriverDetails> {
               color: Colors.white
           ),
         ),
-        splashColor: Palette.primary,
-        color: Palette.secondary,
+        splashColor: Colors.redAccent,
+        color: Colors.red,
         onPressed: () async {
           Navigator.pop(context);
           Navigator.pop(context);
@@ -44,25 +44,22 @@ class _DriverDetailsState extends State<DriverDetails> {
               color: Colors.white
           ),
         ),
-        splashColor: Colors.redAccent,
-        color: Colors.red,
+        splashColor: Palette.primary,
+        color: Palette.secondary,
         onPressed: () {Navigator.pop(context);}
     );
-    /// set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text('Delete'),
-      content: Text('Are you sure?'),
-      actions: [
-        yesButton,
-        noButton
-      ],
-    );
-
     /// show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return AlertDialog(
+          title: Text('Delete'),
+          content: Text('Are you sure?'),
+          actions: [
+            yesButton,
+            noButton
+          ],
+        );
       },
     );
   }
@@ -70,8 +67,7 @@ class _DriverDetailsState extends State<DriverDetails> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DriversProvider>(
-      builder: (context, prov, _) =>
-          Center(
+      builder: (context, prov, _) => Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -85,7 +81,7 @@ class _DriverDetailsState extends State<DriverDetails> {
                               tooltip: "Delete",
                               iconSize: 30,
                               icon: Icon(Icons.delete),
-                              onPressed: () async {
+                              onPressed: () {
                                 showConfirmationDialog(prov);
                               }
                           ),

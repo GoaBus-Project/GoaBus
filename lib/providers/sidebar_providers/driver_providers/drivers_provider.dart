@@ -33,16 +33,17 @@ class DriversProvider with ChangeNotifier {
   Future<bool> delete(int index) async {
     bool success = false;
     String driverID =
-        driversModel.drivers[index].name + " - " + driversModel.drivers[index].contact;
-    
-    success = await DriversRepository().deleteDriver(driverID);
+        driversModel.drivers[index].name
+            + " - " + driversModel.drivers[index].contact;
 
     /// Delete from model to update listview
     int busIndex = busesModel.buses.indexWhere((element) =>
-      element.driver.trim() == driverID.trim());
+    element.driver.trim() == driverID.trim());
     if(busIndex != -1) busesModel.buses.removeAt(busIndex);
     driversModel.drivers.removeAt(index);
     notifyListeners();
+
+    success = await DriversRepository().deleteDriver(driverID);
     return success;
   }
 }
