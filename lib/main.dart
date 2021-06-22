@@ -1,8 +1,8 @@
 import 'package:drivers_app/providers/homepage_provider.dart';
+import 'package:drivers_app/providers/loginpage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'homepage.dart';
+import 'loginpage.dart';
 
 void main() {
   runApp(DriverApp());
@@ -18,11 +18,14 @@ class _DriverAppState extends State<DriverApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => HomepageProvider()),
+          ChangeNotifierProvider(create: (context) => HomePageProvider()),
+          ChangeNotifierProvider(create: (context) => LoginPageProvider()),
         ],
-      child: HomePage(),
+      child: MaterialApp(
+          title: "DRIVER APP",
+          home: LoginPage()
+      ),
     );
   }
 }
-
 
