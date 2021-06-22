@@ -27,7 +27,7 @@ class _BusDetailsState extends State<BusDetails> {
         color: Colors.red,
         onPressed: () async {
           Navigator.pop(context);
-          if(!await prov.delete(widget.index).whenComplete(() =>
+          if(!await prov.deleteBus(widget.index).whenComplete(() =>
               Navigator.pop(context))) {
             return showAlertDialog(
               context: context,
@@ -259,7 +259,14 @@ class _BusDetailsState extends State<BusDetails> {
                                   padding: const EdgeInsets.only(right: 10.0),
                                   child: IconButton(
                                       icon: Icon(Icons.delete),
-                                      onPressed: () {}
+                                      onPressed: () async {
+                                        if(!await prov.deleteTrip(widget.index, index))
+                                          showAlertDialog(
+                                            context: context,
+                                            title: "Error",
+                                            message: "Please try again"
+                                          );
+                                      }
                                   ),
                                 )
                               ],

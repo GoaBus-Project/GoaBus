@@ -31,7 +31,6 @@ class DriversProvider with ChangeNotifier {
   }
 
   Future<bool> delete(int index) async {
-    bool success = false;
     String driverID =
         driversModel.drivers[index].name
             + " - " + driversModel.drivers[index].contact;
@@ -43,7 +42,6 @@ class DriversProvider with ChangeNotifier {
     driversModel.drivers.removeAt(index);
     notifyListeners();
 
-    success = await DriversRepository().deleteDriver(driverID);
-    return success;
+    return await DriversRepository().deleteDriver(driverID);
   }
 }

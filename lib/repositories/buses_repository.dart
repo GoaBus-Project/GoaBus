@@ -119,4 +119,42 @@ class BusesRepository {
         .onError((error, stackTrace) => print(error));
     return success;
   }
+
+  /// Delete trip
+  Future<bool> deleteTrip(Bus bus) async {
+    bool success = false;
+    String updatedTrips = '';
+    /// Delete trip data from drivers collection
+    if (bus.trips.isNotEmpty) {
+      /// Add first trip
+      updatedTrips = bus.trips[0].routeName.toString() + ';'
+          + bus.trips[0].startTime.hour.toString()
+          + ":" + bus.trips[0].startTime.minute.toString() + ';'
+          + bus.trips[0].endTime.hour.toString()
+          + ":" + bus.trips[0].endTime.minute.toString();
+
+      /// Add remaining trips, skipping first trip
+      bool firstloop = true;
+      bus.trips.forEach((element) {
+        if (!firstloop) {
+          updatedTrips = updatedTrips + ',' + element.routeName.toString() + ';'
+              + element.startTime.hour.toString()
+              + ":" + element.startTime.minute.toString() + ';'
+              + element.endTime.hour.toString()
+              + ":" + element.endTime.minute.toString();
+        } else firstloop = false;
+      });
+    }
+
+    await FirebaseFirestore.instance
+        .collection(Constants.BUSES_COLLECTION)
+        .doc(bus.busNo)
+        .update({"trips": updatedTrips})
+        .whenComplete(() => success = true)
+        .onError((error, stackTrace) {
+      success = false;
+      print(error);
+    });
+    return success;
+  }
 }
