@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:goa_bus/constants/constants.dart';
+import 'package:goa_bus/models/buses_model.dart';
 import 'package:goa_bus/models/routes_model.dart';
 import 'package:goa_bus/models/stops_model.dart';
 
 import 'bus_stops_repository.dart';
+import 'buses_repository.dart';
 
 class RoutesRepository {
   /// Save data to firestore db
@@ -82,24 +84,110 @@ class RoutesRepository {
               }
             });
 
-            /// For each retrieved route
-            intermediateStops.forEach((stopName) {
+            /// Check if there are intermediate points
+            if(intermediateStops.isNotEmpty) {
+              /// Assign start location coordinates
               BusStop busStop = BusStop();
-              busStop.lat = "";
-              busStop.lng = "";
-              busStop.stopName = stopName.toString();
-              /// assign lat lng to intermediate routes
-              busStopsModel.busStops.forEach((busStopData) {
-                if(busStopData.stopName == stopName.toString()) {
-                  busStop.lat = busStopData.lat;
-                  busStop.lng = busStopData.lng;
-                }
-              });
+              busStop.lat = busRoute.start.lat;
+              busStop.lng = busRoute.start.lng;
+              busStop.stopName = "";
               busRoute.intermediate.stop.add(busStop);
-            });
+            } else {
+              /// If there are intermediate points add to model class
+              /// For each retrieved route
+              intermediateStops.forEach((stopName) {
+                BusStop busStop = BusStop();
+                busStop.lat = "";
+                busStop.lng = "";
+                busStop.stopName = stopName.toString();
+                /// assign lat lng to intermediate routes
+                busStopsModel.busStops.forEach((busStopData) {
+                  if(busStopData.stopName == stopName.toString()) {
+                    busStop.lat = busStopData.lat;
+                    busStop.lng = busStopData.lng;
+                  }
+                });
+                busRoute.intermediate.stop.add(busStop);
+              });
+            }
             routes.routes.add(busRoute);
           });
         });
     return routes;
+  }
+
+  /// Delete route
+  Future<bool> deleteRoute(String routeName) async {
+    BusesModel busesModel = BusesModel();
+    List<String> busNumbers = <String>[];
+    bool success = false;
+    String updatedTrips = '';
+
+    /// Delete from buses
+    busesModel = await BusesRepository().fetchBuses();
+    /// Get bus numbers which contains the route
+    busesModel.buses.forEach((buses) {
+      buses.trips.forEach((trips) {
+        if(trips.routeName.trim() == routeName) {
+          busNumbers.add(buses.busNo.toString());
+        }
+      });
+    });
+    /// Delete route from trip
+    busesModel.buses.forEach((element) {
+      element.trips.removeWhere((element) => element.routeName == routeName);
+    });
+
+    ///Form new Trips string to upload
+    /// Create trips string which is comma separated to upload
+    busesModel.buses.forEach((bus) {
+      if (bus.trips.isNotEmpty) {
+        /// Add first trip
+        updatedTrips = bus.trips[0].routeName.toString() + ';'
+            + bus.trips[0].startTime.hour.toString()
+            + ":" + bus.trips[0].startTime.minute.toString() + ';'
+            + bus.trips[0].endTime.hour.toString()
+            + ":" + bus.trips[0].endTime.minute.toString();
+
+        /// Add remaining trips, skipping first trip
+        bool firstloop = true;
+        bus.trips.forEach((element) {
+          if (!firstloop) {
+            updatedTrips = updatedTrips + ',' + element.routeName.toString() + ';'
+                + element.startTime.hour.toString()
+                + ":" + element.startTime.minute.toString() + ';'
+                + element.endTime.hour.toString()
+                + ":" + element.endTime.minute.toString();
+          } else firstloop = false;
+        });
+      }
+    });
+
+    busNumbers.forEach((element) {
+      print(element);
+    });
+
+    if(busNumbers.isNotEmpty) {
+      busNumbers.forEach((bus) async {
+        await FirebaseFirestore.instance
+            .collection(Constants.BUSES_COLLECTION)
+            .doc(bus)
+            .update({"trips": updatedTrips})
+            .whenComplete(() => success = true)
+            .onError((error, stackTrace) {
+          success = false;
+          print(error);
+        });
+      });
+    }
+
+    /// Delete route data from Routes collection
+    await FirebaseFirestore.instance
+        .collection(Constants.ROUTES_COLLECTION)
+        .doc(routeName)
+        .delete()
+        .whenComplete(() => success = true)
+        .onError((error, stackTrace) => print(error));
+    return success;
   }
 }

@@ -64,6 +64,7 @@ class _BusDetailsState extends State<BusDetails> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();

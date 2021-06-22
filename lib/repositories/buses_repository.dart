@@ -16,6 +16,7 @@ class BusesRepository {
     /// Create trips string which is comma separated to upload
     String trips = '';
     if(bus.trips.isNotEmpty) {
+      /// Add first trip
       trips = bus.trips[0].routeName.toString() + ';'
           + bus.trips[0].startTime.hour.toString()
           + ":" + bus.trips[0].startTime.minute.toString() + ';'
@@ -26,6 +27,7 @@ class BusesRepository {
           + bus.trips[0].startTime.toString() + ';'
           + bus.trips[0].endTime.toString();*/
 
+      /// Add remaining trips, skipping first trip
       bool firstloop = true;
       bus.trips.forEach((element) {
         if(!firstloop) {

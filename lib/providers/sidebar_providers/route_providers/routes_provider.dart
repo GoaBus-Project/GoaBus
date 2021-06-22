@@ -19,4 +19,14 @@ class RoutesProvider with ChangeNotifier {
       => loading = false);
     notifyListeners();
   }
+
+  Future<bool> delete(int index) async {
+    bool success = false;
+    String routeName = routesModel.routes[index].name;
+    /// Delete from model to update listview
+    routesModel.routes.removeAt(index);
+    notifyListeners();
+    success = await RoutesRepository().deleteRoute(routeName);
+    return success;
+  }
 }
