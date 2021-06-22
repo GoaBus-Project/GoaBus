@@ -1,22 +1,28 @@
+import 'package:drivers_app/providers/homepage_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'homepage.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(DriverApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class DriverApp extends StatefulWidget {
+  @override
+  _DriverAppState createState() => _DriverAppState();
+}
+
+class _DriverAppState extends State<DriverApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Driver App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePage(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => HomepageProvider()),
+        ],
+      child: HomePage(),
     );
   }
 }
+
 
