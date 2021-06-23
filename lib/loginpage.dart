@@ -7,13 +7,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String id='', password='';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextFormField(
