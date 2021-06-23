@@ -84,15 +84,7 @@ class RoutesRepository {
               }
             });
 
-            /// Check if there are intermediate points
             if(intermediateStops.isNotEmpty) {
-              /// Assign start location coordinates
-              BusStop busStop = BusStop();
-              busStop.lat = busRoute.start.lat;
-              busStop.lng = busRoute.start.lng;
-              busStop.stopName = "";
-              busRoute.intermediate.stop.add(busStop);
-            } else {
               /// If there are intermediate points add to model class
               /// For each retrieved route
               intermediateStops.forEach((stopName) {

@@ -76,31 +76,46 @@ class BusesRepository {
         bus.busNo = doc.id.toString();
         bus.driver = doc["driver"].toString();
 
-        /// Form trips object
-        List<String> tripDataWithTime =
-            doc["trips"].toString().split(",")??[];
+        if(doc["trips"] != "") {
+          /// Form trips object
+          List<String> tripDataWithTime =
+              doc["trips"].toString().split(",")??[];
 
-        tripDataWithTime.forEach((element) {
-          Trip trip = Trip();
-          trip.startTime = null;
-          trip.endTime = null;
-          trip.routeName = "";
+          tripDataWithTime.forEach((element) {
+            Trip trip = Trip();
+            trip.startTime = null;
+            trip.endTime = null;
+            trip.routeName = "";
 
-          /// Separate time and route name
-          List<String> tripData = element.split(";")??[];
+            /// Separate time and route name
+            List<String> tripData = element.split(";") ?? [];
 
-          trip.routeName = tripData[0].toString();
-          /*trip.startTime = tripData[1] as TimeOfDay;
-          trip.endTime = tripData[2] as TimeOfDay;*/
-          int hour = int.parse(tripData[1].split(":").first);
-          int min = int.parse(tripData[1].split(":").last);
-          trip.startTime = TimeOfDay(hour: hour, minute: min);
-          hour = int.parse(tripData[2].split(":").first);
-          min = int.parse(tripData[2].split(":").last);
-          trip.endTime = TimeOfDay(hour: hour, minute: min);
+            if (tripData.isNotEmpty) {
+              trip.routeName = tripData[0].toString();
+              /*trip.startTime = tripData[1] as TimeOfDay;
+              trip.endTime = tripData[2] as TimeOfDay;*/
 
-          bus.trips.add(trip);
-        });
+              /// For start time
+              int hour = int.parse(tripData[1]
+                  .split(":")
+                  .first);
+              int min = int.parse(tripData[1]
+                  .split(":")
+                  .last);
+              trip.startTime = TimeOfDay(hour: hour, minute: min);
+
+              /// For end time
+              hour = int.parse(tripData[2]
+                  .split(":")
+                  .first);
+              min = int.parse(tripData[2]
+                  .split(":")
+                  .last);
+              trip.endTime = TimeOfDay(hour: hour, minute: min);
+              bus.trips.add(trip);
+            }
+          });
+        }
         buses.buses.add(bus);
       });
     });
