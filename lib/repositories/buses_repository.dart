@@ -80,6 +80,7 @@ class BusesRepository {
         List<String> tripDataWithTime =
             doc["trips"].toString().split(",")??[];
 
+        if(tripDataWithTime[0]!='')
         tripDataWithTime.forEach((element) {
           Trip trip = Trip();
           trip.startTime = null;
