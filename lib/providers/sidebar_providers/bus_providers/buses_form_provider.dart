@@ -19,7 +19,6 @@ class BusesFormProvider with ChangeNotifier {
 
   List<String> routes = [];
 
-
   void init() async {
     busData.trips = <Trip>[];
     routes = [];
@@ -30,11 +29,10 @@ class BusesFormProvider with ChangeNotifier {
     trip.endTime = TimeOfDay(hour: 12, minute: 00);
     driversLoading = true;
     await getRoutes();
-    _driversModel = await DriversRepository().fetchDrivers()
-        .whenComplete(() {
-          driversLoading = false;
-          notifyListeners();
-        });
+    _driversModel = await DriversRepository().fetchDrivers().whenComplete(() {
+      driversLoading = false;
+      notifyListeners();
+    });
   }
 
   List<String> getDrivers() {
@@ -92,11 +90,11 @@ class BusesFormProvider with ChangeNotifier {
 
   String checkData() {
     String message = '';
-    if(busData.busNo == '' || busData.busNo == null)
+    if (busData.busNo == '' || busData.busNo == null)
       message = 'Enter bus number';
-    else if(busData.driver == '' || busData.driver == null)
+    else if (busData.driver == '' || busData.driver == null)
       message = 'Please select driver';
-    else if(busData.trips.length == 0)
+    else if (busData.trips.length == 0)
       message = 'Please select at least one route';
     else
       message = 'success';
@@ -111,5 +109,4 @@ class BusesFormProvider with ChangeNotifier {
       notifyListeners();
     });
   }
-
 }

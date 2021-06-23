@@ -84,7 +84,7 @@ class RoutesRepository {
               }
             });
 
-            if(intermediateStops.isNotEmpty) {
+        if(intermediateStops.isNotEmpty) {
               /// If there are intermediate points add to model class
               /// For each retrieved route
               intermediateStops.forEach((stopName) {

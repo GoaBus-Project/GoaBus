@@ -17,28 +17,29 @@ class DriversProvider with ChangeNotifier {
   }
 
   Bus getBusNo(String name, String contact) {
-    return busesModel.buses
-            .firstWhere((buses) => buses.driver == name + " - " + contact,
+    return busesModel.buses.firstWhere(
+        (buses) => buses.driver == name + " - " + contact,
         orElse: () => Bus(busNo: "No Bus Assigned"));
   }
 
   Future<void> getData() async {
     loading = true;
-    driversModel = await DriversRepository().fetchDrivers()
+    driversModel = await DriversRepository()
+        .fetchDrivers()
         .whenComplete(() => loading = false);
     busesModel = await BusesRepository().fetchBuses();
     notifyListeners();
   }
 
   Future<bool> delete(int index) async {
-    String driverID =
-        driversModel.drivers[index].name
-            + " - " + driversModel.drivers[index].contact;
+    String driverID = driversModel.drivers[index].name +
+        " - " +
+        driversModel.drivers[index].contact;
 
     /// Delete from model to update listview
-    int busIndex = busesModel.buses.indexWhere((element) =>
-    element.driver.trim() == driverID.trim());
-    if(busIndex != -1) busesModel.buses.removeAt(busIndex);
+    int busIndex = busesModel.buses
+        .indexWhere((element) => element.driver.trim() == driverID.trim());
+    if (busIndex != -1) busesModel.buses.removeAt(busIndex);
     driversModel.drivers.removeAt(index);
     notifyListeners();
 

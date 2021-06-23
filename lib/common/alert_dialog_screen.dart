@@ -6,16 +6,13 @@ showAlertDialog({BuildContext context, String title, String message}) {
   Widget okButton = MaterialButton(
       child: Text(
         'OK'.toUpperCase(),
-        style: TextStyle(
-            color: Colors.white
-        ),
+        style: TextStyle(color: Colors.white),
       ),
       splashColor: Palette.primary,
       color: Palette.secondary,
       onPressed: () {
         Navigator.pop(context);
-      }
-  );
+      });
 
   /// set up the AlertDialog
   AlertDialog alert = AlertDialog(

@@ -23,11 +23,11 @@ class DriversFormProvider with ChangeNotifier {
 
   String checkData() {
     String message = "";
-    if(driver.name == "" || driver.name == null)
+    if (driver.name == "" || driver.name == null)
       message = "Please enter drivers name";
-    else if(driver.contact == "" || driver.contact == null)
+    else if (driver.contact == "" || driver.contact == null)
       message = "Please enter drivers contact number";
-    else if(driver.address == "" || driver.address == null)
+    else if (driver.address == "" || driver.address == null)
       message = "Please enter drivers address";
     else
       message = "success";

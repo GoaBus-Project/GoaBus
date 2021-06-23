@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/repositories/login_repository.dart';
 
 class LoginProvider with ChangeNotifier {
-  List<String> greetings = ['Good Morning', 'Good Afternoon', 'Good Evening', 'Welcome'];
-  List<String> allowedLogins = ['vishnair001@gmail.com', 'patildeepak188@gmail.com', 'goabusadmin@gmail.com'];
-  String email = '',
-        password = '',
-        authenticationMessage = '';
+  List<String> greetings = [
+    'Good Morning',
+    'Good Afternoon',
+    'Good Evening',
+    'Welcome'
+  ];
+  List<String> allowedLogins = [
+    'vishnair001@gmail.com',
+    'patildeepak188@gmail.com',
+    'goabusadmin@gmail.com'
+  ];
+  String email = '', password = '', authenticationMessage = '';
   bool loading = false,
       showAuthenciationAlert = false,
       authenticated = false,
@@ -66,11 +73,11 @@ class LoginProvider with ChangeNotifier {
       notifyListeners();
     }
 
-    if(!showAuthenciationAlert) {
+    if (!showAuthenciationAlert) {
       try {
-        UserCredential userCredential = googleAuthentication ?
-          await LoginRepository().signInWithGoogle()
-          : await LoginRepository().localSignIn(email, password);
+        UserCredential userCredential = googleAuthentication
+            ? await LoginRepository().signInWithGoogle()
+            : await LoginRepository().localSignIn(email, password);
 
         if (userCredential == null) {
           loading = false;
@@ -80,7 +87,7 @@ class LoginProvider with ChangeNotifier {
           print('User is currently signed out!');
           notifyListeners();
         } else {
-          if(allowedLogins.contains(userCredential.user.email)) {
+          if (allowedLogins.contains(userCredential.user.email)) {
             loading = false;
             authenticated = true;
             showAuthenciationAlert = true;
@@ -120,7 +127,7 @@ class LoginProvider with ChangeNotifier {
   Future<void> forgotPassword() async {
     loading = true;
     notifyListeners();
-    if(email.isEmpty) {
+    if (email.isEmpty) {
       loading = false;
       showAuthenciationAlert = true;
       authenticationMessage = "Enter your email";
@@ -129,8 +136,7 @@ class LoginProvider with ChangeNotifier {
       await LoginRepository().sendPasswordResetEmail(email);
       loading = false;
       showAuthenciationAlert = true;
-      authenticationMessage =
-        "Reset password link sent to email address";
+      authenticationMessage = "Reset password link sent to email address";
       notifyListeners();
     }
   }

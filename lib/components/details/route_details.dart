@@ -11,6 +11,7 @@ class RouteDetails extends StatefulWidget {
   final int index;
 
   const RouteDetails({Key key, @required this.index}) : assert(index != null);
+
   @override
   _RouteDetailsState createState() => _RouteDetailsState();
 }
@@ -30,28 +31,29 @@ class _RouteDetailsState extends State<RouteDetails> {
         color: Colors.red,
         onPressed: () async {
           Navigator.pop(context);
-          if(!await prov.delete(widget.index).whenComplete(() =>
-              Navigator.pop(context))) {
+          if (!await prov
+              .delete(widget.index)
+              .whenComplete(() => Navigator.pop(context))) {
             return showAlertDialog(
               context: context,
               title: 'Error',
               message: 'Deletion failed, please try again',
             );
           }
-        }
-    );
+        });
+
     /// set up No button
     Widget noButton = MaterialButton(
         child: Text(
           'No'.toUpperCase(),
-          style: TextStyle(
-              color: Colors.white
-          ),
+          style: TextStyle(color: Colors.white),
         ),
         splashColor: Palette.primary,
         color: Palette.secondary,
-        onPressed: () {Navigator.pop(context);}
-    );
+        onPressed: () {
+          Navigator.pop(context);
+        });
+
     /// show the dialog
     showDialog(
       context: context,
@@ -59,10 +61,7 @@ class _RouteDetailsState extends State<RouteDetails> {
         return AlertDialog(
           title: Text('Delete'),
           content: Text('Are you sure?'),
-          actions: [
-            yesButton,
-            noButton
-          ],
+          actions: [yesButton, noButton],
         );
       },
     );
@@ -72,39 +71,37 @@ class _RouteDetailsState extends State<RouteDetails> {
   void initState() {
     final prov = Provider.of<RoutesProvider>(context, listen: false);
     /// Add start point marker
-    markers.add(
-        Marker(
-        markerId: MarkerId(
-            LatLng(double.parse(prov.routesModel.routes[widget.index].start.lat),
-            double.parse(prov.routesModel.routes[widget.index].start.lng)).toString()
-        ),
-        position: LatLng(double.parse(prov.routesModel.routes[widget.index].start.lat),
-            double.parse(prov.routesModel.routes[widget.index].start.lng))
-    ));
+    markers.add(Marker(
+        markerId: MarkerId(LatLng(
+                double.parse(prov.routesModel.routes[widget.index].start.lat),
+                double.parse(prov.routesModel.routes[widget.index].start.lng))
+            .toString()),
+        position: LatLng(
+            double.parse(prov.routesModel.routes[widget.index].start.lat),
+            double.parse(prov.routesModel.routes[widget.index].start.lng))));
+
     /// Add intermediate points markers
     prov.routesModel.routes[widget.index].intermediate.stop.forEach((element) {
       /// Ignore marker if intermediate stop name is empty
-      if(element.stopName != "") {
-        markers.add(
-            Marker(
-                markerId: MarkerId(
-                    LatLng(double.parse(element.lat),
-                        double.parse(element.lng)).toString()),
-                position: LatLng(
-                    double.parse(element.lat), double.parse(element.lng))
-            ));
+      if (element.stopName != "") {
+        markers.add(Marker(
+            markerId: MarkerId(
+                LatLng(double.parse(element.lat), double.parse(element.lng))
+                    .toString()),
+            position:
+                LatLng(double.parse(element.lat), double.parse(element.lng))));
       }
     });
+
     /// add end point marker
-    markers.add(
-        Marker(
-        markerId: MarkerId(
-            LatLng(double.parse(prov.routesModel.routes[widget.index].end.lat),
-            double.parse(prov.routesModel.routes[widget.index].end.lng)).toString()
-        ),
-        position: LatLng(double.parse(prov.routesModel.routes[widget.index].end.lat),
-            double.parse(prov.routesModel.routes[widget.index].end.lng))
-    ));
+    markers.add(Marker(
+        markerId: MarkerId(LatLng(
+                double.parse(prov.routesModel.routes[widget.index].end.lat),
+                double.parse(prov.routesModel.routes[widget.index].end.lng))
+            .toString()),
+        position: LatLng(
+            double.parse(prov.routesModel.routes[widget.index].end.lat),
+            double.parse(prov.routesModel.routes[widget.index].end.lng))));
     super.initState();
   }
 
@@ -125,22 +122,19 @@ class _RouteDetailsState extends State<RouteDetails> {
                     style: TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
-                        color: Palette.fontColor.withOpacity(0.6)
-                    ),
+                        color: Palette.fontColor.withOpacity(0.6)),
                   ),
                   Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: IconButton(
-                            tooltip: "Delete",
-                            iconSize: 30,
-                            icon: Icon(Icons.delete),
-                            onPressed: (){
-                              showConfirmationDialog(prov);
-                            }
-                        ),
-                      )
-                  ),
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: IconButton(
+                        tooltip: "Delete",
+                        iconSize: 30,
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          showConfirmationDialog(prov);
+                        }),
+                  )),
                 ],
               ),
             ),
@@ -150,8 +144,10 @@ class _RouteDetailsState extends State<RouteDetails> {
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
                 target: LatLng(
-                    double.parse(prov.routesModel.routes[widget.index].start.lat),
-                    double.parse(prov.routesModel.routes[widget.index].start.lng)),
+                    double.parse(
+                        prov.routesModel.routes[widget.index].start.lat),
+                    double.parse(
+                        prov.routesModel.routes[widget.index].start.lng)),
                 zoom: 10.0,
               ),
               onMapCreated: (GoogleMapController controller) {
