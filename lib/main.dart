@@ -2,7 +2,7 @@ import 'package:drivers_app/providers/homepage_provider.dart';
 import 'package:drivers_app/providers/loginpage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'loginpage.dart';
+import 'screens/login_page.dart';
 
 void main() {
   runApp(DriverApp());
