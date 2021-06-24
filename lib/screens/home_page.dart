@@ -1,5 +1,5 @@
+import 'package:drivers_app/constants/color_pallete.dart';
 import 'package:drivers_app/providers/homepage_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(child: Text("DRIVER APP")),
-        backgroundColor: Color(0xFF0061A8),
+        backgroundColor: Palette.secondary,
       ),
       body: Consumer<HomePageProvider>(builder: (context, prov, _) {
         return Column(
@@ -30,11 +30,11 @@ class _HomePageState extends State<HomePage> {
                         prov.stopSendingLocation();
                       },
                       elevation: 2.0,
-                      fillColor: Color(0xFF0061A8),
+                      fillColor: Palette.secondary,
                       child: Icon(
                         Icons.stop,
                         size: 200.0,
-                        color: Color(0xFFFBE0C4),
+                        color: Palette.primary,
                       ),
                       padding: EdgeInsets.all(15.0),
                       shape: CircleBorder(),
@@ -44,11 +44,11 @@ class _HomePageState extends State<HomePage> {
                         prov.startSendingLocation();
                       },
                       elevation: 2.0,
-                      fillColor: Color(0xFF0061A8),
+                      fillColor: Palette.secondary,
                       child: Icon(
                         Icons.location_on_outlined,
                         size: 200.0,
-                        color: Color(0xFFFBE0C4),
+                        color: Palette.primary,
                       ),
                       padding: EdgeInsets.all(15.0),
                       shape: CircleBorder(),
