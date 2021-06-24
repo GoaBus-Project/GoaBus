@@ -9,22 +9,21 @@ class SettingsProvider with ChangeNotifier {
     loading = true;
     notifyListeners();
     String message = '';
-    if(currentPassword == '')
+    if (currentPassword == '')
       message = 'Please enter current password';
-    else if(newPassword == '')
+    else if (newPassword == '')
       message = 'Please enter new password';
-    else if(currentPassword == newPassword)
+    else if (currentPassword == newPassword)
       message = 'Please enter different password';
-    else if(newPassword.length < 8)
+    else if (newPassword.length < 8)
       message = 'Minimum 8 characters required in new password';
     else {
-      message =
-        await SettingsRepository()
-            .changePassword(currentPassword, newPassword)
-            .whenComplete(() {
-              loading = false;
-              notifyListeners();
-            });
+      message = await SettingsRepository()
+          .changePassword(currentPassword, newPassword)
+          .whenComplete(() {
+        loading = false;
+        notifyListeners();
+      });
       Navigator.pop(context);
     }
     return message;

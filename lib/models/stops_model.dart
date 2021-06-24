@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-BusStopsModel busStopsModelFromJson(String str) => BusStopsModel.fromJson(json.decode(str));
+BusStopsModel busStopsModelFromJson(String str) =>
+    BusStopsModel.fromJson(json.decode(str));
 
 String busStopsModelToJson(BusStopsModel data) => json.encode(data.toJson());
 
@@ -12,13 +13,13 @@ class BusStopsModel {
   List<BusStop> busStops;
 
   factory BusStopsModel.fromJson(Map<String, dynamic> json) => BusStopsModel(
-    busStops:
-    List<BusStop>.from(json["busStops"].map((x) => BusStop.fromJson(x))) ??[],
-  );
+        busStops: List<BusStop>.from(
+                json["busStops"].map((x) => BusStop.fromJson(x))) ?? [],
+      );
 
   Map<String, dynamic> toJson() => {
-    "busStops": List<dynamic>.from(busStops.map((x) => x.toJson()))??[],
-  };
+        "busStops": List<dynamic>.from(busStops.map((x) => x.toJson())) ?? [],
+      };
 }
 
 class BusStop {
@@ -33,14 +34,14 @@ class BusStop {
   String lng;
 
   factory BusStop.fromJson(Map<String, dynamic> json) => BusStop(
-    stopName: json["stopName"],
-    lat: json["lat"]??"",
-    lng: json["lng"]??"",
-  );
+        stopName: json["stopName"],
+        lat: json["lat"] ?? "",
+        lng: json["lng"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "stopName": stopName,
-    "lat": lat??"",
-    "lng": lng??"",
-  };
+        "stopName": stopName,
+        "lat": lat ?? "",
+        "lng": lng ?? "",
+      };
 }

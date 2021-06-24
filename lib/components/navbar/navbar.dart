@@ -25,12 +25,12 @@ class NavBar extends StatelessWidget {
             height: 57.0,
             width: 57.0,
           ),
-          Text('Admin Panel',
+          Text(
+            'Admin Panel',
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w100,
-                color: Palette.fontColor
-            ),
+                color: Palette.fontColor),
           ),
         ],
       ),
@@ -40,31 +40,28 @@ class NavBar extends StatelessWidget {
           color: Palette.fontColor,
           onPressed: () {
             showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Sign out!"),
-                  content: Text("Are you sure you want to sign out?"),
-                  actions: [
-                    TextButton(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Sign out!"),
+                    content: Text("Are you sure you want to sign out?"),
+                    actions: [
+                      TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
                         child: Text("No"),
-                    ),
-                    TextButton(
+                      ),
+                      TextButton(
                         onPressed: () {
                           loginProv.logout();
-                          Navigator.popUntil(context, (route) =>
-                            route.isFirst
-                          );
+                          Navigator.popUntil(context, (route) => route.isFirst);
                         },
                         child: Text("Sign out"),
-                    ),
-                  ],
-                );
-              }
-            );
+                      ),
+                    ],
+                  );
+                });
           },
         ),
       ],

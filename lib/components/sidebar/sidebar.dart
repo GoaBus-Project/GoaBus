@@ -16,14 +16,11 @@ class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) {
     final SideBarProvider sideBarProvider =
-      Provider.of<SideBarProvider>(context, listen: true);
+        Provider.of<SideBarProvider>(context, listen: true);
     return Container(
-      decoration: BoxDecoration(
-          color: Palette.primary,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey[200], offset: Offset(3, 5), blurRadius: 17)
-          ]),
+      decoration: BoxDecoration(color: Palette.primary, boxShadow: [
+        BoxShadow(color: Colors.grey[200], offset: Offset(3, 5), blurRadius: 17)
+      ]),
       width: 250,
       child: Container(
         child: Column(
@@ -36,12 +33,12 @@ class _SideBarState extends State<SideBar> {
                   height: 57.0,
                   width: 57.0,
                 ),
-                Text('Goa Bus',
+                Text(
+                  'Goa Bus',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Palette.fontColor
-                  ),
+                      color: Palette.fontColor),
                 ),
               ],
             ),
@@ -53,7 +50,6 @@ class _SideBarState extends State<SideBar> {
                 sideBarProvider.changeCurrentPage(DisplayedPage.DASHBOARD);
               },
             ),
-
             SideBarItems(
               icon: Icons.directions_bus,
               text: 'Buses',
@@ -62,7 +58,6 @@ class _SideBarState extends State<SideBar> {
                 sideBarProvider.changeCurrentPage(DisplayedPage.BUSES);
               },
             ),
-
             SideBarItems(
               icon: Icons.person,
               text: 'Drivers',
@@ -71,7 +66,6 @@ class _SideBarState extends State<SideBar> {
                 sideBarProvider.changeCurrentPage(DisplayedPage.DRIVERS);
               },
             ),
-
             SideBarItems(
               icon: Icons.alt_route,
               text: 'Routes',
@@ -80,7 +74,6 @@ class _SideBarState extends State<SideBar> {
                 sideBarProvider.changeCurrentPage(DisplayedPage.ROUTES);
               },
             ),
-
             SideBarItems(
               icon: Icons.stop_circle_outlined,
               text: 'Bus Stops',
@@ -89,7 +82,6 @@ class _SideBarState extends State<SideBar> {
                 sideBarProvider.changeCurrentPage(DisplayedPage.BUSSTOPS);
               },
             ),
-
             SideBarItems(
               icon: Icons.settings,
               text: 'Settings',

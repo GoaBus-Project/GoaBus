@@ -8,6 +8,7 @@ class DriverDetails extends StatefulWidget {
   final int index;
 
   const DriverDetails({Key key, @required this.index}) : assert(index != null);
+
   @override
   _DriverDetailsState createState() => _DriverDetailsState();
 }
@@ -18,36 +19,35 @@ class _DriverDetailsState extends State<DriverDetails> {
     Widget yesButton = MaterialButton(
         child: Text(
           'Yes'.toUpperCase(),
-          style: TextStyle(
-              color: Colors.white
-          ),
+          style: TextStyle(color: Colors.white),
         ),
         splashColor: Colors.redAccent,
         color: Colors.red,
         onPressed: () async {
           Navigator.pop(context);
-          if(!await prov.delete(widget.index).whenComplete(() =>
-              Navigator.pop(context))) {
+          if (!await prov
+              .delete(widget.index)
+              .whenComplete(() => Navigator.pop(context))) {
             return showAlertDialog(
               context: context,
               title: 'Error',
               message: 'Deletion failed, please try again',
             );
           }
-        }
-    );
+        });
+
     /// set up No button
     Widget noButton = MaterialButton(
         child: Text(
           'No'.toUpperCase(),
-          style: TextStyle(
-              color: Colors.white
-          ),
+          style: TextStyle(color: Colors.white),
         ),
         splashColor: Palette.primary,
         color: Palette.secondary,
-        onPressed: () {Navigator.pop(context);}
-    );
+        onPressed: () {
+          Navigator.pop(context);
+        });
+
     /// show the dialog
     showDialog(
       context: context,
@@ -55,10 +55,7 @@ class _DriverDetailsState extends State<DriverDetails> {
         return AlertDialog(
           title: Text('Delete'),
           content: Text('Are you sure?'),
-          actions: [
-            yesButton,
-            noButton
-          ],
+          actions: [yesButton, noButton],
         );
       },
     );
@@ -67,162 +64,147 @@ class _DriverDetailsState extends State<DriverDetails> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DriversProvider>(
-      builder: (context, prov, _) => Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: IconButton(
-                              tooltip: "Delete",
-                              iconSize: 30,
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                showConfirmationDialog(prov);
-                              }
+        builder: (context, prov, _) => Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Center(
+                          child: Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: IconButton(
+                            tooltip: "Delete",
+                            iconSize: 30,
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              showConfirmationDialog(prov);
+                            }),
+                      )),
+                    ],
+                  ),
+                  Table(
+                    columnWidths: {
+                      0: FlexColumnWidth(3),
+                      1: FlexColumnWidth(4),
+                    },
+                    children: [
+                      TableRow(children: [
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              "Name:",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor),
+                            ),
+                          ),
+                        ),
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              prov.driversModel.drivers[widget.index].name,
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor.withOpacity(0.6)),
+                            ),
                           ),
                         )
-                    ),
-                  ],
-                ),
-                Table(
-                  columnWidths: {
-                    0: FlexColumnWidth(3),
-                    1: FlexColumnWidth(4),
-                  },
-                  children: [
-                    TableRow(
-                        children: [
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                "Name:",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor
-                                ),
-                              ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              "Phone Number:",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor),
                             ),
                           ),
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                prov.driversModel.drivers[widget.index].name,
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor.withOpacity(0.6)
-                                ),
-                              ),
-                            ),
-                          )
-                        ]
-                    ),
-                    TableRow(
-                        children: [
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                "Phone Number:",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor
-                                ),
-                              ),
+                        ),
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              prov.driversModel.drivers[widget.index].contact,
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor.withOpacity(0.6)),
                             ),
                           ),
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                prov.driversModel.drivers[widget.index].contact,
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor.withOpacity(0.6)
-                                ),
-                              ),
-                            ),
-                          )
-                        ]
-                    ),
-                    TableRow(
-                        children: [
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                "Address:",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor
-                                ),
-                              ),
+                        )
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              "Address:",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor),
                             ),
                           ),
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                prov.driversModel.drivers[widget.index].address,
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor.withOpacity(0.6)
-                                ),
-                              ),
-                            ),
-                          )
-                        ]
-                    ),
-                    TableRow(
-                        children: [
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                "Bus Driving:",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor
-                                ),
-                              ),
+                        ),
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              prov.driversModel.drivers[widget.index].address,
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor.withOpacity(0.6)),
                             ),
                           ),
-                          TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 50),
-                              child: Text(
-                                prov.getBusNo(
-                                  prov.driversModel.drivers[widget.index].name,
-                                  prov.driversModel.drivers[widget.index].contact,
-                                ).busNo,
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Palette.fontColor.withOpacity(0.6)
-                                ),
-                              ),
+                        )
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              "Bus Driving:",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor),
                             ),
-                          )
-                        ]
-                    )
-                  ],
-                )
-              ],
-            ),
-          )
-    );
+                          ),
+                        ),
+                        TableCell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 50),
+                            child: Text(
+                              prov
+                                  .getBusNo(
+                                    prov.driversModel.drivers[widget.index]
+                                        .name,
+                                    prov.driversModel.drivers[widget.index]
+                                        .contact,
+                                  )
+                                  .busNo,
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Palette.fontColor.withOpacity(0.6)),
+                            ),
+                          ),
+                        )
+                      ])
+                    ],
+                  )
+                ],
+              ),
+            ));
   }
 }

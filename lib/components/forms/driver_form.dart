@@ -22,23 +22,22 @@ class _DriverFormState extends State<DriverForm> {
       builder: (context, driverProv, _) {
         return Column(
           children: [
-            driverProv.driver.image == null?
-            FloatingActionButton(
-                child: Icon(Icons.open_in_browser),
-                onPressed: () async {
-                  Uint8List _image =
-                    await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-                  driverProv.setProfile(_image);
-                }
-            )
-            :ClipOval(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: CircleAvatar(
-                radius: 100,
-                backgroundColor: Colors.transparent,
-                child: Image.memory(driverProv.driver.image),
-              ),
-            ),
+            driverProv.driver.image == null
+                ? FloatingActionButton(
+                    child: Icon(Icons.open_in_browser),
+                    onPressed: () async {
+                      Uint8List _image = await ImagePickerWeb.getImage(
+                          outputType: ImageType.bytes);
+                      driverProv.setProfile(_image);
+                    })
+                : ClipOval(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundColor: Colors.transparent,
+                      child: Image.memory(driverProv.driver.image),
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -80,13 +79,16 @@ class _DriverFormState extends State<DriverForm> {
                     children: [
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Palette.secondary),
                         ),
                         onPressed: () async {
                           String checkData = driverProv.checkData();
-                          if(checkData == '' || checkData == 'success') {
-                            if(await driverProv.saveDrivers()) {
-                              await Provider.of<DriversProvider>(context, listen: false).getData();
+                          if (checkData == '' || checkData == 'success') {
+                            if (await driverProv.saveDrivers()) {
+                              await Provider.of<DriversProvider>(context,
+                                      listen: false)
+                                  .getData();
                               driverProv.loading = false;
                               Navigator.pop(context);
                             } else {
@@ -94,19 +96,19 @@ class _DriverFormState extends State<DriverForm> {
                               return showAlertDialog(
                                   context: context,
                                   title: 'Please try again',
-                                  message: 'There was some problem while saving data'
-                              );
+                                  message:
+                                      'There was some problem while saving data');
                             }
                           } else {
                             return showAlertDialog(
                                 context: context,
                                 title: 'Missing Data',
-                                message: checkData
-                            );
+                                message: checkData);
                           }
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 11),
                           child: Text(
                             "Save".toUpperCase(),
                             textAlign: TextAlign.center,
@@ -118,8 +120,8 @@ class _DriverFormState extends State<DriverForm> {
                         ),
                       ),
                       SizedBox(width: 40),
-                      driverProv.loading?
-                      CircularProgressIndicator(color: Palette.secondary)
+                      driverProv.loading
+                          ? CircularProgressIndicator(color: Palette.secondary)
                           : Container(),
                     ],
                   ),

@@ -8,55 +8,57 @@ class BusesRepository {
     bool success = false;
 
     /// Create a DocumentReference called Buses that references the firestore collection
-    DocumentReference routes =
-    FirebaseFirestore.instance
+    DocumentReference routes = FirebaseFirestore.instance
         .collection(Constants.BUSES_COLLECTION)
         .doc(bus.busNo);
 
     /// Create trips string which is comma separated to upload
     String trips = '';
-    if(bus.trips.isNotEmpty) {
+    if (bus.trips.isNotEmpty) {
       /// Add first trip
-      trips = bus.trips[0].routeName.toString() + ';'
-          + bus.trips[0].startTime.hour.toString()
-          + ":" + bus.trips[0].startTime.minute.toString() + ';'
-          + bus.trips[0].endTime.hour.toString()
-          + ":" + bus.trips[0].endTime.minute.toString();
-      // TODO Context to be added
-      /*trips = bus.trips[0].routeName.toString() + ';'
-          + bus.trips[0].startTime.toString() + ';'
-          + bus.trips[0].endTime.toString();*/
+      trips = bus.trips[0].routeName.toString() +
+          ';' +
+          bus.trips[0].startTime.hour.toString() +
+          ":" +
+          bus.trips[0].startTime.minute.toString() +
+          ';' +
+          bus.trips[0].endTime.hour.toString() +
+          ":" +
+          bus.trips[0].endTime.minute.toString();
 
       /// Add remaining trips, skipping first trip
       bool firstloop = true;
       bus.trips.forEach((element) {
-        if(!firstloop) {
-          trips =
-              trips + ',' + element.routeName.toString() + ';'
-                  + element.startTime.hour.toString()
-                  + ":" + element.startTime.minute.toString() + ';'
-                  + element.endTime.hour.toString()
-                  + ":" + element.endTime.minute.toString();
-        } else firstloop = false;
-        /*if(trips != element.routeName)
-          trips = trips + ',' + element.routeName.toString() + ';'
-                  + element.startTime.toString() + ';'
-                  + element.endTime.toString();*/
+        if (!firstloop) {
+          trips = trips +
+              ',' +
+              element.routeName.toString() +
+              ';' +
+              element.startTime.hour.toString() +
+              ":" +
+              element.startTime.minute.toString() +
+              ';' +
+              element.endTime.hour.toString() +
+              ":" +
+              element.endTime.minute.toString();
+        } else
+          firstloop = false;
       });
     }
 
     /// Upload to server
-    await routes.set({
-      'driver': bus.driver.toString(),
-      'trips': trips,
-    })
-        .whenComplete(() => {
-          success = true, 
-          print('Bus added'),
+    await routes
+        .set({
+          'driver': bus.driver.toString(),
+          'trips': trips,
         })
+        .whenComplete(() => {
+              success = true,
+              print('Bus added'),
+            })
         .catchError((error) => {
-          print("Failed to save bus: $error"),
-        });
+              print("Failed to save bus: $error"),
+            });
     return success;
   }
 
@@ -76,10 +78,10 @@ class BusesRepository {
         bus.busNo = doc.id.toString();
         bus.driver = doc["driver"].toString();
 
-        if(doc["trips"] != "") {
+        if (doc["trips"] != "") {
           /// Form trips object
           List<String> tripDataWithTime =
-              doc["trips"].toString().split(",")??[];
+              doc["trips"].toString().split(",") ?? [];
 
           tripDataWithTime.forEach((element) {
             Trip trip = Trip();
@@ -92,25 +94,15 @@ class BusesRepository {
 
             if (tripData.isNotEmpty) {
               trip.routeName = tripData[0].toString();
-              /*trip.startTime = tripData[1] as TimeOfDay;
-              trip.endTime = tripData[2] as TimeOfDay;*/
 
               /// For start time
-              int hour = int.parse(tripData[1]
-                  .split(":")
-                  .first);
-              int min = int.parse(tripData[1]
-                  .split(":")
-                  .last);
+              int hour = int.parse(tripData[1].split(":").first);
+              int min = int.parse(tripData[1].split(":").last);
               trip.startTime = TimeOfDay(hour: hour, minute: min);
 
               /// For end time
-              hour = int.parse(tripData[2]
-                  .split(":")
-                  .first);
-              min = int.parse(tripData[2]
-                  .split(":")
-                  .last);
+              hour = int.parse(tripData[2].split(":").first);
+              min = int.parse(tripData[2].split(":").last);
               trip.endTime = TimeOfDay(hour: hour, minute: min);
               bus.trips.add(trip);
             }
@@ -125,6 +117,7 @@ class BusesRepository {
   /// Delete bus
   Future<bool> deleteBus(String busNumber) async {
     bool success = false;
+
     /// Delete driver data from drivers collection
     await FirebaseFirestore.instance
         .collection(Constants.BUSES_COLLECTION)
@@ -139,25 +132,37 @@ class BusesRepository {
   Future<bool> deleteTrip(Bus bus) async {
     bool success = false;
     String updatedTrips = '';
+
     /// Delete trip data from drivers collection
     if (bus.trips.isNotEmpty) {
       /// Add first trip
-      updatedTrips = bus.trips[0].routeName.toString() + ';'
-          + bus.trips[0].startTime.hour.toString()
-          + ":" + bus.trips[0].startTime.minute.toString() + ';'
-          + bus.trips[0].endTime.hour.toString()
-          + ":" + bus.trips[0].endTime.minute.toString();
+      updatedTrips = bus.trips[0].routeName.toString() +
+          ';' +
+          bus.trips[0].startTime.hour.toString() +
+          ":" +
+          bus.trips[0].startTime.minute.toString() +
+          ';' +
+          bus.trips[0].endTime.hour.toString() +
+          ":" +
+          bus.trips[0].endTime.minute.toString();
 
       /// Add remaining trips, skipping first trip
       bool firstloop = true;
       bus.trips.forEach((element) {
         if (!firstloop) {
-          updatedTrips = updatedTrips + ',' + element.routeName.toString() + ';'
-              + element.startTime.hour.toString()
-              + ":" + element.startTime.minute.toString() + ';'
-              + element.endTime.hour.toString()
-              + ":" + element.endTime.minute.toString();
-        } else firstloop = false;
+          updatedTrips = updatedTrips +
+              ',' +
+              element.routeName.toString() +
+              ';' +
+              element.startTime.hour.toString() +
+              ":" +
+              element.startTime.minute.toString() +
+              ';' +
+              element.endTime.hour.toString() +
+              ":" +
+              element.endTime.minute.toString();
+        } else
+          firstloop = false;
       });
     }
 
@@ -167,9 +172,9 @@ class BusesRepository {
         .update({"trips": updatedTrips})
         .whenComplete(() => success = true)
         .onError((error, stackTrace) {
-      success = false;
-      print(error);
-    });
+          success = false;
+          print(error);
+        });
     return success;
   }
 }

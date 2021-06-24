@@ -14,7 +14,8 @@ class BusStopProvider with ChangeNotifier {
 
   Future<void> getData() async {
     loading = true;
-    busStopsModel = await BusStopsRepository().fetchBusStops()
+    busStopsModel = await BusStopsRepository()
+        .fetchBusStops()
         .whenComplete(() => loading = false);
     notifyListeners();
   }

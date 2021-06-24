@@ -32,30 +32,27 @@ class DriversRepository {
     bool success = false;
     String imagePath = '';
 
-    if(driver.image != null)
+    if (driver.image != null)
       imagePath = await uploadImage(driver.image, driver.name);
 
-    if((imagePath != '' && imagePath != null)
-        || driver.image == null) {
+    if ((imagePath != '' && imagePath != null) || driver.image == null) {
       /// Create a CollectionReference called Drivers that references the firestore collection
-      DocumentReference busStops =
-        FirebaseFirestore.instance
-            .collection(Constants.DRIVERS_COLLECTION)
-            .doc(driver.name + " - " + driver.contact);
+      DocumentReference busStops = FirebaseFirestore.instance
+          .collection(Constants.DRIVERS_COLLECTION)
+          .doc(driver.name + " - " + driver.contact);
       await busStops.set({
         'profilePath': imagePath,
         'name': driver.name.toString(),
         'contact': driver.contact.toString(),
         'address': driver.address.toString(),
-      })
-          .whenComplete(() {
+      }).whenComplete(() {
         print("Driver added");
         success = true;
-      })
-          .onError((error, stackTrace) {
+      }).onError((error, stackTrace) {
         print("Failed to add stop: $error");
       });
-    } else print("Failed to upload image");
+    } else
+      print("Failed to upload image");
     return success;
   }
 
@@ -67,25 +64,25 @@ class DriversRepository {
         .collection(Constants.DRIVERS_COLLECTION)
         .get()
         .then((QuerySnapshot querySnapshot) async {
-          querySnapshot.docs.forEach((doc) async {
-            Driver driver = Driver();
-            driver.image = null;
+      querySnapshot.docs.forEach((doc) async {
+        Driver driver = Driver();
+        driver.image = null;
 
-            driver.name = doc['name'];
-            driver.contact = doc['contact'];
-            driver.address = doc['address'];
-            driver.imagePath = doc['profilePath'];
-            // driver.image = (await NetworkAssetBundle(
-            //     Uri.parse(driver.imagePath))
-            //     .load(driver.imagePath))
-            //     .buffer
-            //     .asUint8List();
-            // print('profile path' + driver.image.toString());
-            // http.Response response = await http.get(doc['profilePath'] as Uri);
-            // driver.image = await http.readBytes(Uri.parse(doc['profilePath']));
-            // print('success' + driver.image.toString());
-            driversModel.drivers.add(driver);
-        });
+        driver.name = doc['name'];
+        driver.contact = doc['contact'];
+        driver.address = doc['address'];
+        driver.imagePath = doc['profilePath'];
+        // driver.image = (await NetworkAssetBundle(
+        //     Uri.parse(driver.imagePath))
+        //     .load(driver.imagePath))
+        //     .buffer
+        //     .asUint8List();
+        // print('profile path' + driver.image.toString());
+        // http.Response response = await http.get(doc['profilePath'] as Uri);
+        // driver.image = await http.readBytes(Uri.parse(doc['profilePath']));
+        // print('success' + driver.image.toString());
+        driversModel.drivers.add(driver);
+      });
     });
     return driversModel;
   }
@@ -100,19 +97,19 @@ class DriversRepository {
     String busNo = "";
 
     busesModel.buses.forEach((element) {
-      if(element.driver.trim() == driverName.trim())
+      if (element.driver.trim() == driverName.trim())
         busNo = element.busNo.toString();
     });
-    if(busNo != "") {
+    if (busNo != "") {
       await FirebaseFirestore.instance
           .collection(Constants.BUSES_COLLECTION)
           .doc(busNo)
           .update({"driver": "No Driver"})
           .whenComplete(() => success = true)
           .onError((error, stackTrace) {
-        success = false;
-        print(error);
-      });
+            success = false;
+            print(error);
+          });
     }
 
     /// Delete driver data from drivers collection

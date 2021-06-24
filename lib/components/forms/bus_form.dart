@@ -23,12 +23,10 @@ class _BusFormState extends State<BusForm> {
   Future<void> _selectTime(bool startTime, BusesFormProvider prov) async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
-      initialTime: startTime ?
-      prov.trip.startTime : prov.trip.endTime,
+      initialTime: startTime ? prov.trip.startTime : prov.trip.endTime,
     );
     if (newTime != null) {
-      startTime?
-      prov.setStartTime(newTime) : prov.setEndTime(newTime);
+      startTime ? prov.setStartTime(newTime) : prov.setEndTime(newTime);
     }
   }
 
@@ -58,44 +56,46 @@ class _BusFormState extends State<BusForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      busesProv.driversLoading?
-                      SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15, top: 15),
-                          child: CircularProgressIndicator(
-                              color: Palette.secondary
-                          ),
-                        ),
-                      )
-                      :busesProv.getDrivers().length == 0?
-                      Text("No saved drivers",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: Constants.alertFontSize
-                          ))
-                      :DropdownButton<String>(
-                        hint: Text("Select Driver"),
-                        value: busesProv.busData.driver,
-                        onChanged: (String value) {
-                          busesProv.setDriver(value);
-                        },
-                        items: busesProv.getDrivers().map((String route) {
-                          return DropdownMenuItem<String>(
-                            value: route,
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(width: 10),
-                                Text(
-                                  route,
-                                  style: TextStyle(color: Colors.black),
+                      busesProv.driversLoading
+                          ? SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, top: 15),
+                                child: CircularProgressIndicator(
+                                    color: Palette.secondary),
+                              ),
+                            )
+                          : busesProv.getDrivers().length == 0
+                              ? Text("No saved drivers",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: Constants.alertFontSize))
+                              : DropdownButton<String>(
+                                  hint: Text("Select Driver"),
+                                  value: busesProv.busData.driver,
+                                  onChanged: (String value) {
+                                    busesProv.setDriver(value);
+                                  },
+                                  items: busesProv
+                                      .getDrivers()
+                                      .map((String route) {
+                                    return DropdownMenuItem<String>(
+                                      value: route,
+                                      child: Row(
+                                        children: <Widget>[
+                                          SizedBox(width: 10),
+                                          Text(
+                                            route,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
                                 ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                      ),
                     ],
                   ),
                   SizedBox(height: 15),
@@ -112,51 +112,51 @@ class _BusFormState extends State<BusForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      busesProv.routesLoading?
-                      SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15, top: 15),
-                          child: CircularProgressIndicator(
-                              color: Palette.secondary
-                          ),
-                        ),
-                      )
-                      :busesProv.routes.length == 0?
-                      Text("No saved routes",
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: Constants.alertFontSize
-                      ))
-                      :DropdownButton<String>(
-                        hint: Text("Select Route"),
-                        value: busesProv.trip.routeName,
-                        onChanged: (String value) {
-                          busesProv.setRoute(value);
-                        },
-                        items: busesProv.routes.map((String route) {
-                          return DropdownMenuItem<String>(
-                            value: route,
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(width: 10),
-                                Text(
-                                  route,
-                                  style: TextStyle(color: Colors.black),
+                      busesProv.routesLoading
+                          ? SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, top: 15),
+                                child: CircularProgressIndicator(
+                                    color: Palette.secondary),
+                              ),
+                            )
+                          : busesProv.routes.length == 0
+                              ? Text("No saved routes",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: Constants.alertFontSize))
+                              : DropdownButton<String>(
+                                  hint: Text("Select Route"),
+                                  value: busesProv.trip.routeName,
+                                  onChanged: (String value) {
+                                    busesProv.setRoute(value);
+                                  },
+                                  items: busesProv.routes.map((String route) {
+                                    return DropdownMenuItem<String>(
+                                      value: route,
+                                      child: Row(
+                                        children: <Widget>[
+                                          SizedBox(width: 10),
+                                          Text(
+                                            route,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
                                 ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                      ),
                       // SizedBox(width: 100.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             'Start Time: '
-                                '${busesProv.trip.startTime.format(context)}'
+                                    '${busesProv.trip.startTime.format(context)}'
                                 .toUpperCase(),
                             style: TextStyle(fontSize: 15.0),
                           ),
@@ -176,7 +176,7 @@ class _BusFormState extends State<BusForm> {
                         children: [
                           Text(
                             'End Time: '
-                                '${busesProv.trip.endTime.format(context)}'
+                                    '${busesProv.trip.endTime.format(context)}'
                                 .toUpperCase(),
                             style: TextStyle(fontSize: 15.0),
                           ),
@@ -192,21 +192,22 @@ class _BusFormState extends State<BusForm> {
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Palette.secondary),
                         ),
                         onPressed: () {
-                          if(busesProv.trip.routeName != ""
-                              && busesProv.trip.routeName != null)
+                          if (busesProv.trip.routeName != "" &&
+                              busesProv.trip.routeName != null)
                             busesProv.addRoute();
                           else
                             showAlertDialog(
                                 context: context,
                                 title: "Alert",
-                                message: "Please select route"
-                            );
+                                message: "Please select route");
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 11),
                           child: Text(
                             "Add".toUpperCase(),
                             textAlign: TextAlign.center,
@@ -219,78 +220,84 @@ class _BusFormState extends State<BusForm> {
                       ),
                     ],
                   ),
-                  SizedBox(height:30.0),
+                  SizedBox(height: 30.0),
                   Container(
                     height: MediaQuery.of(context).copyWith().size.height / 3,
                     width: MediaQuery.of(context).copyWith().size.width,
                     child: SmoothScrollWeb(
                       controller: _scrollController,
                       child: Scrollbar(
-                        child: busesProv.busData.trips.length == 0?
-                        Center(
-                          child: Text(
-                            "Select Routes And Save",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        )
-                      :ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: _scrollController,
-                          scrollDirection: Axis.vertical,
-                          itemCount: busesProv.busData.trips.length??0,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              child: Card(
-                                child: Table(
-                                  columnWidths: {
-                                    0: FlexColumnWidth(4),
-                                    1: FlexColumnWidth(4),
-                                    2: FlexColumnWidth(4),
-                                    3: FlexColumnWidth(1),
-                                  },
-                                  children: [
-                                    TableRow(
+                        child: busesProv.busData.trips.length == 0
+                            ? Center(
+                                child: Text(
+                                  "Select Routes And Save",
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                controller: _scrollController,
+                                scrollDirection: Axis.vertical,
+                                itemCount: busesProv.busData.trips.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    child: Card(
+                                      child: Table(
+                                        columnWidths: {
+                                          0: FlexColumnWidth(4),
+                                          1: FlexColumnWidth(4),
+                                          2: FlexColumnWidth(4),
+                                          3: FlexColumnWidth(1),
+                                        },
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10.0,top: 10.0),
-                                            child: Text(
-                                              busesProv.busData.trips[index].routeName,
-                                              style: TextStyle(fontSize: 20.0),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:10.0),
-                                            child: Center(
-                                              child: Text(busesProv.busData.trips[index].startTime
-                                                  .format(context)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:10.0),
-                                            child: Center(
-                                              child: Text(busesProv.busData.trips[index].endTime
-                                                  .format(context)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(right:10.0),
-                                            child: Center(
-                                              child: IconButton(
-                                                  icon: Icon(Icons.delete),
-                                                  onPressed: (){
-                                                    busesProv.removeRoute(index);
-                                                  }
+                                          TableRow(children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0, top: 10.0),
+                                              child: Text(
+                                                busesProv.busData.trips[index]
+                                                    .routeName,
+                                                style:
+                                                    TextStyle(fontSize: 20.0),
                                               ),
                                             ),
-                                          )
-                                        ]
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10.0),
+                                              child: Center(
+                                                child: Text(busesProv.busData
+                                                    .trips[index].startTime
+                                                    .format(context)),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10.0),
+                                              child: Center(
+                                                child: Text(busesProv.busData
+                                                    .trips[index].endTime
+                                                    .format(context)),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10.0),
+                                              child: Center(
+                                                child: IconButton(
+                                                    icon: Icon(Icons.delete),
+                                                    onPressed: () {
+                                                      busesProv
+                                                          .removeRoute(index);
+                                                    }),
+                                              ),
+                                            )
+                                          ])
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
                       ),
                     ),
                   ),
@@ -300,13 +307,16 @@ class _BusFormState extends State<BusForm> {
                     children: [
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Palette.secondary),
                         ),
                         onPressed: () async {
                           String checkData = busesProv.checkData();
-                          if(checkData == '' || checkData == 'success') {
+                          if (checkData == '' || checkData == 'success') {
                             if (await busesProv.saveBusesData()) {
-                              await Provider.of<BusesProvider>(context, listen: false).getData();
+                              await Provider.of<BusesProvider>(context,
+                                      listen: false)
+                                  .getData();
                               busesProv.loading = false;
                               Navigator.pop(context);
                             } else {
@@ -314,19 +324,19 @@ class _BusFormState extends State<BusForm> {
                               return showAlertDialog(
                                   context: context,
                                   title: 'Please try again',
-                                  message: 'There was some problem while saving data'
-                              );
+                                  message:
+                                      'There was some problem while saving data');
                             }
                           } else {
                             return showAlertDialog(
                                 context: context,
                                 title: 'Missing Data',
-                                message: checkData
-                            );
+                                message: checkData);
                           }
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 11),
                           child: Text(
                             "Save".toUpperCase(),
                             textAlign: TextAlign.center,
@@ -338,8 +348,8 @@ class _BusFormState extends State<BusForm> {
                         ),
                       ),
                       SizedBox(width: 40),
-                      busesProv.loading?
-                      CircularProgressIndicator(color: Palette.secondary)
+                      busesProv.loading
+                          ? CircularProgressIndicator(color: Palette.secondary)
                           : Container(),
                     ],
                   ),

@@ -10,6 +10,7 @@ class BusStopDetails extends StatefulWidget {
   final int index;
 
   const BusStopDetails({Key key, @required this.index}) : assert(index != null);
+
   @override
   _BusStopDetailsState createState() => _BusStopDetailsState();
 }
@@ -22,51 +23,52 @@ class _BusStopDetailsState extends State<BusStopDetails> {
   void initState() {
     final prov = Provider.of<BusStopProvider>(context, listen: false);
     markers.add(Marker(
-        markerId: MarkerId(LatLng(double.parse(prov.busStopsModel.busStops[widget.index].lat),
-            double.parse(prov.busStopsModel.busStops[widget.index].lng)).toString()),
-        position: LatLng(double.parse(prov.busStopsModel.busStops[widget.index].lat),
-            double.parse(prov.busStopsModel.busStops[widget.index].lng))
-    ));
+        markerId: MarkerId(LatLng(
+                double.parse(prov.busStopsModel.busStops[widget.index].lat),
+                double.parse(prov.busStopsModel.busStops[widget.index].lng))
+            .toString()),
+        position: LatLng(
+            double.parse(prov.busStopsModel.busStops[widget.index].lat),
+            double.parse(prov.busStopsModel.busStops[widget.index].lng))));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<BusStopProvider>(
-      builder: (context, prov, _) =>
-          Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 15, left: 50),
-                  child: Text(
-                    prov.busStopsModel.busStops[widget.index].stopName,
-                    style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold,
-                        color: Palette.fontColor.withOpacity(0.6)
+        builder: (context, prov, _) => Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 50),
+                    child: Text(
+                      prov.busStopsModel.busStops[widget.index].stopName,
+                      style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          color: Palette.fontColor.withOpacity(0.6)),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 7,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                        double.parse(prov.busStopsModel.busStops[widget.index].lat),
-                        double.parse(prov.busStopsModel.busStops[widget.index].lng)),
-                    zoom: 10.0,
+                Expanded(
+                  flex: 7,
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                          double.parse(
+                              prov.busStopsModel.busStops[widget.index].lat),
+                          double.parse(
+                              prov.busStopsModel.busStops[widget.index].lng)),
+                      zoom: 10.0,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    markers: Set<Marker>.from(markers),
                   ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                  },
-                  markers: Set<Marker>.from(markers),
                 ),
-              ),
-            ],
-          )
-    );
+              ],
+            ));
   }
 }

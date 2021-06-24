@@ -46,8 +46,7 @@ class _StopFormState extends State<StopForm> {
                   prov.setLatLng(tappedPoint);
                   marker.add(Marker(
                       markerId: MarkerId(prov.getLatLng().toString()),
-                      position: prov.getLatLng()
-                  ));
+                      position: prov.getLatLng()));
                 },
               ),
             ),
@@ -68,9 +67,11 @@ class _StopFormState extends State<StopForm> {
                     ),
                   ),
                   SizedBox(width: 30),
-                  prov.getLatLng() == null?
-                  Text("Select a Bus Stop from the map",style: TextStyle(fontSize: 20))
-                      :Text(prov.getLatLng().toString(), style: TextStyle(fontSize: 20))
+                  prov.getLatLng() == null
+                      ? Text("Select a Bus Stop from the map",
+                          style: TextStyle(fontSize: 20))
+                      : Text(prov.getLatLng().toString(),
+                          style: TextStyle(fontSize: 20))
                 ],
               ),
             ),
@@ -81,14 +82,17 @@ class _StopFormState extends State<StopForm> {
                 children: [
                   ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Palette.secondary),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Palette.secondary),
                     ),
                     onPressed: () async {
                       String checkData = prov.checkData();
-                      if(checkData == '' || checkData == 'success') {
+                      if (checkData == '' || checkData == 'success') {
                         await prov.saveBusStop().then((success) async {
-                          if(success) {
-                            await Provider.of<BusStopProvider>(context, listen: false).getData();
+                          if (success) {
+                            await Provider.of<BusStopProvider>(context,
+                                    listen: false)
+                                .getData();
                             prov.loading = false;
                             Navigator.pop(context);
                           } else {
@@ -96,8 +100,8 @@ class _StopFormState extends State<StopForm> {
                             showAlertDialog(
                                 context: context,
                                 title: "Please try again",
-                                message: "Couldn't add bus stop, please try again"
-                            );
+                                message:
+                                    "Couldn't add bus stop, please try again");
                           }
                         });
                       } else {
@@ -105,13 +109,12 @@ class _StopFormState extends State<StopForm> {
                         return showAlertDialog(
                             context: context,
                             title: 'Missing Data',
-                            message: checkData
-                        );
+                            message: checkData);
                       }
-
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 11),
                       child: Text(
                         "Save".toUpperCase(),
                         textAlign: TextAlign.center,
@@ -123,8 +126,8 @@ class _StopFormState extends State<StopForm> {
                     ),
                   ),
                   SizedBox(width: 40),
-                  prov.loading?
-                  CircularProgressIndicator(color: Palette.secondary)
+                  prov.loading
+                      ? CircularProgressIndicator(color: Palette.secondary)
                       : Container(),
                 ],
               ),

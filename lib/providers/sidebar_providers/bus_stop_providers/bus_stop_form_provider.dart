@@ -21,16 +21,16 @@ class BusStopFormProvider with ChangeNotifier {
   }
 
   LatLng getLatLng() {
-    return busStop.lat == null || busStop.lng == null ?
-        null : LatLng(double.parse(busStop.lat), double.parse(busStop.lng));
+    return busStop.lat == null || busStop.lng == null
+        ? null
+        : LatLng(double.parse(busStop.lat), double.parse(busStop.lng));
   }
 
   String checkData() {
     String message = '';
-    if(busStop.stopName == "")
+    if (busStop.stopName == "")
       message = "Please enter stop name";
-    else if(busStop.lat == null
-        || busStop.lng == null)
+    else if (busStop.lat == null || busStop.lng == null)
       message = "Please select location";
     else
       message = "success";

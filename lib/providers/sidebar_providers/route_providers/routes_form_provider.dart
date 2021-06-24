@@ -33,8 +33,8 @@ class RoutesFormProvider with ChangeNotifier {
   }
 
   void setStartStop(String startStop) {
-    route.start = busStopsModel.busStops.firstWhere((element) =>
-      element.stopName == startStop);
+    route.start = busStopsModel.busStops
+        .firstWhere((element) => element.stopName == startStop);
     notifyListeners();
   }
 
@@ -44,8 +44,8 @@ class RoutesFormProvider with ChangeNotifier {
   }
 
   void addIntermediateStop() {
-    route.intermediate.stop.add(busStopsModel.busStops.firstWhere((element) =>
-      element.stopName == selectedIntermediateStop));
+    route.intermediate.stop.add(busStopsModel.busStops
+        .firstWhere((element) => element.stopName == selectedIntermediateStop));
     selectedIntermediateStop = null;
     notifyListeners();
   }
@@ -56,16 +56,16 @@ class RoutesFormProvider with ChangeNotifier {
   }
 
   void setEndStop(String endStop) {
-    route.end = busStopsModel.busStops.firstWhere((element) =>
-    element.stopName == endStop);
+    route.end = busStopsModel.busStops
+        .firstWhere((element) => element.stopName == endStop);
     notifyListeners();
   }
 
   String checkData() {
     String message = "";
-    if(route.name == "") {
+    if (route.name == "") {
       message = "Please enter route name";
-    } else if(route.start == null || route.end == null) {
+    } else if (route.start == null || route.end == null) {
       message = "Please select start/end stop";
     } else {
       message = "success";
@@ -81,5 +81,4 @@ class RoutesFormProvider with ChangeNotifier {
       notifyListeners();
     });
   }
-
 }
