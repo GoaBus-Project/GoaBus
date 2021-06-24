@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:goa_bus/models/buses_model.dart';
 import 'package:goa_bus/models/drivers_model.dart';
 import 'package:goa_bus/models/routes_model.dart';
+import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_provider.dart';
 import 'package:goa_bus/repositories/buses_repository.dart';
 import 'package:goa_bus/repositories/drivers_repository.dart';
 import 'package:goa_bus/repositories/routes_repository.dart';
+import 'package:provider/provider.dart';
 
 class BusesFormProvider with ChangeNotifier {
   Bus busData = Bus();
@@ -29,18 +31,22 @@ class BusesFormProvider with ChangeNotifier {
     trip.endTime = TimeOfDay(hour: 12, minute: 00);
     driversLoading = true;
     await getRoutes();
-    _driversModel = await DriversRepository().fetchDrivers().whenComplete(() {
-      driversLoading = false;
-      notifyListeners();
-    });
+    await getDrivers();
   }
 
-  List<String> getDrivers() {
+  List<String> getDriversWithContact() {
     List<String> drivers = [];
     _driversModel.drivers.forEach((element) {
       drivers.add(element.name + " - " + element.contact);
     });
     return drivers;
+  }
+
+  Future<void> getDrivers() async {
+    _driversModel = await DriversRepository().fetchDrivers().whenComplete(() {
+      driversLoading = false;
+      notifyListeners();
+    });
   }
 
   Future<void> getRoutes() async {
@@ -99,6 +105,13 @@ class BusesFormProvider with ChangeNotifier {
     else
       message = 'success';
     return message;
+  }
+
+  Future<bool> addTrip(BuildContext context, int index) async {
+    final prov = Provider.of<BusesProvider>(context, listen: false);
+    addRoute();
+    prov.busesModel.buses[index].trips.addAll(busData.trips);
+    return await BusesRepository().updateBus(prov.busesModel.buses[index]);
   }
 
   Future<bool> saveBusesData() async {
