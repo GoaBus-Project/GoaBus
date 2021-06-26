@@ -106,7 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                               )
                           ),
                           onPressed: (){
-                            MaterialPageRoute(builder: (context) => HomePage());
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
                           },
                       )
                     ],
@@ -120,3 +123,70 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+
+
+
+// Scaffold(
+// body: Column(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+// Padding(
+// padding: const EdgeInsets.all(10.0),
+// child: TextFormField(
+// autofocus: true,
+// decoration: InputDecoration(
+// border: UnderlineInputBorder(),
+// labelText: 'Enter your email'
+// ),
+// onChanged: (email){},
+// ),
+// ),
+// SizedBox(height: 15),
+// Padding(
+// padding: const EdgeInsets.all(10.0),
+// child: TextFormField(
+// decoration: InputDecoration(
+// border: UnderlineInputBorder(),
+// labelText: 'Enter your password',
+// suffixIcon: IconButton(
+// icon: Icon(
+// // Based on passwordVisible state choose the icon
+// // _obscureText?
+// Icons.visibility,
+// // : Icons.visibility_off,
+// color: Theme.of(context).primaryColorDark,
+// ),
+// onPressed: () {
+// },
+// ),
+// ),
+// // obscureText: _obscureText,
+// onChanged: (password){},
+// ),
+// ),
+// ElevatedButton(
+// style: ButtonStyle(
+// backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+// ),
+// onPressed: () {
+// Navigator.push(
+// context,
+// MaterialPageRoute(builder: (context) => HomePage()),
+// );
+// },
+// child: Padding(
+// padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+// child: Text(
+// "Login".toUpperCase(),
+// textAlign: TextAlign.center,
+// style: TextStyle(
+// color: Colors.blue,
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// ),
+// ),
+// ]
+// ),
+// );
