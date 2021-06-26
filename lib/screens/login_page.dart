@@ -1,4 +1,6 @@
 import 'package:drivers_app/constants/color_pallete.dart';
+import 'package:drivers_app/providers/loginpage_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'home_page.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String id='', password='';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,78 +43,74 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        'assets/logo5.png',
-                        width: 100,
-                        height: 100,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: TextFormField(
-                          decoration: InputDecoration(
+                  child: Consumer<LoginPageProvider>(
+                    builder:(BuildContext context,prov,_) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/logo5.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.perm_identity_outlined,
                                 color: Palette.secondary,
                               ),
                               labelText: 'Driver ID',
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              id = value;
-                            });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: TextFormField(
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          onChanged: (value) {
-                            setState(() {
-                              password = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.lock_outlined,
-                              color: Palette.secondary,
                             ),
-                            labelText: 'Bus Number',
+                            onChanged: (value) {
+                              prov.id = value;
+                            },
                           ),
                         ),
-                      ),
-                      SizedBox(height: 50),
-                      ElevatedButton(
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            onChanged: (value) {
+                              prov.password = value;
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.lock_outlined,
+                                color: Palette.secondary,
+                              ),
+                              labelText: 'Bus Number',
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 50),
+                        ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: Palette.secondary,
                               elevation: 3,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)
-                              ),
-                              padding: EdgeInsets.all(20)
-                          ),
-                          child: Text(
-                              "Login",
+                                  borderRadius: BorderRadius.circular(30)),
+                              padding: EdgeInsets.all(20)),
+                          child: Text("Login",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,
                                 fontSize: 20,
-                              )
-                          ),
-                          onPressed: (){
+                              )),
+                          onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => HomePage()),
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()),
                             );
                           },
-                      )
-                    ],
-                  ),
+                        )
+                      ],
+                    );
+                  }),
                 ),
               ),
             )
