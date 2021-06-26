@@ -1,6 +1,7 @@
-import 'package:drivers_app/constants/color_pallete.dart';
+import 'package:drivers_app/common/color_pallete.dart';
 import 'package:drivers_app/providers/homepage_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,36 +25,31 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: prov.clicked
-                  ? RawMaterialButton(
-                      onPressed: () {
-                        prov.stopSendingLocation();
-                      },
-                      elevation: 2.0,
-                      fillColor: Palette.secondary,
-                      child: Icon(
-                        Icons.stop,
-                        size: 200.0,
-                        color: Palette.primary,
-                      ),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                    )
-                  : RawMaterialButton(
-                      onPressed: () {
-                        prov.startSendingLocation();
-                      },
-                      elevation: 2.0,
-                      fillColor: Palette.secondary,
-                      child: Icon(
-                        Icons.location_on_outlined,
-                        size: 200.0,
-                        color: Palette.primary,
-                      ),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                    ),
-            ),
+                child: RawMaterialButton(
+              onPressed: () async {
+                prov
+                    .startStopSendingLocation(context)
+                    .catchError((error, stackTrace) {
+                  Fluttertoast.showToast(
+                      msg: "This is Center Short Toast",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Palette.primary,
+                      textColor: Palette.fontColor,
+                      fontSize: 16.0);
+                });
+              },
+              elevation: 2.0,
+              fillColor: Palette.secondary,
+              child: Icon(
+                prov.start ? Icons.stop : Icons.location_on_outlined,
+                size: 200.0,
+                color: Palette.primary,
+              ),
+              padding: EdgeInsets.all(15.0),
+              shape: CircleBorder(),
+            )),
           ],
         );
       }),
