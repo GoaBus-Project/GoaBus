@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                     .startStopSendingLocation(context)
                     .catchError((error, stackTrace) {
                   Fluttertoast.showToast(
-                      msg: "This is Center Short Toast",
+                      msg: "There was some problem",
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.CENTER,
                       timeInSecForIosWeb: 1,

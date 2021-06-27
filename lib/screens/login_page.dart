@@ -1,5 +1,6 @@
 import 'package:drivers_app/common/color_pallete.dart';
 import 'package:drivers_app/providers/loginpage_provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import 'home_page.dart';
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                   ),
                   child: Consumer<LoginPageProvider>(
-                    builder:(BuildContext context,prov,_) {
+                      builder: (BuildContext context, prov, _) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: 'Driver ID',
                             ),
                             onChanged: (value) {
-                              prov.id = value;
+                              prov.email = value;
                             },
                           ),
                         ),
@@ -100,14 +101,36 @@ class _LoginPageState extends State<LoginPage> {
                                 letterSpacing: 1.5,
                                 fontSize: 20,
                               )),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()),
-                            );
+                          onPressed: () async {
+                            if (await prov.login()) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Incorrect details",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Palette.primary,
+                                  textColor: Palette.fontColor,
+                                  fontSize: 16.0
+                              );
+                            }
                           },
-                        )
+                        ),
+                        Visibility(
+                          visible: prov.loading,
+                          child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                color: Palette.secondary,
+                              ))),
+                        ),
                       ],
                     );
                   }),

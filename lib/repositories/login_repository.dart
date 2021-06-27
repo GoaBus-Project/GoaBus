@@ -1,6 +1,10 @@
-class LoginRepository {
-  Future<bool> login(String id, String password) async {
+import 'package:firebase_auth/firebase_auth.dart';
 
-    return false;
+class LoginRepository {
+  Future<UserCredential> login(String email, String password) async {
+    return await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 }
