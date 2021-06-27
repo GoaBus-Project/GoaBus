@@ -102,15 +102,10 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 20,
                               )),
                           onPressed: () async {
-                            if (await prov.login()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
-                            } else {
+                            String msg = prov.checkFields();
+                            if(msg != '') {
                               Fluttertoast.showToast(
-                                  msg: "Incorrect details",
+                                  msg: msg,
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.CENTER,
                                   timeInSecForIosWeb: 1,
@@ -118,6 +113,24 @@ class _LoginPageState extends State<LoginPage> {
                                   textColor: Palette.fontColor,
                                   fontSize: 16.0
                               );
+                            } else {
+                              if (await prov.login()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()),
+                                );
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Incorrect details",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Palette.primary,
+                                    textColor: Palette.fontColor,
+                                    fontSize: 16.0
+                                );
+                              }
                             }
                           },
                         ),

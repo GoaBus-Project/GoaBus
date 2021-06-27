@@ -6,18 +6,24 @@ class LoginPageProvider with ChangeNotifier {
   String email = '', password = '';
   bool loading = false;
 
+  String checkFields() {
+    String message = '';
+    if (email == '') {
+      return 'Enter email';
+    } else if (!email.contains("@") ||
+        (!email.contains(".com") && !email.contains(".in"))) {
+      return 'Incorrect email format';
+    }
+    else if (password == "") {
+      return 'Enter password';
+    }
+    return message;
+  }
+
   Future<bool> login() async {
     bool authenticated = false;
     loading = true;
     notifyListeners();
-
-    if (email == "")
-      return false;
-    else if (!email.contains("@") ||
-        (!email.contains(".com") && !email.contains(".in")))
-      return false;
-    else if (password == "") return false;
-
     try {
       UserCredential userCredential =
           await LoginRepository().login(email, password);
