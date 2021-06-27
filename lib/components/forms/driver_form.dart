@@ -59,6 +59,8 @@ class _DriverFormState extends State<DriverForm> {
                       border: UnderlineInputBorder(),
                       labelText: "Contact Number",
                     ),
+                    keyboardType: TextInputType.number,
+                    maxLength: 10,
                     onChanged: (number) {
                       driverProv.driver.contact = number;
                     },

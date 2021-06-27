@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:goa_bus/constants/constants.dart';
 import 'package:goa_bus/models/buses_model.dart';
@@ -8,6 +9,20 @@ import 'package:goa_bus/models/drivers_model.dart';
 import 'package:goa_bus/repositories/buses_repository.dart';
 
 class DriversRepository {
+  /// Create firebase account for driver
+  Future<bool> createDriverProfile(String email, String password) async {
+    bool success = false;
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email.replaceAll(' ', ''), password: password)
+        .whenComplete(() => success = true)
+        .onError((error, stackTrace) {
+      success = false;
+      print(error);
+      return;
+    });
+    return success;
+  }
+
   /// Upload drivers photo
   Future<String> uploadImage(Uint8List image, String name) async {
     String firebaseImagePath = '';
@@ -32,27 +47,37 @@ class DriversRepository {
     bool success = false;
     String imagePath = '';
 
+    /// Check if there is image selected
     if (driver.image != null)
       imagePath = await uploadImage(driver.image, driver.name);
 
-    if ((imagePath != '' && imagePath != null) || driver.image == null) {
-      /// Create a CollectionReference called Drivers that references the firestore collection
-      DocumentReference busStops = FirebaseFirestore.instance
-          .collection(Constants.DRIVERS_COLLECTION)
-          .doc(driver.name + " - " + driver.contact);
-      await busStops.set({
-        'profilePath': imagePath,
-        'name': driver.name.toString(),
-        'contact': driver.contact.toString(),
-        'address': driver.address.toString(),
-      }).whenComplete(() {
-        print("Driver added");
-        success = true;
-      }).onError((error, stackTrace) {
-        print("Failed to add stop: $error");
-      });
-    } else
-      print("Failed to upload image");
+    /// Create driver's profile with username "Name-Contact" & password as "Bus no"
+    /// Check if drivers profile is created
+    if (await createDriverProfile(
+        driver.name.toLowerCase() + '.' + driver.contact + '@goabus.com',
+        driver.contact)) {
+      if ((imagePath != '' && imagePath != null) || driver.image == null) {
+        /// Create a CollectionReference called Drivers that references the firestore collection
+        DocumentReference busStops = FirebaseFirestore.instance
+            .collection(Constants.DRIVERS_COLLECTION)
+            .doc(driver.name + " - " + driver.contact);
+        await busStops.set({
+          'profilePath': imagePath,
+          'name': driver.name.toString(),
+          'contact': driver.contact.toString(),
+          'address': driver.address.toString(),
+        }).whenComplete(() {
+          print("Driver added");
+          success = true;
+        }).onError((error, stackTrace) {
+          print("Failed to add stop: $error");
+        });
+      } else
+        print("Failed to upload image");
+    } else {
+      success = false;
+      return false;
+    }
     return success;
   }
 
