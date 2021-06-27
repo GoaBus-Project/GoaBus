@@ -8,7 +8,7 @@ class LocationRepository {
     DocumentReference bus = FirebaseFirestore.instance
         .collection(Constants.BUSES_COLLECTION)
         .doc("GA-05-A-0987");
-    await bus.set({
+    await bus.update({
       'lat': locationData.longitude,
       'lng': locationData.latitude
     });
