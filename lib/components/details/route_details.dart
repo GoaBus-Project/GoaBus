@@ -120,7 +120,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                   Text(
                     prov.routesModel.routes[widget.index].name,
                     style: TextStyle(
-                        fontSize: 50,
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
                         color: Palette.fontColor.withOpacity(0.6)),
                   ),

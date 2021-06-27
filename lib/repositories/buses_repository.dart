@@ -62,6 +62,64 @@ class BusesRepository {
     return success;
   }
 
+  /// Update bus trip
+  Future<bool> updateBus(Bus bus) async {
+    bool success = false;
+
+    /// Create a DocumentReference called Buses that references the firestore collection
+    DocumentReference routes = FirebaseFirestore.instance
+        .collection(Constants.BUSES_COLLECTION)
+        .doc(bus.busNo);
+
+    /// Create trips string which is comma separated to upload
+    String trips = '';
+    if (bus.trips.isNotEmpty) {
+      /// Add first trip
+      trips = bus.trips[0].routeName.toString() +
+          ';' +
+          bus.trips[0].startTime.hour.toString() +
+          ":" +
+          bus.trips[0].startTime.minute.toString() +
+          ';' +
+          bus.trips[0].endTime.hour.toString() +
+          ":" +
+          bus.trips[0].endTime.minute.toString();
+
+      /// Add remaining trips, skipping first trip
+      bool firstloop = true;
+      bus.trips.forEach((element) {
+        if (!firstloop) {
+          trips = trips +
+              ',' +
+              element.routeName.toString() +
+              ';' +
+              element.startTime.hour.toString() +
+              ":" +
+              element.startTime.minute.toString() +
+              ';' +
+              element.endTime.hour.toString() +
+              ":" +
+              element.endTime.minute.toString();
+        } else
+          firstloop = false;
+      });
+    }
+
+    /// Update on server
+    await routes
+        .update({
+          'trips': trips,
+        })
+        .whenComplete(() => {
+              success = true,
+              print('Bus updated'),
+            })
+        .catchError((error) => {
+              print("Failed to update bus: $error"),
+            });
+    return success;
+  }
+
   /// Fetch data
   Future<BusesModel> fetchBuses() async {
     BusesModel buses = BusesModel();

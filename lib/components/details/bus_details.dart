@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/common/alert_dialog_screen.dart';
 import 'package:goa_bus/components/details/bus_location_details.dart';
+import 'package:goa_bus/components/forms/add_trips.dart';
 import 'package:goa_bus/components/table.dart';
 import 'package:goa_bus/constants/color_palette.dart';
 import 'package:goa_bus/providers/sidebar_providers/bus_providers/buses_provider.dart';
@@ -115,6 +116,39 @@ class _BusDetailsState extends State<BusDetails> {
                     icon: Icon(Icons.delete_outline),
                     onPressed: () {
                       showConfirmationDialog(prov);
+                    }),
+              )),
+              SizedBox(width: 30),
+              Center(
+                  child: Padding(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: IconButton(
+                    tooltip: "Add new Trip",
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      showGeneralDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          barrierLabel: MaterialLocalizations.of(context)
+                              .modalBarrierDismissLabel,
+                          barrierColor: Colors.black45,
+                          transitionDuration: const Duration(milliseconds: 200),
+                          pageBuilder: (BuildContext buildContext,
+                              Animation animation,
+                              Animation secondaryAnimation) {
+                            return Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 800,
+                                height:
+                                    MediaQuery.of(context).size.height - 100,
+                                padding: EdgeInsets.all(20),
+                                color: Colors.white,
+                                child: Scaffold(
+                                  body: AddTripsForm(index: widget.index),
+                                ),
+                              ),
+                            );
+                          });
                     }),
               )),
             ],
@@ -236,7 +270,8 @@ class _BusDetailsState extends State<BusDetails> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: IconButton(
-                                        icon: Icon(Icons.delete),
+                                        tooltip: "Delete trip",
+                                        icon: Icon(Icons.cancel_outlined),
                                         onPressed: () async {
                                           if (!await prov.deleteTrip(
                                               widget.index, index))

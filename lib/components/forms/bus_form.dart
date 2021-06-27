@@ -67,7 +67,7 @@ class _BusFormState extends State<BusForm> {
                                     color: Palette.secondary),
                               ),
                             )
-                          : busesProv.getDrivers().length == 0
+                          : busesProv.getDriversWithContact().length == 0
                               ? Text("No saved drivers",
                                   style: TextStyle(
                                       color: Colors.red,
@@ -79,7 +79,7 @@ class _BusFormState extends State<BusForm> {
                                     busesProv.setDriver(value);
                                   },
                                   items: busesProv
-                                      .getDrivers()
+                                      .getDriversWithContact()
                                       .map((String route) {
                                     return DropdownMenuItem<String>(
                                       value: route,
