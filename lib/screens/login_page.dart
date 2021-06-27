@@ -1,5 +1,5 @@
 import 'package:drivers_app/common/color_pallete.dart';
-import 'package:drivers_app/providers/loginpage_provider.dart';
+import 'package:drivers_app/providers/login_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 

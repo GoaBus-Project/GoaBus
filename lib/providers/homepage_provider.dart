@@ -26,10 +26,9 @@ class HomePageProvider with ChangeNotifier {
             start = false;
             notifyListeners();
             print(error);
-            throw Exception('Firebase error');
+            return Future.error('There was some problem');
           });
         });
-        return Future.error('There was some problem');
       } else {
         start = !start;
         notifyListeners();
