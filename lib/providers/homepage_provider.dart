@@ -19,6 +19,7 @@ class HomePageProvider with ChangeNotifier {
         // location.enableBackgroundMode(enable: true);
         location.onLocationChanged.listen((LocationData currentLocation) async {
           print(currentLocation.latitude.toString()+"  "+currentLocation.longitude.toString());
+
           await LocationRepository()
               .syncLocation(currentLocation)
               .onError((error, stackTrace) {

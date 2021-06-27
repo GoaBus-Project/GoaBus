@@ -1,5 +1,6 @@
 class LoginRepository {
-  Future<bool> login() async {
+  Future<bool> login(String id, String password) async {
+
     return false;
   }
 }

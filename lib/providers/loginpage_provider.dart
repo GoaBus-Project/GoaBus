@@ -5,6 +5,6 @@ class LoginPageProvider with ChangeNotifier{
   String id = '', password = '';
 
   Future<bool> login() async {
-    return await LoginRepository().login();
+    return await LoginRepository().login(id,password);
   }
 }
