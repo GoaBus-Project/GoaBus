@@ -17,9 +17,10 @@ class HomePageProvider with ChangeNotifier {
       if (await Services().checkPermission()) {
         Location location = Location();
         // location.enableBackgroundMode(enable: true);
-        location.onLocationChanged.listen((locationData) async {
+        location.onLocationChanged.listen((LocationData currentLocation) async {
+          print(currentLocation.latitude.toString()+"  "+currentLocation.longitude.toString());
           await LocationRepository()
-              .syncLocation(locationData)
+              .syncLocation(currentLocation)
               .onError((error, stackTrace) {
             start = false;
             notifyListeners();
