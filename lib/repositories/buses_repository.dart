@@ -235,4 +235,18 @@ class BusesRepository {
         });
     return success;
   }
+
+  /// fetch selected bus location
+  Future<Bus> fetchBusLocation(Bus bus) async {
+    /// Firebase reference till document name
+    await FirebaseFirestore.instance
+        .collection(Constants.BUSES_COLLECTION)
+        .doc(bus.busNo)
+        .get()
+        .then((document) {
+      bus.lat = document.get('lat') as double;
+      bus.lng = document.get('lng') as double;
+    });
+    return bus;
+  }
 }

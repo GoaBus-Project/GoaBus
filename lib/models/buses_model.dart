@@ -40,8 +40,8 @@ class Bus {
 
   factory Bus.fromJson(Map<String, dynamic> json) => Bus(
         /// set default location to panjim
-        lat: json["lat"] ?? 15.496777,
-        lng: json["lng"] ?? 73.827827,
+        lat: json["lat"],
+        lng: json["lng"],
         driver: json["driver"] ?? "",
         busNo: json["busNo"] ?? "",
         trips:
@@ -49,8 +49,8 @@ class Bus {
       );
 
   Map<String, dynamic> toJson() => {
-        "lat": lat ?? 15.496777,
-        "lng": lng ?? 73.827827,
+        "lat": lat,
+        "lng": lng,
         "driver": driver ?? "",
         "busNo": busNo ?? "",
         "trips": List<dynamic>.from(trips.map((x) => x.toJson())) ?? [],

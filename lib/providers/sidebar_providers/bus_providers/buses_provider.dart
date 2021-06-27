@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:goa_bus/models/buses_model.dart';
 import 'package:goa_bus/repositories/buses_repository.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BusesProvider with ChangeNotifier {
   BusesModel busesModel = BusesModel();
+
+  List<Marker> markers = <Marker>[];
 
   bool loading = false;
 
@@ -11,6 +14,12 @@ class BusesProvider with ChangeNotifier {
     busesModel.buses = [];
     loading = true;
     await getData();
+  }
+
+  Future<void> fetchLocation(int index) async {
+    busesModel.buses[index] =
+        await BusesRepository().fetchBusLocation(busesModel.buses[index]);
+    notifyListeners();
   }
 
   Future<void> getData() async {
