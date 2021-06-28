@@ -53,9 +53,8 @@ class DriversRepository {
 
     /// Create driver's profile with username "Name-Contact" & password as "Bus no"
     /// Check if drivers profile is created
-    if (await createDriverProfile(
-        driver.name.toLowerCase() + '.' + driver.contact + '@goabus.com',
-        driver.contact)) {
+    String email = driver.name.toLowerCase() + '.' + driver.contact + '@goabus.com';
+    if (await createDriverProfile(email, driver.contact)) {
       if ((imagePath != '' && imagePath != null) || driver.image == null) {
         /// Create a CollectionReference called Drivers that references the firestore collection
         DocumentReference busStops = FirebaseFirestore.instance
@@ -64,6 +63,7 @@ class DriversRepository {
         await busStops.set({
           'profilePath': imagePath,
           'name': driver.name.toString(),
+          'email': email,
           'contact': driver.contact.toString(),
           'address': driver.address.toString(),
         }).whenComplete(() {
