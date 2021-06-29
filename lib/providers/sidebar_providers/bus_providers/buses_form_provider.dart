@@ -107,8 +107,7 @@ class BusesFormProvider with ChangeNotifier {
       message = 'Please select driver';
     else if (busData.trips.length == 0)
       message = 'Please select at least one route';
-    else
-      message = 'success';
+    else message = 'success';
     return message;
   }
 
