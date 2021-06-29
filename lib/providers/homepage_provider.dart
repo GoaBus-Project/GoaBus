@@ -20,16 +20,19 @@ class HomePageProvider with ChangeNotifier {
         print('location permission is given');
         // location.enableBackgroundMode(enable: true);
         location.onLocationChanged.listen((LocationData currentLocation) async {
-          print(currentLocation.latitude.toString()+"  "+currentLocation.longitude.toString());
-
-          await LocationRepository()
-              .syncLocation(currentLocation)
-              .onError((error, stackTrace) {
-            start = false;
-            notifyListeners();
-            print(error);
-            return Future.error('There was some problem');
-          });
+          print(currentLocation.latitude.toString() +
+              "  " +
+              currentLocation.longitude.toString());
+          if (start) {
+            await LocationRepository()
+                .syncLocation(currentLocation)
+                .onError((error, stackTrace) {
+              start = false;
+              notifyListeners();
+              print(error);
+              return Future.error('There was some problem');
+            });
+          }
         });
       } else {
         start = !start;
