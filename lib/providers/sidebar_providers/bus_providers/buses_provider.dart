@@ -19,6 +19,7 @@ class BusesProvider with ChangeNotifier {
   Future<void> fetchLocation(int index) async {
     busesModel.buses[index] =
         await BusesRepository().fetchBusLocation(busesModel.buses[index]);
+    loading = false;
     notifyListeners();
   }
 
