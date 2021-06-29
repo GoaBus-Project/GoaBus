@@ -6,13 +6,23 @@ import 'package:location_platform_interface/location_platform_interface.dart';
 class LocationRepository {
   Future<String> getBusNumber(String email) async {
     String busNo = '';
-
+    String name = '';
+    await FirebaseFirestore.instance
+        .collection(Constants.DRIVERS_COLLECTION)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        if(doc['email'] == email)
+          name = doc['name'].toString() + ' - ' + doc['contact'].toString();
+      });
+    });
+    print(name);
     await FirebaseFirestore.instance
         .collection(Constants.BUSES_COLLECTION)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        if(doc['email'] == email)
+        if(doc['driver'] == name)
           busNo = doc.id.toString();
       });
     });

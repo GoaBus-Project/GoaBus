@@ -134,6 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           },
                         ),
+                        SizedBox(height: 20,),
                         Visibility(
                           visible: prov.loading,
                           child: SizedBox(

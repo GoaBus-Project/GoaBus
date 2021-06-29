@@ -14,8 +14,10 @@ class HomePageProvider with ChangeNotifier {
 
     /// Check if started location
     if (start) {
+      print('location Started');
       if (await Services().checkPermission()) {
         Location location = Location();
+        print('location permission is given');
         // location.enableBackgroundMode(enable: true);
         location.onLocationChanged.listen((LocationData currentLocation) async {
           print(currentLocation.latitude.toString()+"  "+currentLocation.longitude.toString());
