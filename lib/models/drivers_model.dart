@@ -29,6 +29,7 @@ class Driver {
     this.image,
     this.imagePath,
     this.name,
+    this.email,
     this.contact,
     this.address,
   });
@@ -36,6 +37,7 @@ class Driver {
   Uint8List image;
   String imagePath;
   String name;
+  String email;
   String contact;
   String address;
 
@@ -43,6 +45,7 @@ class Driver {
         image: json["image"],
         imagePath: json["imagePath"] ?? "",
         name: json["name"] ?? "",
+        email: json["email"] ?? "",
         contact: json["contact"] ?? "",
         address: json["address"] ?? "",
       );

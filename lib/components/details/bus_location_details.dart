@@ -38,8 +38,8 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
   Widget build(BuildContext context) {
     return Consumer<BusesProvider>(
       builder: (context, prov, _) {
-        // print(prov.busesModel.buses[widget.index]?.lat);
-        // print(prov.busesModel.buses[widget.index]?.lng);
+        print(prov.busesModel.buses[widget.index]?.lat);
+        print(prov.busesModel.buses[widget.index]?.lng);
         prov.markers.clear();
         prov.markers.add(Marker(
             infoWindow: InfoWindow(
@@ -48,7 +48,8 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
             markerId: MarkerId(prov.busesModel.buses[widget.index].busNo),
             position: LatLng(
                 prov.busesModel.buses[widget.index]?.lat ?? 15.496777,
-                prov.busesModel.buses[widget.index]?.lng ?? 73.827827)));
+                prov.busesModel.buses[widget.index]?.lng ?? 73.827827)
+        ));
         return Container(
           child: GoogleMap(
             initialCameraPosition: CameraPosition(

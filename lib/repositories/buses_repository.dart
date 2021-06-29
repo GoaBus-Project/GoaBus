@@ -50,6 +50,7 @@ class BusesRepository {
     await routes
         .set({
           'driver': bus.driver.toString(),
+          'driverEmail' : bus.driverEmail.toString(),
           'trips': trips,
         })
         .whenComplete(() => {
