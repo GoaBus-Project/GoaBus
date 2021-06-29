@@ -28,6 +28,7 @@ class Bus {
     this.lat,
     this.lng,
     this.driver,
+    this.driverEmail,
     this.busNo,
     this.trips,
   });
@@ -35,6 +36,7 @@ class Bus {
   double lat;
   double lng;
   String driver;
+  String driverEmail;
   String busNo;
   List<Trip> trips;
 
@@ -43,6 +45,7 @@ class Bus {
         lat: json["lat"],
         lng: json["lng"],
         driver: json["driver"] ?? "",
+        driverEmail: json["driverEmail"] ?? "",
         busNo: json["busNo"] ?? "",
         trips:
             List<Trip>.from(json["trips"].map((x) => Trip.fromJson(x))) ?? [],
@@ -52,6 +55,7 @@ class Bus {
         "lat": lat,
         "lng": lng,
         "driver": driver ?? "",
+        "driverEmail": driverEmail ?? "",
         "busNo": busNo ?? "",
         "trips": List<dynamic>.from(trips.map((x) => x.toJson())) ?? [],
       };

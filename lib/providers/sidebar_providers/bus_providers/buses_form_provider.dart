@@ -26,6 +26,7 @@ class BusesFormProvider with ChangeNotifier {
     routes = [];
     busData.busNo = null;
     busData.driver = null;
+    // busData.driverEmail = null;
     trip.routeName = null;
     trip.startTime = TimeOfDay(hour: 12, minute: 00);
     trip.endTime = TimeOfDay(hour: 12, minute: 00);
@@ -67,6 +68,10 @@ class BusesFormProvider with ChangeNotifier {
 
   void setDriver(String driverName) {
     busData.driver = driverName;
+    _driversModel.drivers.forEach((element) {
+      if(element.name + " - " + element.contact == driverName)
+        busData.driverEmail = element.email;
+    });
     notifyListeners();
   }
 

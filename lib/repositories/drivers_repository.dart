@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,7 +12,8 @@ class DriversRepository {
   Future<bool> createDriverProfile(String email, String password) async {
     bool success = false;
     await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email.replaceAll(' ', ''), password: password)
+        .createUserWithEmailAndPassword(
+            email: email.replaceAll(' ', ''), password: password)
         .whenComplete(() => success = true)
         .onError((error, stackTrace) {
       success = false;
@@ -38,7 +38,6 @@ class DriversRepository {
     await uploadTask.then((res) async {
       firebaseImagePath = await res.ref.getDownloadURL();
     });
-
     return firebaseImagePath;
   }
 
@@ -53,7 +52,10 @@ class DriversRepository {
 
     /// Create driver's profile with username "Name-Contact" & password as "Bus no"
     /// Check if drivers profile is created
-    String email = driver.name.toLowerCase() + '.' + driver.contact + '@goabus.com';
+    String email = driver.name.replaceAll(" ", "").toLowerCase() +
+        '.' +
+        driver.contact +
+        '@goabus.com';
     if (await createDriverProfile(email, driver.contact)) {
       if ((imagePath != '' && imagePath != null) || driver.image == null) {
         /// Create a CollectionReference called Drivers that references the firestore collection
@@ -85,6 +87,7 @@ class DriversRepository {
   Future<DriversModel> fetchDrivers() async {
     DriversModel driversModel = DriversModel();
     driversModel.drivers = [];
+
     await FirebaseFirestore.instance
         .collection(Constants.DRIVERS_COLLECTION)
         .get()
@@ -92,8 +95,8 @@ class DriversRepository {
       querySnapshot.docs.forEach((doc) async {
         Driver driver = Driver();
         driver.image = null;
-
         driver.name = doc['name'];
+        driver.email = doc['email'];
         driver.contact = doc['contact'];
         driver.address = doc['address'];
         driver.imagePath = doc['profilePath'];
@@ -120,7 +123,6 @@ class DriversRepository {
     BusesModel busesModel = BusesModel();
     busesModel = await BusesRepository().fetchBuses();
     String busNo = "";
-
     busesModel.buses.forEach((element) {
       if (element.driver.trim() == driverName.trim())
         busNo = element.busNo.toString();
@@ -129,7 +131,7 @@ class DriversRepository {
       await FirebaseFirestore.instance
           .collection(Constants.BUSES_COLLECTION)
           .doc(busNo)
-          .update({"driver": "No Driver"})
+          .update({"driver": "No Driver", "driverEmail": "No Driver Email"})
           .whenComplete(() => success = true)
           .onError((error, stackTrace) {
             success = false;
