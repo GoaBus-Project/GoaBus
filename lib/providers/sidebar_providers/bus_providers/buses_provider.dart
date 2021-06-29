@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class BusesProvider with ChangeNotifier {
   BusesModel busesModel = BusesModel();
 
-  List<Marker> markers = <Marker>[];
+  Set<Marker> markers = {};
 
   bool loading = false;
 

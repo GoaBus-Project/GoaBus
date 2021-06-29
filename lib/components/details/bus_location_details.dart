@@ -17,7 +17,7 @@ class BusLocationDetails extends StatefulWidget {
 }
 
 class _BusLocationDetailsState extends State<BusLocationDetails> {
-  Completer<GoogleMapController> _controller = Completer();
+  // Completer<GoogleMapController> _controller = Completer();
   Timer timer;
 
   @override
@@ -62,12 +62,12 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
                   initialCameraPosition: CameraPosition(
                     target: LatLng(prov.busesModel.buses[widget.index].lat,
                         prov.busesModel.buses[widget.index].lng),
-                    zoom: 10.0,
+                    zoom: 16.0,
                   ),
                   onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
+                    // _controller.complete(controller);
                   },
-                  markers: Set<Marker>.from(prov.markers),
+                  markers: prov.markers,
                 ),
               );
       },
