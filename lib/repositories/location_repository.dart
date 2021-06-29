@@ -29,8 +29,8 @@ class LocationRepository {
         .collection(Constants.BUSES_COLLECTION)
         .doc(busNumber);
     await bus.update({
-      'lat': locationData.longitude,
-      'lng': locationData.latitude
+      'lat': locationData.latitude,
+      'lng': locationData.longitude
     });
   }
 }
