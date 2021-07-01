@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
+                            Image.network(
                               Constants.MAIN_LOGO,
                               height: 200,
                               width: 200,
