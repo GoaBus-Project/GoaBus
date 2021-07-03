@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Image.asset(
+                                    Image.network(
                                       Constants.GOOGLE_LOGO,
                                       height: 40,
                                       width: 40,

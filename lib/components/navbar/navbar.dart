@@ -20,7 +20,7 @@ class NavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
+          Image.network(
             Constants.MAIN_LOGO,
             height: 57.0,
             width: 57.0,

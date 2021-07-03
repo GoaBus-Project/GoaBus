@@ -138,7 +138,6 @@ class DriversRepository {
             print(error);
           });
     }
-
     /// Delete driver data from drivers collection
     await FirebaseFirestore.instance
         .collection(Constants.DRIVERS_COLLECTION)
