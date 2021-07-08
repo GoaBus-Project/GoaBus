@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginRepository {
   /// Authenticate user
-  Future<bool> get userAuthenticated async {
+  Future<bool> userAuthenticated() async {
     bool authenticated = false;
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {

@@ -6,7 +6,7 @@ class LoginProvider with ChangeNotifier {
 
   void checkAuthenticated() async {
     authenticated =
-    await LoginRepository().signInWithGoogle()!=null?true:false;
+    await LoginRepository().userAuthenticated()!=null?true:false;
   }
 
   Future<bool> login(int signInMethod) async {
