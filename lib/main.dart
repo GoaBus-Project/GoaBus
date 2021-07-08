@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goabus_users/providers/home_provider.dart';
 import 'package:goabus_users/providers/login_provider.dart';
 import 'package:goabus_users/screens/loginPage.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class PassengerApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => HomeProvider()),
       ],
       child: MaterialApp(
         title: 'PassengerApp',
