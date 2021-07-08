@@ -34,6 +34,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497421845503:android:73639c36735d281e001dca",
+        "android_client_info": {
+          "package_name": "com.goabus.app.users_app.goabus_users"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497421845503-97n8u2nspo15qdu99pk1c1udqsv6sgal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX4tbQkvF0zSn7KPXQoJFp1fymRzEKisY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497421845503-97n8u2nspo15qdu99pk1c1udqsv6sgal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
