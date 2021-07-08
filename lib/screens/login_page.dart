@@ -19,18 +19,21 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     final prov = Provider.of<LoginProvider>(context, listen: false);
     prov.checkAuthenticated();
-    if (prov.authenticated)
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => HomePage()),
-      );
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginProvider>(
       builder: (context, prov, _) {
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          if (prov.authenticated)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomePage()),
+            );
+        });
+
         return Scaffold(
           body: Stack(
             children: [
