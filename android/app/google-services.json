@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "497421845503",
+    "firebase_url": "https://goabus-dd92c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "goabus-dd92c",
+    "storage_bucket": "goabus-dd92c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497421845503:android:28ccb772f94dca1f001dca",
+        "android_client_info": {
+          "package_name": "com.goabus.app.drivers_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497421845503-97n8u2nspo15qdu99pk1c1udqsv6sgal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX4tbQkvF0zSn7KPXQoJFp1fymRzEKisY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497421845503-97n8u2nspo15qdu99pk1c1udqsv6sgal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
