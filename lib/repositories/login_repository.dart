@@ -9,7 +9,8 @@ class LoginRepository {
       if (user == null) {
         authenticated = false;
         print('User is currently signed out!');
-      } else {
+      } else if (user.uid.isNotEmpty) {
+        print('uid exist '+user.uid);
         authenticated = true;
         print('User is signed in!');
       }
@@ -57,6 +58,8 @@ class LoginRepository {
 
   /// Sign out
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await FirebaseAuth.instance
+        .signOut()
+        .whenComplete(() => print('Signed Out'));
   }
 }

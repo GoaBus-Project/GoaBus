@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:goabus_users/repositories/login_repository.dart';
 
@@ -12,17 +13,25 @@ class LoginProvider with ChangeNotifier {
   Future<bool> login(int signInMethod) async {
     loading = true;
     notifyListeners();
+    UserCredential userCredential;
     switch (signInMethod) {
       case 0:
-        return await LoginRepository().localSignIn("", "") != null
+        userCredential = await LoginRepository().localSignIn("", "");
+        loading = false;
+        notifyListeners();
+        return userCredential != null
             ? true
             : false;
       case 1:
-        return await LoginRepository().signInWithGoogle() != null
+        userCredential = await LoginRepository().signInWithGoogle();
+        loading = false;
+        notifyListeners();
+        return userCredential != null
             ? true
             : false;
       // case 2:
-      //   return await LoginRepository().signInWithFacebook() != null
+      //   userCredential.user = await LoginRepository().signInWithFacebook();
+      //   return userCredential != null
       //       ? true
       //       : false;
     }
