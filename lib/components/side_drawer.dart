@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goabus_users/constants/color_palette.dart';
+import 'package:goabus_users/providers/login_provider.dart';
+import 'package:provider/provider.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -58,7 +60,9 @@ class _SideDrawerState extends State<SideDrawer> {
           title: Row(
             children: [
               Icon(Icons.location_on_outlined),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text(
                 'Bus Stops',
                 style: TextStyle(fontSize: 20, color: Palette.fontColor),
@@ -71,7 +75,9 @@ class _SideDrawerState extends State<SideDrawer> {
           title: Row(
             children: [
               Icon(Icons.favorite_border),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text(
                 'Favorites',
                 style: TextStyle(fontSize: 20, color: Palette.fontColor),
@@ -79,6 +85,24 @@ class _SideDrawerState extends State<SideDrawer> {
             ],
           ),
           onTap: () => Navigator.of(context).push(_NewPage(2)),
+        ),
+        ListTile(
+          title: Row(
+            children: [
+              Icon(Icons.logout),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                'Logout',
+                style: TextStyle(fontSize: 20, color: Palette.fontColor),
+              ),
+            ],
+          ),
+          onTap: () async {
+            await Provider.of<LoginProvider>(context).signOut().whenComplete(
+                () => Navigator.popUntil(context, (route) => route.isFirst));
+          },
         ),
       ],
     );

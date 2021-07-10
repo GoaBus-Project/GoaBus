@@ -6,7 +6,7 @@ class LoginProvider with ChangeNotifier {
 
   void checkAuthenticated() async {
     authenticated =
-    await LoginRepository().userAuthenticated()!=null?true:false;
+    await LoginRepository().userAuthenticated() != null? true : false;
   }
 
   Future<bool> login(int signInMethod) async {
@@ -29,5 +29,9 @@ class LoginProvider with ChangeNotifier {
     loading = false;
     notifyListeners();
     return false;
+  }
+
+  Future<void> signOut() async {
+    await LoginRepository().signOut();
   }
 }

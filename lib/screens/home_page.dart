@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goabus_users/components/sideDrawer.dart';
+import 'package:goabus_users/components/side_drawer.dart';
 import 'package:goabus_users/constants/color_palette.dart';
 import 'package:goabus_users/providers/home_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
