@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goabus_users/common/alert_dialog.dart';
 import 'package:goabus_users/constants/color_palette.dart';
 import 'package:goabus_users/providers/login_provider.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,45 @@ class SideDrawer extends StatefulWidget {
 }
 
 class _SideDrawerState extends State<SideDrawer> {
+  void showConfirmationDialog(LoginProvider prov) {
+    /// set up Yes button
+    Widget yesButton = MaterialButton(
+        child: Text(
+          'Yes'.toUpperCase(),
+          style: TextStyle(color: Colors.white),
+        ),
+        splashColor: Colors.redAccent,
+        color: Colors.red,
+        onPressed: () async {
+          await prov.signOut().whenComplete(
+              () => Navigator.popUntil(context, (route) => route.isFirst));
+        });
+
+    /// set up No button
+    Widget noButton = MaterialButton(
+        child: Text(
+          'No'.toUpperCase(),
+          style: TextStyle(color: Colors.white),
+        ),
+        splashColor: Palette.primary,
+        color: Palette.secondary,
+        onPressed: () {
+          Navigator.pop(context);
+        });
+
+    /// show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Alert'),
+          content: Text('Are you sure?'),
+          actions: [yesButton, noButton],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -100,8 +140,8 @@ class _SideDrawerState extends State<SideDrawer> {
             ],
           ),
           onTap: () async {
-            await Provider.of<LoginProvider>(context).signOut().whenComplete(
-                () => Navigator.popUntil(context, (route) => route.isFirst));
+            showConfirmationDialog(
+                Provider.of<LoginProvider>(context, listen: false));
           },
         ),
       ],
