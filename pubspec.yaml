@@ -44,6 +44,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_native_splash: ^1.2.0
+
+flutter_native_splash:
+  color: "0077B6"
+  image: assets/main-logo.png
+  android: true
+  ios: true
+
   flutter_launcher_icons: ^0.9.0
 flutter_icons:
   android: "launcher_icon"
@@ -56,17 +64,6 @@ flutter_icons:
 flutter_launcher_name:
   name: "GoaBus"
 
-
-
-  flutter_native_splash: ^1.2.0
-
-flutter_native_splash:
-  color: "0077B6"
-  image: assets/main-logo.png
-  android: true
-  ios: true
-  android_gravity: fill
-  ios_content_mode: scaleAspectFill
 
 
 # For information on the generic Dart part of this file, see the
