@@ -10,7 +10,7 @@ class LoginRepository {
         authenticated = false;
         print('User is currently signed out!');
       } else if (user.uid.isNotEmpty) {
-        print('uid exist '+user.uid);
+        print('uid exist ' + user.uid);
         authenticated = true;
         print('User is signed in!');
       }
@@ -19,17 +19,32 @@ class LoginRepository {
   }
 
   /// Local sign in
-  Future<UserCredential> localSignIn(String email, String password) async {
-    return await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<String> localSignIn(String email, String password) async {
+    String message = '';
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        )
+        .whenComplete(() => message = 'success')
+        .catchError((error, stackTrace) {
+      print(error);
+      message = 'There was some problem signing in, please retry';
+    });
+    if (userCredential == null) message = 'Incorrect details';
+    return message;
   }
 
   /// Google sign in
-  Future<UserCredential> signInWithGoogle() async {
+  Future<String> signInWithGoogle() async {
+    String message = '';
+
     /// Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount? googleUser =
+        await GoogleSignIn().signIn().onError((error, stackTrace) {
+      message = 'error';
+      print(error);
+    });
 
     /// Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth =
@@ -42,7 +57,14 @@ class LoginRepository {
     );
 
     /// Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .whenComplete(() => message = 'success')
+        .catchError((error, stackTrace) {
+      print(error);
+      message = 'There was some problem signing in, please retry';
+    });
+    return message;
   }
 
   // Future<UserCredential> signInWithFacebook() async {

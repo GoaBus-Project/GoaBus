@@ -6,27 +6,25 @@ class LoginProvider with ChangeNotifier {
   bool loading = false, authenticated = false;
 
   void checkAuthenticated() async {
-    authenticated =
-    await LoginRepository().userAuthenticated();
+    authenticated = await LoginRepository().userAuthenticated();
   }
 
   Future<bool> login(int signInMethod) async {
     loading = true;
     notifyListeners();
-    UserCredential userCredential;
     switch (signInMethod) {
       case 0:
-        userCredential = await LoginRepository().localSignIn("", "");
-        loading = false;
-        notifyListeners();
-        return userCredential != null
+        return await LoginRepository().localSignIn("", "").whenComplete(() {
+                  loading = false;
+                  notifyListeners();
+                }) == 'success'
             ? true
             : false;
       case 1:
-        userCredential = await LoginRepository().signInWithGoogle();
-        loading = false;
-        notifyListeners();
-        return userCredential != null
+        return await LoginRepository().signInWithGoogle().whenComplete(() {
+                  loading = false;
+                  notifyListeners();
+                }) == 'success'
             ? true
             : false;
       // case 2:
