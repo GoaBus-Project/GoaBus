@@ -2,8 +2,8 @@
     package="com.goabus.app.users_app.goabus_users">
 
     <application
-        android:icon="@mipmap/ic_launcher"
-        android:label="goabus_users">
+        android:icon="@mipmap/launcher_icon"
+        android:label="GoaBus">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBTtqCB1nD9ow0zcZJBrCiHsG3DF3Jh8yU" />
