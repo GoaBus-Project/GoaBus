@@ -165,6 +165,90 @@ class _LoginPageState extends State<LoginPage> {
                               );
                             },
                           ),
+
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Palette.secondary,
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                padding: EdgeInsets.all(20)),
+                            child: prov.loading ?
+                            CircularProgressIndicator(color: Colors.white)
+                                : Text("Register",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  letterSpacing: 1.5,
+                                  fontSize: 20,
+                                )),
+                            onPressed: () async {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (_) {
+                                  return Container(
+                                      height: MediaQuery.of(context).size.height * 0.75,
+                                      decoration: new BoxDecoration(
+                                        color: Palette.primary,
+                                        borderRadius: new BorderRadius.only(
+                                          topLeft: const Radius.circular(25.0),
+                                          topRight: const Radius.circular(25.0),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Column(
+                                          children: [
+                                            // SizedBox(
+                                            //   height: 20,
+                                            // ),
+                                            TextField(
+                                              decoration: new InputDecoration(
+                                                  border: new OutlineInputBorder(
+                                                    borderRadius: const BorderRadius.all(
+                                                      const Radius.circular(50.0),
+                                                    ),
+                                                  ),
+                                                  hintStyle: new TextStyle(
+                                                      color: Colors.grey[800]),
+                                                  hintText: "Enter Email",
+                                                  fillColor: Colors.white70),
+                                              autofocus: false,
+                                              onChanged: (value) {
+                                                // prov.source = value;
+                                              },
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            TextField(
+                                              decoration: new InputDecoration(
+                                                  border: new OutlineInputBorder(
+                                                    borderRadius: const BorderRadius.all(
+                                                      const Radius.circular(50.0),
+                                                    ),
+                                                  ),
+                                                  hintStyle: new TextStyle(
+                                                      color: Colors.grey[800]),
+                                                  hintText: 'Enter Password',
+                                                  fillColor: Colors.white70),
+                                              autofocus: false,
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  // prov.enableDisableBusList();
+                                                },
+                                                child: Text("Register")),
+                                          ],
+                                        ),
+                                      ));
+                                },
+                              );
+                            },
+                          ),
+
                           // SizedBox(height: 20,),
                           // Visibility(
                           //   visible: prov.loading,
@@ -177,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
                           //           ))),
                           // ),
                           SizedBox(height: 50),
-                          Row(
+                          /*Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               OutlinedButton(
@@ -286,7 +370,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               )
                             ],
-                          )
+                          )*/
                         ],
                       )),
                 ),
