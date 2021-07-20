@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                               );
                             },
                           ),
-
+                          SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Palette.secondary,
@@ -182,70 +182,153 @@ class _LoginPageState extends State<LoginPage> {
                                   fontSize: 20,
                                 )),
                             onPressed: () async {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (_) {
-                                  return Container(
-                                      height: MediaQuery.of(context).size.height * 0.75,
-                                      decoration: new BoxDecoration(
-                                        color: Palette.primary,
-                                        borderRadius: new BorderRadius.only(
-                                          topLeft: const Radius.circular(25.0),
-                                          topRight: const Radius.circular(25.0),
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      scrollable: true,
+                                      title: Text('Login'),
+                                      content: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Form(
+                                          child: Column(
+                                            children: <Widget>[
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'Email',
+                                                  icon: Icon(Icons.email),
+                                                ),
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'Password',
+                                                  icon: Icon(Icons.lock),
+                                                ),
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'Confirm Password',
+                                                  icon: Icon(Icons.lock ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            // SizedBox(
-                                            //   height: 20,
-                                            // ),
-                                            TextField(
-                                              decoration: new InputDecoration(
-                                                  border: new OutlineInputBorder(
-                                                    borderRadius: const BorderRadius.all(
-                                                      const Radius.circular(50.0),
-                                                    ),
-                                                  ),
-                                                  hintStyle: new TextStyle(
-                                                      color: Colors.grey[800]),
-                                                  hintText: "Enter Email",
-                                                  fillColor: Colors.white70),
-                                              autofocus: false,
-                                              onChanged: (value) {
-                                                // prov.source = value;
-                                              },
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            TextField(
-                                              decoration: new InputDecoration(
-                                                  border: new OutlineInputBorder(
-                                                    borderRadius: const BorderRadius.all(
-                                                      const Radius.circular(50.0),
-                                                    ),
-                                                  ),
-                                                  hintStyle: new TextStyle(
-                                                      color: Colors.grey[800]),
-                                                  hintText: 'Enter Password',
-                                                  fillColor: Colors.white70),
-                                              autofocus: false,
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  // prov.enableDisableBusList();
-                                                },
-                                                child: Text("Register")),
-                                          ],
-                                        ),
-                                      ));
-                                },
-                              );
+                                      actions: [
+                                        Center(
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Palette.secondary,
+                                                elevation: 3,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(30)),
+                                                padding: EdgeInsets.all(20)),
+                                            child: prov.loading ?
+                                            CircularProgressIndicator(color: Colors.white)
+                                                : Text("Register",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  letterSpacing: 1.5,
+                                                  fontSize: 20,
+                                                )),
+                                            onPressed: () {},
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  });
+
+
+                              // showModalBottomSheet(
+                              //   isScrollControlled: true,
+                              //   context: context,
+                              //   builder: (_) {
+                              //     return Container(
+                              //         height: MediaQuery.of(context).size.height * 0.5,
+                              //         decoration: new BoxDecoration(
+                              //           color: Palette.primary,
+                              //           borderRadius: new BorderRadius.only(
+                              //             topLeft: const Radius.circular(25.0),
+                              //             topRight: const Radius.circular(25.0),
+                              //           ),
+                              //         ),
+                              //         child: Column(
+                              //           mainAxisAlignment: MainAxisAlignment.center,
+                              //           children: [
+                              //             SizedBox(
+                              //               height: 50,
+                              //             ),
+                              //             TextField(
+                              //               decoration: new InputDecoration(
+                              //                   border: new OutlineInputBorder(
+                              //                     borderRadius: const BorderRadius.all(
+                              //                       const Radius.circular(50.0),
+                              //                     ),
+                              //                   ),
+                              //                   hintStyle: new TextStyle(
+                              //                       color: Colors.grey[800]),
+                              //                   hintText: "Enter Email",
+                              //                   fillColor: Colors.white70),
+                              //               autofocus: false,
+                              //               onChanged: (value) {
+                              //                 // prov.source = value;
+                              //               },
+                              //             ),
+                              //             SizedBox(
+                              //               height: 20,
+                              //             ),
+                              //             TextField(
+                              //               decoration: new InputDecoration(
+                              //                   border: new OutlineInputBorder(
+                              //                     borderRadius: const BorderRadius.all(
+                              //                       const Radius.circular(50.0),
+                              //                     ),
+                              //                   ),
+                              //                   hintStyle: new TextStyle(
+                              //                       color: Colors.grey[800]),
+                              //                   hintText: 'Enter Password',
+                              //                   fillColor: Colors.white70),
+                              //               autofocus: false,
+                              //             ),
+                              //             SizedBox(
+                              //               height: 20,
+                              //             ),
+                              //             TextField(
+                              //               decoration: new InputDecoration(
+                              //                   border: new OutlineInputBorder(
+                              //                     borderRadius: const BorderRadius.all(
+                              //                       const Radius.circular(50.0),
+                              //                     ),
+                              //                   ),
+                              //                   hintStyle: new TextStyle(
+                              //                       color: Colors.grey[800]),
+                              //                   hintText: 'Confirm Password',
+                              //                   fillColor: Colors.white70),
+                              //               autofocus: false,
+                              //             ),
+                              //             SizedBox(height: 20,),
+                              //             ElevatedButton(
+                              //               style: ElevatedButton.styleFrom(
+                              //                   primary: Palette.secondary,
+                              //                   elevation: 3,
+                              //                   shape: RoundedRectangleBorder(
+                              //                       borderRadius: BorderRadius.circular(30)),
+                              //                   padding: EdgeInsets.all(20)),
+                              //               child: prov.loading ?
+                              //               CircularProgressIndicator(color: Colors.white)
+                              //                   : Text("Register",
+                              //                   style: TextStyle(
+                              //                     color: Colors.white,
+                              //                     letterSpacing: 1.5,
+                              //                     fontSize: 20,
+                              //                   )),
+                              //               onPressed: () {},
+                              //             ),
+                              //           ],
+                              //         ));
+                              //   },
+                              // );
                             },
                           ),
 
