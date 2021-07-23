@@ -19,7 +19,7 @@ class LoginProvider with ChangeNotifier {
       notifyListeners();
       return 'Please enter email';
     } else if (!email.contains('@') ||
-        (!email.contains('.com') || !email.contains('.in'))) {
+        (!email.contains('.com') && !email.contains('.in'))) {
       loading = false;
       notifyListeners();
       return 'Incorrect email format';
