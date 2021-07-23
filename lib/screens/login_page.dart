@@ -245,6 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   await prov.registerUser();
                                               if (registerMessage ==
                                                   'success') {
+                                                Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text(
