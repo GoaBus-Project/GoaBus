@@ -29,8 +29,7 @@ class _LoginPageState extends State<LoginPage> {
           if (prov.authenticated)
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
         });
 
@@ -38,14 +37,8 @@ class _LoginPageState extends State<LoginPage> {
           body: Stack(
             children: [
               Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(color: Palette.secondary),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -64,14 +57,8 @@ class _LoginPageState extends State<LoginPage> {
               Positioned(
                 bottom: 0,
                 child: Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.7,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width,
                   child: Container(
                       decoration: BoxDecoration(
                         color: Palette.primary,
@@ -103,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                                   labelText: 'Email',
                                 ),
                                 onChanged: (value) {
-                                  // prov.email = value;
+                                  prov.email = value;
                                 },
                               ),
                             ),
@@ -116,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                                 keyboardType: TextInputType.text,
                                 obscureText: true,
                                 onChanged: (value) {
-                                  // prov.password = value;
+                                  prov.password = value;
                                 },
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
@@ -136,14 +123,14 @@ class _LoginPageState extends State<LoginPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)),
                                 padding: EdgeInsets.all(20)),
-                            child: prov.loading ?
-                            CircularProgressIndicator(color: Colors.white)
+                            child: prov.loading
+                                ? CircularProgressIndicator(color: Colors.white)
                                 : Text("Login",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  letterSpacing: 1.5,
-                                  fontSize: 20,
-                                )),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      letterSpacing: 1.5,
+                                      fontSize: 20,
+                                    )),
                             onPressed: () async {
                               // String msg = prov.checkFields();
                               // if(msg != '') {
@@ -156,13 +143,23 @@ class _LoginPageState extends State<LoginPage> {
                               //       textColor: Palette.fontColor,
                               //       fontSize: 16.0
                               //   );
-                              // } else {
-                              //   if (await prov.login()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
+                              // }
+                              String loginMessage = await prov.signInUser();
+                              if (loginMessage == 'success') {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()
+                                    ));
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text('$loginMessage',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)),
+                                  backgroundColor: Palette.secondary,
+                                ));
+                              }
                             },
                           ),
                           SizedBox(height: 20),
@@ -173,14 +170,14 @@ class _LoginPageState extends State<LoginPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)),
                                 padding: EdgeInsets.all(20)),
-                            child: prov.loading ?
-                            CircularProgressIndicator(color: Colors.white)
+                            child: prov.loading
+                                ? CircularProgressIndicator(color: Colors.white)
                                 : Text("Register",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  letterSpacing: 1.5,
-                                  fontSize: 20,
-                                )),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      letterSpacing: 1.5,
+                                      fontSize: 20,
+                                    )),
                             onPressed: () async {
                               showDialog(
                                   context: context,
@@ -194,22 +191,30 @@ class _LoginPageState extends State<LoginPage> {
                                           child: Column(
                                             children: <Widget>[
                                               TextFormField(
-                                                decoration: InputDecoration(
-                                                  labelText: 'Email',
-                                                  icon: Icon(Icons.email),
-                                                ),
-                                              ),
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Email',
+                                                    icon: Icon(Icons.email),
+                                                  ),
+                                                  onChanged: (email) {
+                                                    prov.email = email;
+                                                  }),
                                               TextFormField(
-                                                decoration: InputDecoration(
-                                                  labelText: 'Password',
-                                                  icon: Icon(Icons.lock),
-                                                ),
-                                              ),
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Password',
+                                                    icon: Icon(Icons.lock),
+                                                  ),
+                                                  onChanged: (password) {
+                                                    prov.password = password;
+                                                  }),
                                               TextFormField(
                                                 decoration: InputDecoration(
                                                   labelText: 'Confirm Password',
-                                                  icon: Icon(Icons.lock ),
+                                                  icon: Icon(Icons.lock),
                                                 ),
+                                                onChanged: (confirmPassword) {
+                                                  prov.confirmPassword =
+                                                      confirmPassword;
+                                                },
                                               ),
                                             ],
                                           ),
@@ -222,23 +227,54 @@ class _LoginPageState extends State<LoginPage> {
                                                 primary: Palette.secondary,
                                                 elevation: 3,
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(30)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30)),
                                                 padding: EdgeInsets.all(20)),
-                                            child: prov.loading ?
-                                            CircularProgressIndicator(color: Colors.white)
+                                            child: prov.loading
+                                                ? CircularProgressIndicator(
+                                                    color: Colors.white)
                                                 : Text("Register",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  letterSpacing: 1.5,
-                                                  fontSize: 20,
-                                                )),
-                                            onPressed: () {},
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      letterSpacing: 1.5,
+                                                      fontSize: 20,
+                                                    )),
+                                            onPressed: () async {
+                                              String registerMessage =
+                                                  await prov.registerUser();
+                                              if (registerMessage ==
+                                                  'success') {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Success, you can now login using registered credentials',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                  backgroundColor:
+                                                      Palette.secondary,
+                                                ));
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      '$registerMessage',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                  backgroundColor:
+                                                      Palette.secondary,
+                                                ));
+                                              }
+                                            },
                                           ),
                                         )
                                       ],
                                     );
                                   });
-
 
                               // showModalBottomSheet(
                               //   isScrollControlled: true,
