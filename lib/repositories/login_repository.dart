@@ -3,17 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 class LoginRepository {
   /// Authenticate user
   Future<bool> userAuthenticated() async {
-    bool authenticated = false;
-    await FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        authenticated = false;
-        print('User is currently signed out!');
-      } else if (user.uid.isNotEmpty) {
-        authenticated = true;
-        print('User is signed in!');
-      }
-    });
-    return authenticated;
+    // bool authenticated = false;
+    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    //   if (user == null) {
+    //     print('User is currently signed out!');
+    //     authenticated = false;
+    //   } else if (user.uid.isNotEmpty) {
+    //     print('User is signed in!');
+    //     authenticated = true;
+    //   }
+    // });
+    return FirebaseAuth.instance.currentUser == null? false : true;
   }
 
   /// Create firebase account for driver

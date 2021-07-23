@@ -5,7 +5,7 @@ class LoginProvider with ChangeNotifier {
   bool loading = false, authenticated = false;
   String email = '', password = '', confirmPassword = '';
 
-  void checkAuthenticated() async {
+  Future<void> checkAuthenticated() async {
     authenticated = await LoginRepository().userAuthenticated();
   }
   

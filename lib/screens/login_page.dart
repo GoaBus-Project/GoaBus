@@ -17,22 +17,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    final prov = Provider.of<LoginProvider>(context, listen: false);
-    prov.checkAuthenticated();
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      final prov = Provider.of<LoginProvider>(context, listen: false);
+      await prov.checkAuthenticated();
+      if (prov.authenticated) {
+        Future(() {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginProvider>(
       builder: (context, prov, _) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
-          if (prov.authenticated)
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-        });
-
         return Scaffold(
           body: Stack(
             children: [
