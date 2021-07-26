@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goabus_users/common/color_palette.dart';
 import 'package:goabus_users/components/side_drawer.dart';
+import 'package:goabus_users/models/buses_model.dart';
 import 'package:goabus_users/providers/home_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -62,7 +63,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Column(
                   children: [
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     TextField(
                       decoration: new InputDecoration(
                           filled: true,
@@ -72,13 +75,22 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           hintStyle: new TextStyle(color: Colors.grey[800]),
-                          hintText: "Search ",
+                          hintText: "Search...",
                           fillColor: Colors.white),
                       autofocus: false,
                       onChanged: (value) {
                         prov.destination = value;
+                        // prov.search();
                       },
                       onEditingComplete: () {
+                        Bus _bus = Bus(lat: 0,
+                            lng: 0,
+                            driver: '',
+                            driverEmail: '',
+                            busNo: '',
+                            trips: []);
+                        if(prov.regExp.firstMatch(prov.destination) != null)
+                          _bus = prov.search();
                         /*showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
@@ -166,7 +178,110 @@ class _HomePageState extends State<HomePage> {
                           context: context,
                           expand: true,
                           isDismissible: false,
-                          builder: (context) => Container(),
+                          builder: (context) => Consumer<HomeProvider>(
+                            builder: (BuildContext context, value, _) => prov
+                                        .regExp
+                                        .firstMatch(prov.destination) ==
+                                    null
+                                ? Container(
+                                    decoration: new BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: new BorderRadius.only(
+                                        topLeft: const Radius.circular(25.0),
+                                        topRight: const Radius.circular(25.0),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        TextField(
+                                          decoration: new InputDecoration(
+                                              border: new OutlineInputBorder(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  const Radius.circular(50.0),
+                                                ),
+                                              ),
+                                              hintStyle: new TextStyle(
+                                                  color: Colors.grey[800]),
+                                              hintText: "Source",
+                                              fillColor: Colors.white70),
+                                          autofocus: false,
+                                          onChanged: (value) {
+                                            prov.source = value;
+                                          },
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        TextField(
+                                          decoration: new InputDecoration(
+                                              border: new OutlineInputBorder(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  const Radius.circular(50.0),
+                                                ),
+                                              ),
+                                              hintStyle: new TextStyle(
+                                                  color: Colors.grey[800]),
+                                              hintText: prov.destination,
+                                              fillColor: Colors.white70),
+                                          autofocus: false,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              // prov.search();
+                                            },
+                                            child: Text("Search")),
+                                        prov.showBusList
+                                            ? Container(
+                                                height: 300,
+                                                child: ListView.builder(
+                                                    itemCount: 5,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return ListTile(
+                                                          onTap: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            prov.selectBus();
+                                                          },
+                                                          trailing: Text(
+                                                            'Time $index',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .green,
+                                                                fontSize: 15),
+                                                          ),
+                                                          title: Text(
+                                                              "City $index"));
+                                                    }))
+                                            : Container()
+                                      ],
+                                    ))
+                                : Container(
+                                    child: _bus.busNo != ''? ListTile(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          prov.selectBus();
+                                        },
+                                        title: Text("Bus No " + _bus.busNo.toString()),
+                                        trailing: Text(
+                                          'Time ',
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 15),
+                                        )): ListTile(
+                                      title:  Text("No bus found"),
+                                    ),
+                                  ),
+                          ),
                         );
                       },
                     ),
