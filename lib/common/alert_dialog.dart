@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:goabus_users/constants/color_palette.dart';
+
+import 'color_palette.dart';
 
 showAlertDialog(
     {required BuildContext context,

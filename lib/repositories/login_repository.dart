@@ -13,7 +13,7 @@ class LoginRepository {
     //     authenticated = true;
     //   }
     // });
-    return FirebaseAuth.instance.currentUser == null? false : true;
+    return FirebaseAuth.instance.currentUser == null ? false : true;
   }
 
   /// Create firebase account for driver
@@ -21,10 +21,10 @@ class LoginRepository {
     String message = '';
     try {
       // UserCredential userCredential =
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email.replaceAll(' ', ''),
-          password: password
-      ).whenComplete(() => message = 'success');
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: email.replaceAll(' ', ''), password: password)
+          .whenComplete(() => message = 'success');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         message = 'The password provided is too weak.';
@@ -43,12 +43,13 @@ class LoginRepository {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      ).whenComplete(() => message = 'success');
+            email: email,
+            password: password,
+          )
+          .whenComplete(() => message = 'success');
     } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') message = 'User not found';
-        print(e.code);
+      if (e.code == 'user-not-found') message = 'User not found';
+      print(e.code);
     } catch (e) {
       message = 'There was some problem during registration, please retry';
     }
@@ -104,4 +105,5 @@ class LoginRepository {
 //   /// Once signed in, return the UserCredential
 //   return await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
 // }
+
 }

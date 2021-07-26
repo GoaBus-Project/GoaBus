@@ -5,6 +5,7 @@ class LoginProvider with ChangeNotifier {
   bool loading = false, authenticated = false;
   String email = '', password = '', confirmPassword = '';
 
+
   Future<void> checkAuthenticated() async {
     authenticated = await LoginRepository().userAuthenticated();
   }
@@ -72,12 +73,14 @@ class LoginProvider with ChangeNotifier {
       loading = false;
       notifyListeners();
       return 'Incorrect password';
-    } else return await LoginRepository()
+    } else {
+      return await LoginRepository()
           .localSignIn(email, password)
           .whenComplete(() {
         loading = false;
         notifyListeners();
       });
+    }
   }
 
   Future<void> signOut() async {

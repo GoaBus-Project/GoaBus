@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:goabus_users/common/color_palette.dart';
 import 'package:goabus_users/components/side_drawer.dart';
-import 'package:goabus_users/constants/color_palette.dart';
 import 'package:goabus_users/providers/home_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +19,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String selected = '';
   Completer<GoogleMapController> _controller = Completer();
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<HomeProvider>(context, listen: false).init;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +72,14 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           hintStyle: new TextStyle(color: Colors.grey[800]),
-                          hintText: "Destination",
+                          hintText: "Search ",
                           fillColor: Colors.white),
                       autofocus: false,
                       onChanged: (value) {
                         prov.destination = value;
                       },
                       onEditingComplete: () {
-                        showModalBottomSheet(
+                        /*showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
                           builder: (_) {
@@ -154,11 +161,17 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ));
                           },
+                        );*/
+                        showBarModalBottomSheet(
+                          context: context,
+                          expand: true,
+                          isDismissible: false,
+                          builder: (context) => Container(),
                         );
                       },
                     ),
                   ],
-                )
+                ),
               ],
             ));
       },

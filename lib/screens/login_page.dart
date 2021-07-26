@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goabus_users/constants/color_palette.dart';
+import 'package:goabus_users/common/color_palette.dart';
 import 'package:goabus_users/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
