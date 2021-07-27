@@ -83,14 +83,9 @@ class _HomePageState extends State<HomePage> {
                         // prov.search();
                       },
                       onEditingComplete: () {
-                        Bus _bus = Bus(lat: 0,
-                            lng: 0,
-                            driver: '',
-                            driverEmail: '',
-                            busNo: '',
-                            trips: []);
+                        List<Bus> _bus = [];
                         if(prov.regExp.firstMatch(prov.destination) != null)
-                          _bus = prov.search();
+                          _bus.addAll(prov.search());
                         /*showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
@@ -181,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => Consumer<HomeProvider>(
                             builder: (BuildContext context, value, _) => prov
                                         .regExp
-                                        .firstMatch(prov.destination) ==
+                                        .firstMatch(prov.destination.toUpperCase()) ==
                                     null
                                 ? Container(
                                     decoration: new BoxDecoration(
@@ -266,21 +261,32 @@ class _HomePageState extends State<HomePage> {
                                       ],
                                     ))
                                 : Container(
-                                    child: _bus.busNo != ''? ListTile(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                          prov.selectBus();
-                                        },
-                                        title: Text("Bus No " + _bus.busNo.toString()),
-                                        trailing: Text(
-                                          'Time ',
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 15),
-                                        )): ListTile(
-                                      title:  Text("No bus found"),
+                                    child: _bus.length != 0?
+                                    ListView.builder(
+                                        itemCount: _bus.length,
+                                        itemBuilder:
+                                            (BuildContext context,
+                                            int index) {
+                                          return ListTile(
+                                              onTap: () {
+                                                Navigator.pop(
+                                                    context);
+                                                prov.selectBus();
+                                              },
+                                              trailing: Text(
+                                                'Time $index',
+                                                style: TextStyle(
+                                                    color: Colors
+                                                        .green,
+                                                    fontSize: 15),
+                                              ),
+                                              title: Text(
+                                                  "Bus No: ${_bus[index].busNo}"));
+                                        }):
+                                    ListTile(
+                                      title: Text("No bus found"),
                                     ),
-                                  ),
+                                  )
                           ),
                         );
                       },
