@@ -20,7 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String selected = '';
   Completer<GoogleMapController> _controller = Completer();
-  Timer timer = Timer(Duration(), (){});
+  late GoogleMapController _googleMapController;
+  Timer timer = Timer(Duration(), () {});
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     timer.cancel();
+    _googleMapController.dispose();
     super.dispose();
   }
 
@@ -38,6 +40,12 @@ class _HomePageState extends State<HomePage> {
     final prov = Provider.of<HomeProvider>(context, listen: false);
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
       bus = await prov.fetchBus(bus);
+      _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(bus.lat, bus.lng),
+            tilt: 50,
+            zoom: 17,
+          )));
     });
   }
 
@@ -69,10 +77,11 @@ class _HomePageState extends State<HomePage> {
                 GoogleMap(
                   initialCameraPosition: CameraPosition(
                     target: LatLng(15.401100, 74.011803),
-                    zoom: 17.0,
+                    zoom: 12.0,
                   ),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
+                    _googleMapController = controller;
                   },
                   markers: prov.markers,
                 ),
@@ -101,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                       onEditingComplete: () {
                         List<Bus> _buses = [];
                         _buses.addAll(prov.search());
-                        if(timer.isActive) timer.cancel();
+                        if (timer.isActive) timer.cancel();
                         showBarModalBottomSheet(
                           context: context,
                           expand: true,
@@ -192,9 +201,11 @@ class _HomePageState extends State<HomePage> {
                                                               int index) {
                                                         return ListTile(
                                                             onTap: () async {
-                                                              Navigator.pop(context);
+                                                              Navigator.pop(
+                                                                  context);
                                                               await fetchBusLocation(
-                                                                  _buses[index]);
+                                                                  _buses[
+                                                                      index]);
                                                             },
                                                             trailing: Text(
                                                               'Time $index',
