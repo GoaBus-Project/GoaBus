@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:goabus_users/common/color_palette.dart';
 import 'package:goabus_users/models/buses_model.dart';
 import 'package:goabus_users/models/routes_model.dart';
 import 'package:goabus_users/models/stops_model.dart';
@@ -47,7 +48,7 @@ class HomeProvider with ChangeNotifier {
   void _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
-        polylineId: id, color: Colors.red, points: polylineCoordinates);
+        polylineId: id, color: Palette.secondary, points: polylineCoordinates);
     polylines.add(polyline);
   }
 
