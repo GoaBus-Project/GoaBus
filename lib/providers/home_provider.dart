@@ -13,7 +13,7 @@ class HomeProvider with ChangeNotifier {
   late RoutesModel routesModel = RoutesModel(routes: []);
   late BusStopsModel busStopsModel = BusStopsModel(busStops: []);
   RegExp regExp = new RegExp(
-    r"GA\s*[0-9]{2}\s*[A-Z]{0,2}\s*[0-9]{0,4}",
+    r"ga\s*[0-9]{2}\s*[a-z]{0,2}\s*[0-9]{0,4}",
     caseSensitive: false,
     multiLine: false,
   );
@@ -28,15 +28,46 @@ class HomeProvider with ChangeNotifier {
     busStopsModel = await BusStopsRepository().fetchBusStops();
   }
 
+  bool routeExists(BusRoute route) {
+    bool exists = false;
+    exists = route.end.stopName.toString().toLowerCase().contains(destination);
+
+    if (!exists) {
+      route.intermediate.stop.forEach((stop) {
+        exists = stop.stopName.toLowerCase().contains(destination);
+      });
+    }
+    return exists;
+  }
+
+  bool busExists(List<Trip> trips, List<String> routes) {
+    bool exists = false;
+    trips.forEach((trip) {
+      exists = routes.contains(
+          trip.routeName.toString().toLowerCase().replaceAll(' ', ''));
+    });
+    return exists;
+  }
+
   List<Bus> search() {
     List<Bus> bus = [];
     showBusList = true;
-    notifyListeners();
-    if (regExp.firstMatch(destination.toUpperCase()) != null) {
-      bus.addAll(busesModel.buses.where(
-              (bus) =>
-              bus.busNo.replaceAll('-', ' ').toString().contains(destination)));
+    if (regExp.firstMatch(destination) != null) {
+      bus.addAll(busesModel.buses.where((bus) => bus.busNo
+          .replaceAll('-', ' ')
+          .toLowerCase()
+          .toString()
+          .contains(destination)));
+    } else {
+      List<String> _routes = <String>[];
+      routesModel.routes.forEach((route) {
+        if (routeExists(route)) _routes.add(route.name.toLowerCase());
+      });
+      bus.addAll(
+          busesModel.buses.where((bus) => busExists(bus.trips, _routes)));
+
     }
+    notifyListeners();
     return bus;
   }
 

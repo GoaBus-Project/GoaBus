@@ -79,13 +79,12 @@ class _HomePageState extends State<HomePage> {
                           fillColor: Colors.white),
                       autofocus: false,
                       onChanged: (value) {
-                        prov.destination = value;
+                        prov.destination = value.toLowerCase();
                         // prov.search();
                       },
                       onEditingComplete: () {
                         List<Bus> _bus = [];
-                        if(prov.regExp.firstMatch(prov.destination) != null)
-                          _bus.addAll(prov.search());
+                        _bus.addAll(prov.search());
                         /*showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
@@ -174,120 +173,132 @@ class _HomePageState extends State<HomePage> {
                           expand: true,
                           isDismissible: false,
                           builder: (context) => Consumer<HomeProvider>(
-                            builder: (BuildContext context, value, _) => prov
-                                        .regExp
-                                        .firstMatch(prov.destination.toUpperCase()) ==
-                                    null
-                                ? Container(
-                                    decoration: new BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: new BorderRadius.only(
-                                        topLeft: const Radius.circular(25.0),
-                                        topRight: const Radius.circular(25.0),
+                              builder: (BuildContext context, value, _) => prov
+                                          .regExp
+                                          .firstMatch(
+                                              prov.destination) ==
+                                      null
+                                  ? Container(
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: new BorderRadius.only(
+                                          topLeft: const Radius.circular(25.0),
+                                          topRight: const Radius.circular(25.0),
+                                        ),
                                       ),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        TextField(
-                                          decoration: new InputDecoration(
-                                              border: new OutlineInputBorder(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  const Radius.circular(50.0),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          TextField(
+                                            decoration: new InputDecoration(
+                                                border: new OutlineInputBorder(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    const Radius.circular(50.0),
+                                                  ),
                                                 ),
-                                              ),
-                                              hintStyle: new TextStyle(
-                                                  color: Colors.grey[800]),
-                                              hintText: "Source",
-                                              fillColor: Colors.white70),
-                                          autofocus: false,
-                                          onChanged: (value) {
-                                            prov.source = value;
-                                          },
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        TextField(
-                                          decoration: new InputDecoration(
-                                              border: new OutlineInputBorder(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  const Radius.circular(50.0),
-                                                ),
-                                              ),
-                                              hintStyle: new TextStyle(
-                                                  color: Colors.grey[800]),
-                                              hintText: prov.destination,
-                                              fillColor: Colors.white70),
-                                          autofocus: false,
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              // prov.search();
+                                                hintStyle: new TextStyle(
+                                                    color: Colors.grey[800]),
+                                                hintText: "Source",
+                                                fillColor: Colors.white70),
+                                            autofocus: false,
+                                            onChanged: (value) {
+                                              prov.source = value;
                                             },
-                                            child: Text("Search")),
-                                        prov.showBusList
-                                            ? Container(
-                                                height: 300,
-                                                child: ListView.builder(
-                                                    itemCount: 5,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      return ListTile(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                            prov.selectBus();
-                                                          },
-                                                          trailing: Text(
-                                                            'Time $index',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .green,
-                                                                fontSize: 15),
-                                                          ),
-                                                          title: Text(
-                                                              "City $index"));
-                                                    }))
-                                            : Container()
-                                      ],
-                                    ))
-                                : Container(
-                                    child: _bus.length != 0?
-                                    ListView.builder(
-                                        itemCount: _bus.length,
-                                        itemBuilder:
-                                            (BuildContext context,
-                                            int index) {
-                                          return ListTile(
-                                              onTap: () {
-                                                Navigator.pop(
-                                                    context);
-                                                prov.selectBus();
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          TextField(
+                                            decoration: new InputDecoration(
+                                                border: new OutlineInputBorder(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    const Radius.circular(50.0),
+                                                  ),
+                                                ),
+                                                hintStyle: new TextStyle(
+                                                    color: Colors.grey[800]),
+                                                hintText: prov.destination,
+                                                fillColor: Colors.white70),
+                                            autofocus: false,
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                // prov.search();
                                               },
-                                              trailing: Text(
-                                                'Time $index',
-                                                style: TextStyle(
-                                                    color: Colors
-                                                        .green,
-                                                    fontSize: 15),
-                                              ),
-                                              title: Text(
-                                                  "Bus No: ${_bus[index].busNo}"));
-                                        }):
-                                    ListTile(
-                                      title: Text("No bus found"),
-                                    ),
-                                  )
-                          ),
+                                              child: Text("Search")),
+                                          prov.showBusList
+                                              ? _bus.length != 0
+                                                  ? Container(
+                                                      height: 300,
+                                                      child: ListView.builder(
+                                                          itemCount:
+                                                              _bus.length,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            return ListTile(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  prov.selectBus();
+                                                                },
+                                                                trailing: Text(
+                                                                  'Time $index',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      fontSize:
+                                                                          15),
+                                                                ),
+                                                                title: Text(
+                                                                    "Bus ${_bus[index].busNo}"));
+                                                          }))
+                                                  : Column(children: [
+                                                      ListTile(
+                                                        title: Text(
+                                                            "No bus found"),
+                                                      ),
+                                                    ])
+                                              : Container()
+                                        ],
+                                      ))
+                                  : Container(
+                                      child: _bus.length != 0
+                                          ? ListView.builder(
+                                              itemCount: _bus.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return ListTile(
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                      prov.selectBus();
+                                                    },
+                                                    trailing: Text(
+                                                      'Time $index',
+                                                      style: TextStyle(
+                                                          color: Colors.green,
+                                                          fontSize: 15),
+                                                    ),
+                                                    title: Text(
+                                                        "Bus No: ${_bus[index].busNo}"));
+                                              })
+                                          : Column(
+                                            children: [
+                                              ListTile(
+                                                  title: Text("No bus found"),
+                                                ),
+                                            ],
+                                          ),
+                                    )),
                         );
                       },
                     ),
