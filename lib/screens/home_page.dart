@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
       bus = await prov.fetchBus(bus);
       prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
       prov.startEndPoints.add(prov.destinationBusStop);
+      await prov.getPolyline();
       prov.polylines.add(Polyline(
         polylineId: PolylineId(LatLng(bus.lat, bus.lng).toString()),
         visible: true,
@@ -93,6 +94,11 @@ class _HomePageState extends State<HomePage> {
                   },
                   polylines: prov.polylines,
                   markers: prov.markers,
+                  myLocationEnabled: true,
+                  tiltGesturesEnabled: true,
+                  compassEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
                 ),
                 Column(
                   children: [
