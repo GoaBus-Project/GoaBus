@@ -6,6 +6,7 @@ import 'package:goabus_users/models/routes_model.dart';
 import 'package:goabus_users/models/stops_model.dart';
 import 'package:goabus_users/repositories/bus_stops_repository.dart';
 import 'package:goabus_users/repositories/buses_repository.dart';
+import 'package:goabus_users/repositories/login_repository.dart';
 import 'package:goabus_users/repositories/routes_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -22,7 +23,6 @@ class HomeProvider with ChangeNotifier {
   );
 
   Set<Marker> markers = {};
-
 
   void get init async {
     busesModel = BusesModel(buses: []);
@@ -68,8 +68,11 @@ class HomeProvider with ChangeNotifier {
         _busRoute = routesModel.routes.firstWhere((routeFromModel) =>
             routeFromModel.name.toString().replaceAll(' ', '').toLowerCase() ==
             trip.routeName.toString().replaceAll(' ', '').toLowerCase());
-        if(_busRoute.name != '') {
-          exists = _busRoute.start.stopName.toString().toLowerCase().contains(source);
+        if (_busRoute.name != '') {
+          exists = _busRoute.start.stopName
+              .toString()
+              .toLowerCase()
+              .contains(source);
           if (!exists) {
             _busRoute.intermediate.stop.forEach((stop) {
               exists = stop.stopName.toLowerCase().contains(source);
@@ -110,15 +113,14 @@ class HomeProvider with ChangeNotifier {
 
   Future<Bus> fetchBus(Bus bus) async {
     markers.clear();
-    Bus updatedBus =
-    await BusRepository().fetchBusLocation(bus);
+    Bus updatedBus = await BusRepository().fetchBusLocation(bus);
     markers.add(Marker(
-        infoWindow: InfoWindow(
-            title: bus.busNo,
-            snippet: bus.driver),
+        infoWindow: InfoWindow(title: bus.busNo, snippet: bus.driver),
         markerId: MarkerId(bus.busNo),
         position: LatLng(bus.lat, bus.lng)));
     notifyListeners();
     return updatedBus;
   }
+
+  String get getEmail => LoginRepository().getEmail.toString();
 }

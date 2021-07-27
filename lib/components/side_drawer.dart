@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goabus_users/common/color_palette.dart';
+import 'package:goabus_users/providers/home_provider.dart';
 import 'package:goabus_users/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -18,8 +19,8 @@ class _SideDrawerState extends State<SideDrawer> {
           'Yes'.toUpperCase(),
           style: TextStyle(color: Colors.white),
         ),
-        splashColor: Colors.redAccent,
-        color: Colors.red,
+        splashColor: Palette.primary,
+        color: Palette.secondary,
         onPressed: () async {
           await prov.signOut().whenComplete(
               () => Navigator.popUntil(context, (route) => route.isFirst));
@@ -32,7 +33,7 @@ class _SideDrawerState extends State<SideDrawer> {
           style: TextStyle(color: Colors.white),
         ),
         splashColor: Palette.primary,
-        color: Palette.secondary,
+        color: Colors.transparent,
         onPressed: () {
           Navigator.pop(context);
         });
@@ -61,11 +62,10 @@ class _SideDrawerState extends State<SideDrawer> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ClipOval(child: FlutterLogo(size: 42.0)),
                 Column(
                   children: [
                     SizedBox(height: 40.0),
-                    SizedBox(
+                    /*SizedBox(
                       width: 110.0,
                       child: Center(
                         child: Text(
@@ -76,15 +76,15 @@ class _SideDrawerState extends State<SideDrawer> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
+                    ),*/
                     SizedBox(
-                      width: 110.0,
+                      width: 200.0,
                       child: Center(
                         child: Text(
-                          "Email from DB",
+                          'Email: ${Provider.of<HomeProvider>(context, listen: false).getEmail.toString()}',
                           style: TextStyle(
-                              fontSize: 14.0,
-                              color: Palette.fontColor,
+                              fontSize: 17.0,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
