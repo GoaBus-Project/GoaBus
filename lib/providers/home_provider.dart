@@ -13,7 +13,7 @@ class HomeProvider with ChangeNotifier {
   late RoutesModel routesModel = RoutesModel(routes: []);
   late BusStopsModel busStopsModel = BusStopsModel(busStops: []);
   RegExp regExp = new RegExp(
-    r"GA\s*[0-9]{2}\s*[A-Z]{1,2}\s*[0-9]{4}",
+    r"GA\s*[0-9]{2}\s*[A-Z]{0,2}\s*[0-9]{0,4}",
     caseSensitive: false,
     multiLine: false,
   );
@@ -28,21 +28,16 @@ class HomeProvider with ChangeNotifier {
     busStopsModel = await BusStopsRepository().fetchBusStops();
   }
 
-  Bus search() {
-    Bus bus =
-        Bus(lat: 0, lng: 0, driver: '', driverEmail: '', busNo: '', trips: []);
+  List<Bus> search() {
+    List<Bus> bus = [];
     showBusList = true;
     notifyListeners();
-    if (regExp.firstMatch(destination) != null)
-      bus = busesModel.buses.firstWhere(
-          (bus) => bus.busNo.replaceAll('-', ' ').toString() == destination,
-          orElse: () => Bus(
-              lat: 0,
-              lng: 0,
-              driver: '',
-              driverEmail: '',
-              busNo: '',
-              trips: []));
+    if (regExp.firstMatch(destination.toUpperCase()) != null)
+        bus.addAll(busesModel.buses.where(
+                (bus) => bus.busNo.replaceAll('-', ' ').toString().contains(destination)));
+    bus.forEach((element) {
+      print(element.busNo);
+    });
     return bus;
   }
 
