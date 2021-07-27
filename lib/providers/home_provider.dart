@@ -179,6 +179,7 @@ class HomeProvider with ChangeNotifier {
         infoWindow: InfoWindow(title: bus.busNo, snippet: bus.driver),
         markerId: MarkerId(bus.busNo),
         position: LatLng(bus.lat, bus.lng)));
+    startEndPoints.clear();
     notifyListeners();
     return updatedBus;
   }
