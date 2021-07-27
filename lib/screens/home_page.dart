@@ -43,8 +43,10 @@ class _HomePageState extends State<HomePage> {
     await prov.getPolyline();
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
       bus = await prov.fetchBus(bus);
+      prov.startEndPoints.clear();
       prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
       prov.startEndPoints.add(prov.destinationBusStop);
+      await prov.getPolyline();
       _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
           CameraPosition(
             target: LatLng(bus.lat, bus.lng),
