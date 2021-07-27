@@ -80,11 +80,12 @@ class _HomePageState extends State<HomePage> {
                       autofocus: false,
                       onChanged: (value) {
                         prov.destination = value.toLowerCase();
+                        prov.finalDestination = value.toLowerCase();
                         // prov.search();
                       },
                       onEditingComplete: () {
-                        List<Bus> _bus = [];
-                        _bus.addAll(prov.search());
+                        List<Bus> _buses = [];
+                        _buses.addAll(prov.search());
                         /*showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
@@ -175,8 +176,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => Consumer<HomeProvider>(
                               builder: (BuildContext context, value, _) => prov
                                           .regExp
-                                          .firstMatch(
-                                              prov.destination) ==
+                                          .firstMatch(prov.destination) ==
                                       null
                                   ? Container(
                                       decoration: new BoxDecoration(
@@ -203,9 +203,9 @@ class _HomePageState extends State<HomePage> {
                                                     color: Colors.grey[800]),
                                                 hintText: "Source",
                                                 fillColor: Colors.white70),
-                                            autofocus: false,
-                                            onChanged: (value) {
-                                              prov.source = value;
+                                            autofocus: true,
+                                            onChanged: (source) {
+                                              prov.source = source;
                                             },
                                           ),
                                           SizedBox(
@@ -221,25 +221,41 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 hintStyle: new TextStyle(
                                                     color: Colors.grey[800]),
-                                                hintText: prov.destination,
                                                 fillColor: Colors.white70),
+                                            controller: TextEditingController(
+                                                text: prov.destination),
                                             autofocus: false,
+                                            onChanged: (finalDestination) {
+                                              prov.finalDestination =
+                                                  finalDestination
+                                                      .toLowerCase();
+                                            },
                                           ),
                                           SizedBox(
                                             height: 20,
                                           ),
                                           ElevatedButton(
                                               onPressed: () {
-                                                // prov.search();
+                                                if (prov.destination !=
+                                                    prov.finalDestination) {
+                                                  prov.destination =
+                                                      prov.finalDestination;
+                                                  _buses = prov.search();
+                                                }
+                                                if (prov.source != '')
+                                                  _buses = prov.search();
+                                                _buses = prov
+                                                    .searchBySourceAndDestination(
+                                                        _buses);
                                               },
                                               child: Text("Search")),
                                           prov.showBusList
-                                              ? _bus.length != 0
+                                              ? _buses.length != 0
                                                   ? Container(
                                                       height: 300,
                                                       child: ListView.builder(
                                                           itemCount:
-                                                              _bus.length,
+                                                              _buses.length,
                                                           itemBuilder:
                                                               (BuildContext
                                                                       context,
@@ -259,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                                                                           15),
                                                                 ),
                                                                 title: Text(
-                                                                    "Bus ${_bus[index].busNo}"));
+                                                                    "Bus No ${_buses[index].busNo}"));
                                                           }))
                                                   : Column(children: [
                                                       ListTile(
@@ -271,9 +287,9 @@ class _HomePageState extends State<HomePage> {
                                         ],
                                       ))
                                   : Container(
-                                      child: _bus.length != 0
+                                      child: _buses.length != 0
                                           ? ListView.builder(
-                                              itemCount: _bus.length,
+                                              itemCount: _buses.length,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -289,15 +305,15 @@ class _HomePageState extends State<HomePage> {
                                                           fontSize: 15),
                                                     ),
                                                     title: Text(
-                                                        "Bus No: ${_bus[index].busNo}"));
+                                                        "Bus No: ${_buses[index].busNo}"));
                                               })
                                           : Column(
-                                            children: [
-                                              ListTile(
+                                              children: [
+                                                ListTile(
                                                   title: Text("No bus found"),
                                                 ),
-                                            ],
-                                          ),
+                                              ],
+                                            ),
                                     )),
                         );
                       },

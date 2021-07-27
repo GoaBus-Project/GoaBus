@@ -7,7 +7,7 @@ import 'package:goabus_users/repositories/buses_repository.dart';
 import 'package:goabus_users/repositories/routes_repository.dart';
 
 class HomeProvider with ChangeNotifier {
-  String source = '', destination = '';
+  String source = '', destination = '', finalDestination = '';
   bool showBusList = false;
   late BusesModel busesModel = BusesModel(buses: []);
   late RoutesModel routesModel = RoutesModel(routes: []);
@@ -31,7 +31,6 @@ class HomeProvider with ChangeNotifier {
   bool routeExists(BusRoute route) {
     bool exists = false;
     exists = route.end.stopName.toString().toLowerCase().contains(destination);
-
     if (!exists) {
       route.intermediate.stop.forEach((stop) {
         exists = stop.stopName.toLowerCase().contains(destination);
@@ -45,6 +44,33 @@ class HomeProvider with ChangeNotifier {
     trips.forEach((trip) {
       exists = routes.contains(
           trip.routeName.toString().toLowerCase().replaceAll(' ', ''));
+    });
+    return exists;
+  }
+
+  bool sourceExists(List<Trip> trips) {
+    bool exists = false;
+
+    BusRoute _busRoute = BusRoute(
+        start: BusStop(lat: '', lng: '', stopName: ''),
+        end: BusStop(lat: '', lng: '', stopName: ''),
+        intermediate: Intermediate(stop: []),
+        name: '');
+
+    routesModel.routes.forEach((route) {
+      trips.forEach((trip) {
+        _busRoute = routesModel.routes.firstWhere((routeFromModel) =>
+            routeFromModel.name.toString().replaceAll(' ', '').toLowerCase() ==
+            trip.routeName.toString().replaceAll(' ', '').toLowerCase());
+        if(_busRoute.name != '') {
+          exists = _busRoute.start.stopName.toString().toLowerCase().contains(source);
+          if (!exists) {
+            _busRoute.intermediate.stop.forEach((stop) {
+              exists = stop.stopName.toLowerCase().contains(source);
+            });
+          }
+        }
+      });
     });
     return exists;
   }
@@ -65,10 +91,17 @@ class HomeProvider with ChangeNotifier {
       });
       bus.addAll(
           busesModel.buses.where((bus) => busExists(bus.trips, _routes)));
-
     }
     notifyListeners();
     return bus;
+  }
+
+  List<Bus> searchBySourceAndDestination(List<Bus> foundBuses) {
+    List<Bus> buses = [];
+    showBusList = true;
+    buses.addAll(foundBuses.where((bus) => sourceExists(bus.trips)));
+    notifyListeners();
+    return buses;
   }
 
   void selectBus() {
