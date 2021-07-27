@@ -15,6 +15,7 @@ class HomeProvider with ChangeNotifier {
   late BusesModel busesModel = BusesModel(buses: []);
   late RoutesModel routesModel = RoutesModel(routes: []);
   late BusStopsModel busStopsModel = BusStopsModel(busStops: []);
+  late LatLng destinationBusStop;
 
   RegExp regExp = new RegExp(
     r"ga\s*[0-9]{2}\s*[a-z]{0,2}\s*[0-9]{0,4}",
@@ -37,11 +38,32 @@ class HomeProvider with ChangeNotifier {
   bool routeExists(BusRoute route) {
     bool exists = false;
     exists = route.end.stopName.toString().toLowerCase().contains(destination);
-    if (!exists) {
+    if (exists) {
+      destinationBusStop =
+          LatLng(double.parse(route.end.lat), double.parse(route.end.lng));
+      markers.add(Marker(
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          infoWindow: InfoWindow(
+              title: route.end.stopName,
+              snippet: destinationBusStop.toString()),
+          markerId: MarkerId(destinationBusStop.toString()),
+          position: destinationBusStop));
+    } else {
       route.intermediate.stop.forEach((stop) {
         exists = stop.stopName.toLowerCase().contains(destination);
+        if (exists) {
+          destinationBusStop =
+              LatLng(double.parse(stop.lat), double.parse(stop.lng));
+          markers.add(Marker(
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+              infoWindow: InfoWindow(
+                  title: stop.stopName, snippet: destinationBusStop.toString()),
+              markerId: MarkerId(destinationBusStop.toString()),
+              position: destinationBusStop));
+        }
       });
     }
+    notifyListeners();
     return exists;
   }
 
@@ -86,6 +108,7 @@ class HomeProvider with ChangeNotifier {
 
   List<Bus> search() {
     List<Bus> bus = [];
+    markers.clear();
     if (regExp.firstMatch(destination) != null) {
       bus.addAll(busesModel.buses.where((bus) => bus.busNo
           .replaceAll('-', ' ')
@@ -112,7 +135,7 @@ class HomeProvider with ChangeNotifier {
   }
 
   Future<Bus> fetchBus(Bus bus) async {
-    markers.clear();
+    markers.removeWhere((element) => element.markerId == MarkerId(bus.busNo));
     Bus updatedBus = await BusRepository().fetchBusLocation(bus);
     markers.add(Marker(
         infoWindow: InfoWindow(title: bus.busNo, snippet: bus.driver),
