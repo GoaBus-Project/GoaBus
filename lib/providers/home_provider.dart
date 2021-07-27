@@ -16,6 +16,8 @@ class HomeProvider with ChangeNotifier {
   late RoutesModel routesModel = RoutesModel(routes: []);
   late BusStopsModel busStopsModel = BusStopsModel(busStops: []);
   late LatLng destinationBusStop;
+  List<LatLng> startEndPoints = [];
+  final Set<Polyline> polylines = {};
 
   RegExp regExp = new RegExp(
     r"ga\s*[0-9]{2}\s*[a-z]{0,2}\s*[0-9]{0,4}",
@@ -29,6 +31,9 @@ class HomeProvider with ChangeNotifier {
     busesModel = BusesModel(buses: []);
     routesModel = RoutesModel(routes: []);
     busStopsModel = BusStopsModel(busStops: []);
+    markers.clear();
+    startEndPoints.clear();
+    polylines.clear();
 
     busesModel = await BusRepository().fetchBuses();
     routesModel = await RoutesRepository().fetchRoutes();
@@ -109,6 +114,8 @@ class HomeProvider with ChangeNotifier {
   List<Bus> search() {
     List<Bus> bus = [];
     markers.clear();
+    startEndPoints.clear();
+    polylines.clear();
     if (regExp.firstMatch(destination) != null) {
       bus.addAll(busesModel.buses.where((bus) => bus.busNo
           .replaceAll('-', ' ')

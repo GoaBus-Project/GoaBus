@@ -21,8 +21,6 @@ class _HomePageState extends State<HomePage> {
   String selected = '';
   Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController _googleMapController;
-  final Set<Polyline> _polyline = {};
-  List<LatLng> _startEndPoints = [];
   Timer timer = Timer(Duration(), () {});
 
   @override
@@ -42,12 +40,12 @@ class _HomePageState extends State<HomePage> {
     final prov = Provider.of<HomeProvider>(context, listen: false);
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
       bus = await prov.fetchBus(bus);
-      _startEndPoints.add(LatLng(bus.lat, bus.lng));
-      _startEndPoints.add(prov.destinationBusStop);
-      _polyline.add(Polyline(
+      prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
+      prov.startEndPoints.add(prov.destinationBusStop);
+      prov.polylines.add(Polyline(
         polylineId: PolylineId(LatLng(bus.lat, bus.lng).toString()),
         visible: true,
-        points: _startEndPoints,
+        points: prov.startEndPoints,
         color: Palette.secondary,
       ));
       _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
@@ -93,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                     _controller.complete(controller);
                     _googleMapController = controller;
                   },
-                  polylines: _polyline,
+                  polylines: prov.polylines,
                   markers: prov.markers,
                 ),
                 Column(
