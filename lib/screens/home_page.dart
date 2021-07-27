@@ -20,11 +20,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String selected = '';
   Completer<GoogleMapController> _controller = Completer();
+  Timer timer = Timer(Duration(), (){});
 
   @override
   void initState() {
     super.initState();
     Provider.of<HomeProvider>(context, listen: false).init;
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  Future<void> fetchBusLocation(Bus bus) async {
+    final prov = Provider.of<HomeProvider>(context, listen: false);
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
+      bus = await prov.fetchBus(bus);
+    });
   }
 
   @override
@@ -55,11 +69,12 @@ class _HomePageState extends State<HomePage> {
                 GoogleMap(
                   initialCameraPosition: CameraPosition(
                     target: LatLng(15.401100, 74.011803),
-                    zoom: 10.0,
+                    zoom: 17.0,
                   ),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                   },
+                  markers: prov.markers,
                 ),
                 Column(
                   children: [
@@ -86,89 +101,7 @@ class _HomePageState extends State<HomePage> {
                       onEditingComplete: () {
                         List<Bus> _buses = [];
                         _buses.addAll(prov.search());
-                        /*showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (_) {
-                            return Container(
-                                height: MediaQuery.of(context).size.height * 0.75,
-                                decoration: new BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: new BorderRadius.only(
-                                    topLeft: const Radius.circular(25.0),
-                                    topRight: const Radius.circular(25.0),
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    TextField(
-                                      decoration: new InputDecoration(
-                                          border: new OutlineInputBorder(
-                                            borderRadius: const BorderRadius.all(
-                                              const Radius.circular(50.0),
-                                            ),
-                                          ),
-                                          hintStyle: new TextStyle(
-                                              color: Colors.grey[800]),
-                                          hintText: "Source",
-                                          fillColor: Colors.white70),
-                                      autofocus: false,
-                                      onChanged: (value) {
-                                        prov.source = value;
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    TextField(
-                                      decoration: new InputDecoration(
-                                          border: new OutlineInputBorder(
-                                            borderRadius: const BorderRadius.all(
-                                              const Radius.circular(50.0),
-                                            ),
-                                          ),
-                                          hintStyle: new TextStyle(
-                                              color: Colors.grey[800]),
-                                          hintText: prov.destination,
-                                          fillColor: Colors.white70),
-                                      autofocus: false,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          prov.enableDisableBusList();
-                                        },
-                                        child: Text("Search")),
-                                    prov.showBusList
-                                        ? Container(
-                                        height: 300,
-                                        child: ListView.builder(
-                                            itemCount: 5,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return ListTile(
-                                                  onTap: () {
-                                                    prov.enableDisableBusList();
-                                                    Navigator.pop(context);
-                                                  },
-                                                  trailing: Text(
-                                                    'Time $index',
-                                                    style: TextStyle(
-                                                        color: Colors.green,
-                                                        fontSize: 15),
-                                                  ),
-                                                  title: Text("City $index"));
-                                            }))
-                                        : Container()
-                                  ],
-                                ));
-                          },
-                        );*/
+                        if(timer.isActive) timer.cancel();
                         showBarModalBottomSheet(
                           context: context,
                           expand: true,
@@ -249,41 +182,35 @@ class _HomePageState extends State<HomePage> {
                                                         _buses);
                                               },
                                               child: Text("Search")),
-                                          prov.showBusList
-                                              ? _buses.length != 0
-                                                  ? Container(
-                                                      height: 300,
-                                                      child: ListView.builder(
-                                                          itemCount:
-                                                              _buses.length,
-                                                          itemBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  int index) {
-                                                            return ListTile(
-                                                                onTap: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  prov.selectBus();
-                                                                },
-                                                                trailing: Text(
-                                                                  'Time $index',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .green,
-                                                                      fontSize:
-                                                                          15),
-                                                                ),
-                                                                title: Text(
-                                                                    "Bus No ${_buses[index].busNo}"));
-                                                          }))
-                                                  : Column(children: [
-                                                      ListTile(
-                                                        title: Text(
-                                                            "No bus found"),
-                                                      ),
-                                                    ])
-                                              : Container()
+                                          _buses.length != 0
+                                              ? Container(
+                                                  height: 300,
+                                                  child: ListView.builder(
+                                                      itemCount: _buses.length,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return ListTile(
+                                                            onTap: () async {
+                                                              Navigator.pop(context);
+                                                              await fetchBusLocation(
+                                                                  _buses[index]);
+                                                            },
+                                                            trailing: Text(
+                                                              'Time $index',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontSize: 15),
+                                                            ),
+                                                            title: Text(
+                                                                "Bus No ${_buses[index].busNo}"));
+                                                      }))
+                                              : Column(children: [
+                                                  ListTile(
+                                                    title: Text("No bus found"),
+                                                  ),
+                                                ])
                                         ],
                                       ))
                                   : Container(
@@ -294,9 +221,10 @@ class _HomePageState extends State<HomePage> {
                                                   (BuildContext context,
                                                       int index) {
                                                 return ListTile(
-                                                    onTap: () {
+                                                    onTap: () async {
                                                       Navigator.pop(context);
-                                                      prov.selectBus();
+                                                      await fetchBusLocation(
+                                                          _buses[index]);
                                                     },
                                                     trailing: Text(
                                                       'Time $index',

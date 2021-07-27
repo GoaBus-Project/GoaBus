@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:goabus_users/models/buses_model.dart';
 import 'package:goabus_users/models/routes_model.dart';
@@ -5,18 +7,22 @@ import 'package:goabus_users/models/stops_model.dart';
 import 'package:goabus_users/repositories/bus_stops_repository.dart';
 import 'package:goabus_users/repositories/buses_repository.dart';
 import 'package:goabus_users/repositories/routes_repository.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeProvider with ChangeNotifier {
   String source = '', destination = '', finalDestination = '';
-  bool showBusList = false;
   late BusesModel busesModel = BusesModel(buses: []);
   late RoutesModel routesModel = RoutesModel(routes: []);
   late BusStopsModel busStopsModel = BusStopsModel(busStops: []);
+
   RegExp regExp = new RegExp(
     r"ga\s*[0-9]{2}\s*[a-z]{0,2}\s*[0-9]{0,4}",
     caseSensitive: false,
     multiLine: false,
   );
+
+  Set<Marker> markers = {};
+
 
   void get init async {
     busesModel = BusesModel(buses: []);
@@ -77,7 +83,6 @@ class HomeProvider with ChangeNotifier {
 
   List<Bus> search() {
     List<Bus> bus = [];
-    showBusList = true;
     if (regExp.firstMatch(destination) != null) {
       bus.addAll(busesModel.buses.where((bus) => bus.busNo
           .replaceAll('-', ' ')
@@ -98,14 +103,22 @@ class HomeProvider with ChangeNotifier {
 
   List<Bus> searchBySourceAndDestination(List<Bus> foundBuses) {
     List<Bus> buses = [];
-    showBusList = true;
     buses.addAll(foundBuses.where((bus) => sourceExists(bus.trips)));
     notifyListeners();
     return buses;
   }
 
-  void selectBus() {
-    showBusList = false;
+  Future<Bus> fetchBus(Bus bus) async {
+    markers.clear();
+    Bus updatedBus =
+    await BusRepository().fetchBusLocation(bus);
+    markers.add(Marker(
+        infoWindow: InfoWindow(
+            title: bus.busNo,
+            snippet: bus.driver),
+        markerId: MarkerId(bus.busNo),
+        position: LatLng(bus.lat, bus.lng)));
     notifyListeners();
+    return updatedBus;
   }
 }
