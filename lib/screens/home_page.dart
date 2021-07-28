@@ -45,12 +45,12 @@ class _HomePageState extends State<HomePage> {
     await prov.getPolyline();
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
       bus = await prov.fetchBus(bus);
-      _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(bus.lat, bus.lng),
-            tilt: 50,
-            zoom: 17,
-          )));
+      _googleMapController
+          .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(bus.lat, bus.lng),
+        tilt: 50,
+        zoom: 17,
+      )));
     });
   }
 

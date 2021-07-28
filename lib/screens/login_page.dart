@@ -169,9 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)),
                                 padding: EdgeInsets.all(20)),
-                            child: prov.loading
-                                ? CircularProgressIndicator(color: Colors.white)
-                                : Text("Register",
+                            child: Text("Register",
                                     style: TextStyle(
                                       color: Colors.white,
                                       letterSpacing: 1.5,
