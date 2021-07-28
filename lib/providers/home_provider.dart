@@ -14,6 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeProvider with ChangeNotifier {
   String source = '', destination = '', finalDestination = '';
+  bool loadingMap = false;
   late BusesModel busesModel = BusesModel(buses: []);
   late RoutesModel routesModel = RoutesModel(routes: []);
   late BusStopsModel busStopsModel = BusStopsModel(busStops: []);
@@ -22,6 +23,7 @@ class HomeProvider with ChangeNotifier {
   final Set<Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
+  Set<Marker> markers = {};
   String googleAPiKey = "AIzaSyBTtqCB1nD9ow0zcZJBrCiHsG3DF3Jh8yU";
 
   RegExp regExp = new RegExp(
@@ -30,7 +32,6 @@ class HomeProvider with ChangeNotifier {
     multiLine: false,
   );
 
-  Set<Marker> markers = {};
 
   void get init async {
     busesModel = BusesModel(buses: []);
@@ -50,13 +51,17 @@ class HomeProvider with ChangeNotifier {
     Polyline polyline = Polyline(
         polylineId: id, color: Palette.secondary, points: polylineCoordinates);
     polylines.add(polyline);
+    loadingMap = false;
+    notifyListeners();
   }
 
   Future<void> getPolyline() async {
+    loadingMap = true;
+    notifyListeners();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleAPiKey,
-      PointLatLng(startEndPoints[0].latitude, startEndPoints[0].longitude),
       PointLatLng(startEndPoints[1].latitude, startEndPoints[1].longitude),
+      PointLatLng(startEndPoints[0].latitude, startEndPoints[0].longitude),
       travelMode: TravelMode.driving,
       // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]
     );
@@ -66,6 +71,7 @@ class HomeProvider with ChangeNotifier {
       });
     }
     _addPolyLine();
+    notifyListeners();
   }
 
   bool routeExists(BusRoute route) {
@@ -146,10 +152,12 @@ class HomeProvider with ChangeNotifier {
   }
 
   List<Bus> search() {
+    loadingMap = true;
     List<Bus> bus = [];
     markers.clear();
     startEndPoints.clear();
     polylines.clear();
+    notifyListeners();
     if (regExp.firstMatch(destination) != null) {
       bus.addAll(busesModel.buses.where((bus) => bus.busNo
           .replaceAll('-', '')

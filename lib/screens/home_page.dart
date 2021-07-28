@@ -40,17 +40,19 @@ class _HomePageState extends State<HomePage> {
     final prov = Provider.of<HomeProvider>(context, listen: false);
     bus = await prov.fetchBus(bus);
     prov.startEndPoints.clear();
-    prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
     prov.startEndPoints.add(prov.destinationBusStop);
+    prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
     await prov.getPolyline();
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
+    timer = Timer.periodic(Duration(seconds: 3), (Timer t) async {
       bus = await prov.fetchBus(bus);
-      _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(bus.lat, bus.lng),
-            tilt: 50,
-            zoom: 17,
-          )));
+      prov.startEndPoints.removeAt(1);
+      prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
+      _googleMapController
+          .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(bus.lat, bus.lng),
+        tilt: 50,
+        zoom: 17,
+      )));
     });
   }
 
@@ -96,6 +98,11 @@ class _HomePageState extends State<HomePage> {
                   scrollGesturesEnabled: true,
                   zoomGesturesEnabled: true,
                 ),
+                prov.loadingMap
+                    ? Center(
+                        child:
+                            CircularProgressIndicator(color: Palette.secondary))
+                    : Container(),
                 Column(
                   children: [
                     SizedBox(
