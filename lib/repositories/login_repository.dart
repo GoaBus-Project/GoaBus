@@ -41,6 +41,8 @@ class LoginRepository {
           );
       if(user.user!.email != '')
         message = 'success';
+      else
+        message = 'Incorrect details';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') message = 'User not found';
       print(e.code);
