@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       scrollable: true,
-                                      title: Text('Login'),
+                                      title: Text('Register'),
                                       content: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Form(

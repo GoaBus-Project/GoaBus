@@ -34,14 +34,16 @@ class LoginRepository {
   Future<String> localSignIn(String email, String password) async {
     String message = '';
     try {
-      await FirebaseAuth.instance
+      UserCredential user = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
             email: email,
             password: password,
-          )
-          .whenComplete(() => message = 'success');
+          );
+      if(user.user!.email != '')
+        message = 'success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') message = 'User not found';
+      if(e.code == 'wrong-password') message = 'Incorrect Password';
       print(e.code);
     } catch (e) {
       message = 'There was some problem during registration, please retry';

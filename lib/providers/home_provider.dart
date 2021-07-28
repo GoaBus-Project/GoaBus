@@ -70,7 +70,11 @@ class HomeProvider with ChangeNotifier {
 
   bool routeExists(BusRoute route) {
     bool exists = false;
-    exists = route.end.stopName.toString().toLowerCase().contains(destination);
+    exists = route.end.stopName
+        .toString()
+        .toLowerCase()
+        .replaceAll(' ', '')
+        .contains(destination.toString().toLowerCase().replaceAll(' ', ''));
     if (exists) {
       destinationBusStop =
           LatLng(double.parse(route.end.lat), double.parse(route.end.lng));
@@ -148,10 +152,10 @@ class HomeProvider with ChangeNotifier {
     polylines.clear();
     if (regExp.firstMatch(destination) != null) {
       bus.addAll(busesModel.buses.where((bus) => bus.busNo
-          .replaceAll('-', ' ')
+          .replaceAll('-', '')
           .toLowerCase()
           .toString()
-          .contains(destination)));
+          .contains(destination.toString().toLowerCase().replaceAll(' ', ''))));
     } else {
       List<String> _routes = <String>[];
       routesModel.routes.forEach((route) {
