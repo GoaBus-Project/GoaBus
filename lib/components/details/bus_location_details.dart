@@ -39,8 +39,8 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
     return Consumer<BusesProvider>(
       builder: (context, prov, _) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          timer = Timer.periodic(Duration(seconds: 3), (Timer t) {
-            prov.fetchLocation(widget.index);
+          timer = Timer.periodic(Duration(seconds: 3), (Timer t) async {
+            await prov.fetchLocation(widget.index);
             print(prov.busesModel.buses[widget.index].lat);
             print(prov.busesModel.buses[widget.index].lng);
           });
