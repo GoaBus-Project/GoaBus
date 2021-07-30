@@ -26,18 +26,6 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
     final prov = Provider.of<BusesProvider>(context, listen: false);
     prov.loading = true;
     prov.fetchLocation(widget.index);
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) {
-      prov.fetchLocation(widget.index);
-      print(prov.busesModel.buses[widget.index].lat);
-      print(prov.busesModel.buses[widget.index].lng);
-      prov.markers.add(Marker(
-          infoWindow: InfoWindow(
-              title: prov.busesModel.buses[widget.index].busNo,
-              snippet: prov.busesModel.buses[widget.index].driver),
-          markerId: MarkerId(prov.busesModel.buses[widget.index].busNo),
-          position: LatLng(prov.busesModel.buses[widget.index].lat,
-              prov.busesModel.buses[widget.index].lng)));
-    });
   }
 
   @override
@@ -50,6 +38,20 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
   Widget build(BuildContext context) {
     return Consumer<BusesProvider>(
       builder: (context, prov, _) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          timer = Timer.periodic(Duration(seconds: 3), (Timer t) {
+            prov.fetchLocation(widget.index);
+            print(prov.busesModel.buses[widget.index].lat);
+            print(prov.busesModel.buses[widget.index].lng);
+            prov.markers.add(Marker(
+                infoWindow: InfoWindow(
+                    title: prov.busesModel.buses[widget.index].busNo,
+                    snippet: prov.busesModel.buses[widget.index].driver),
+                markerId: MarkerId(prov.busesModel.buses[widget.index].busNo),
+                position: LatLng(prov.busesModel.buses[widget.index].lat,
+                    prov.busesModel.buses[widget.index].lng)));
+          });
+        });
         return prov.loading
             ? Center(
                 child: CircularProgressIndicator(
