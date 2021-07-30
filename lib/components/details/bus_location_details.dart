@@ -18,6 +18,7 @@ class BusLocationDetails extends StatefulWidget {
 
 class _BusLocationDetailsState extends State<BusLocationDetails> {
   Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _googleMapController;
   Timer timer;
 
   @override
@@ -39,8 +40,16 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
     return Consumer<BusesProvider>(
       builder: (context, prov, _) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          timer = Timer.periodic(Duration(seconds: 3), (Timer t) async {
+          timer = Timer.periodic(Duration(seconds: 4), (Timer t) async {
+            prov.markers.clear();
             await prov.fetchLocation(widget.index);
+            _googleMapController
+                .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+              target: LatLng(prov.busesModel.buses[widget.index].lat,
+                  prov.busesModel.buses[widget.index].lng),
+              tilt: 50,
+              zoom: 18,
+            )));
             print(prov.busesModel.buses[widget.index].lat);
             print(prov.busesModel.buses[widget.index].lng);
           });
@@ -55,12 +64,18 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
                   initialCameraPosition: CameraPosition(
                     target: LatLng(prov.busesModel.buses[widget.index].lat,
                         prov.busesModel.buses[widget.index].lng),
-                    zoom: 16.0,
+                    zoom: 12.0,
                   ),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
+                    _googleMapController = controller;
                   },
                   markers: prov.markers,
+                  myLocationEnabled: true,
+                  tiltGesturesEnabled: true,
+                  compassEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
                 ),
               );
       },
