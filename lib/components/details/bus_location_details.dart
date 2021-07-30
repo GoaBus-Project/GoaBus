@@ -43,13 +43,6 @@ class _BusLocationDetailsState extends State<BusLocationDetails> {
             prov.fetchLocation(widget.index);
             print(prov.busesModel.buses[widget.index].lat);
             print(prov.busesModel.buses[widget.index].lng);
-            prov.markers.add(Marker(
-                infoWindow: InfoWindow(
-                    title: prov.busesModel.buses[widget.index].busNo,
-                    snippet: prov.busesModel.buses[widget.index].driver),
-                markerId: MarkerId(prov.busesModel.buses[widget.index].busNo),
-                position: LatLng(prov.busesModel.buses[widget.index].lat,
-                    prov.busesModel.buses[widget.index].lng)));
           });
         });
         return prov.loading

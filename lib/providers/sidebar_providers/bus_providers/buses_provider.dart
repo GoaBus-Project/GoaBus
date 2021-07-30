@@ -17,10 +17,16 @@ class BusesProvider with ChangeNotifier {
   }
 
   Future<void> fetchLocation(int index) async {
-    markers.clear();
-    notifyListeners();
     busesModel.buses[index] =
         await BusesRepository().fetchBusLocation(busesModel.buses[index]);
+    markers.clear();
+    markers.add(Marker(
+        infoWindow: InfoWindow(
+            title: busesModel.buses[index].busNo,
+            snippet: busesModel.buses[index].driver),
+        markerId: MarkerId(busesModel.buses[index].busNo),
+        position: LatLng(busesModel.buses[index].lat,
+            busesModel.buses[index].lng)));
     loading = false;
     notifyListeners();
   }
