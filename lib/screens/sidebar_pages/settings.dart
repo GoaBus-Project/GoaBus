@@ -32,88 +32,97 @@ class _SettingsState extends State<Settings> {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return Center(
-                                child: Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width - 1000,
-                                    height: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .height - 500,
-                                    padding: EdgeInsets.all(20),
-                                    color: Colors.white,
-                                    child: Scaffold(
-                                        body: Column(
-                                          children: [
-                                            TextFormField(
-                                              decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
-                                                labelText: "Current Password",
-                                              ),
-                                              onChanged: (value) {
-                                                prov.currentPassword = value;
-                                              },
-                                            ),
-                                            TextFormField(
-                                              decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
-                                                labelText: "New Password",
-                                              ),
-                                              onChanged: (value) {
-                                                prov.newPassword = value;
-                                              },
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .center,
-                                              children: [
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor: MaterialStateProperty
-                                                        .all<Color>(
-                                                        Palette.secondary),
+                              return Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Center(
+                                  child: Container(
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width - 1200,
+                                      height: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height - 500,
+                                      padding: EdgeInsets.all(20),
+                                      color: Colors.white,
+                                      child: Scaffold(
+                                          body: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: TextFormField(
+                                                  decoration: InputDecoration(
+                                                    border: UnderlineInputBorder(),
+                                                    labelText: "Current Password",
                                                   ),
-                                                  onPressed: () async {
-                                                    prov.loading = true;
-                                                    return showAlertDialog(
-                                                        context: context,
-                                                        title: 'Alert',
-                                                        message: await prov
-                                                            .savePassword(
-                                                            context)
-                                                    );
+                                                  onChanged: (value) {
+                                                    prov.currentPassword = value;
                                                   },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 15,
-                                                        vertical: 11),
-                                                    child: Text(
-                                                      "Save".toUpperCase(),
-                                                      textAlign: TextAlign
-                                                          .center,
-                                                      style: TextStyle(
-                                                        color: Palette
-                                                            .fontColor,
-                                                        fontWeight: FontWeight
-                                                            .bold,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: TextFormField(
+                                                  decoration: InputDecoration(
+                                                    border: UnderlineInputBorder(),
+                                                    labelText: "New Password",
+                                                  ),
+                                                  onChanged: (value) {
+                                                    prov.newPassword = value;
+                                                  },
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  ElevatedButton(
+                                                    style: ButtonStyle(
+                                                      backgroundColor: MaterialStateProperty
+                                                          .all<Color>(
+                                                          Palette.secondary),
+                                                    ),
+                                                    onPressed: () async {
+                                                      prov.loading = true;
+                                                      return showAlertDialog(
+                                                          context: context,
+                                                          title: 'Alert',
+                                                          message: await prov
+                                                              .savePassword(
+                                                              context)
+                                                      );
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 15,
+                                                          vertical: 11),
+                                                      child: Text(
+                                                        "Save".toUpperCase(),
+                                                        textAlign: TextAlign
+                                                            .center,
+                                                        style: TextStyle(
+                                                          color: Palette
+                                                              .fontColor,
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                SizedBox(width: 40),
-                                                prov.loading ?
-                                                CircularProgressIndicator(
-                                                    color: Palette.secondary
-                                                ) : Container(),
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                    )
+                                                  SizedBox(width: 40),
+                                                  prov.loading ?
+                                                  CircularProgressIndicator(
+                                                      color: Palette.secondary
+                                                  ) : Container(),
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                      )
+                                  ),
                                 ),
                               );
                             });

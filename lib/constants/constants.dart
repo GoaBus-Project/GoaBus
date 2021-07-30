@@ -1,9 +1,9 @@
 class Constants {
   Constants._();
 
-  static const String MAIN_LOGO = 'logo.png';
-  static const String NAMED_MAIN_LOGO = 'namedlogo.png';
-  static const String GOOGLE_LOGO = 'google-logo.png';
+  static const String MAIN_LOGO = 'assets/assets/logo.png';
+  static const String NAMED_MAIN_LOGO = 'assets/assets/namedlogo.png';
+  static const String GOOGLE_LOGO = 'assets/assets/google-logo.png';
 
   static const String DRIVERS_COLLECTION = 'Drivers';
   static const String BUSES_COLLECTION = 'Buses';

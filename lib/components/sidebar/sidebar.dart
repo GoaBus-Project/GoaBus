@@ -28,7 +28,7 @@ class _SideBarState extends State<SideBar> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
+                Image.network(
                   Constants.MAIN_LOGO,
                   height: 57.0,
                   width: 57.0,

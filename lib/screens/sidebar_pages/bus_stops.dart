@@ -52,7 +52,8 @@ class _BusStopsState extends State<BusStops> {
               :Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
                 child: Container(
-                  height: 400,
+                  height: MediaQuery.of(context).copyWith().size.height / 2,
+                  width: MediaQuery.of(context).copyWith().size.width,
                   child: SmoothScrollWeb(
                     controller: _scrollController,
                     child: Scrollbar(
