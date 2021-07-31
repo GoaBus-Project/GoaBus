@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(bus.lat, bus.lng),
         tilt: 50,
-        zoom: 17,
+        zoom: 18,
       )));
     });
   }
