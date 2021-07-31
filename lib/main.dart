@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:goabus_users/providers/bus_stops_provider.dart';
 import 'package:goabus_users/providers/home_provider.dart';
 import 'package:goabus_users/providers/login_provider.dart';
 import 'package:goabus_users/screens/login_page.dart';
@@ -19,6 +20,7 @@ class PassengerApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
+        ChangeNotifierProvider(create: (context) => BusStopsProvider()),
       ],
       child: MaterialApp(
         title: 'PassengerApp',

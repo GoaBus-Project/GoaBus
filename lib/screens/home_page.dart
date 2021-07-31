@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String selected = '';
   Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController _googleMapController;
   Timer timer = Timer(Duration(), () {});
@@ -48,10 +47,6 @@ class _HomePageState extends State<HomePage> {
     timer = Timer.periodic(Duration(seconds: 4), (Timer t) async {
       bus = await prov.fetchBus(bus);
       print('${bus.lat} ${bus.lng}');
-      /// For polyline
-      // prov.startEndPoints.removeAt(1);
-      // prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
-      ///
       _googleMapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(bus.lat, bus.lng),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goabus_users/common/color_palette.dart';
 import 'package:goabus_users/providers/home_provider.dart';
 import 'package:goabus_users/providers/login_provider.dart';
+import 'package:goabus_users/screens/bus_stops.dart';
 import 'package:provider/provider.dart';
 
 class SideDrawer extends StatefulWidget {
@@ -23,7 +24,7 @@ class _SideDrawerState extends State<SideDrawer> {
         color: Palette.secondary,
         onPressed: () async {
           await prov.signOut().whenComplete(
-              () => Navigator.popUntil(context, (route) => route.isFirst));
+                  () => Navigator.popUntil(context, (route) => route.isFirst));
         });
 
     /// set up No button
@@ -81,7 +82,10 @@ class _SideDrawerState extends State<SideDrawer> {
                       width: 200.0,
                       child: Center(
                         child: Text(
-                          'Email: ${Provider.of<HomeProvider>(context, listen: false).getEmail.toString()}',
+                          'Email: ${Provider
+                              .of<HomeProvider>(context, listen: false)
+                              .getEmail
+                              .toString()}',
                           style: TextStyle(
                               fontSize: 17.0,
                               color: Colors.white,
@@ -108,7 +112,11 @@ class _SideDrawerState extends State<SideDrawer> {
               ),
             ],
           ),
-          onTap: () => Navigator.of(context).push(_NewPage(1)),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BusStopsScreen()
+              )),
         ),
         ListTile(
           title: Row(
@@ -123,7 +131,7 @@ class _SideDrawerState extends State<SideDrawer> {
               ),
             ],
           ),
-          onTap: () => Navigator.of(context).push(_NewPage(2)),
+          onTap: () {},
         ),
         ListTile(
           title: Row(
@@ -146,19 +154,4 @@ class _SideDrawerState extends State<SideDrawer> {
       ],
     );
   }
-}
-
-class _NewPage extends MaterialPageRoute<void> {
-  _NewPage(int id)
-      : super(builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Page $id'),
-              elevation: 1.0,
-            ),
-            body: Center(
-              child: Text('Page $id'),
-            ),
-          );
-        });
 }
