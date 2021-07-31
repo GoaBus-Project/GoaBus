@@ -64,7 +64,6 @@ class HomeProvider with ChangeNotifier {
       PointLatLng(startEndPoints[1].latitude, startEndPoints[1].longitude),
       PointLatLng(startEndPoints[0].latitude, startEndPoints[0].longitude),
       travelMode: TravelMode.driving,
-      // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]
     );
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
@@ -173,8 +172,12 @@ class HomeProvider with ChangeNotifier {
   }
 
   Future<Bus> fetchBus(Bus bus) async {
+    polylineCoordinates.removeWhere((polylineCoordinate) =>
+        polylineCoordinate.latitude == bus.lat &&
+        polylineCoordinate.longitude == bus.lng);
     markers.removeWhere((element) =>
         element.infoWindow.title.toString() == bus.busNo.toString());
+    notifyListeners();
 
     Bus updatedBus = await BusRepository().fetchBusLocation(bus);
     markers.add(Marker(

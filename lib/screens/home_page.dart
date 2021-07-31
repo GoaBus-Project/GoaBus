@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     prov.startEndPoints.add(prov.destinationBusStop);
     prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
     await prov.getPolyline();
-    timer = Timer.periodic(Duration(seconds: 6), (Timer t) async {
+    timer = Timer.periodic(Duration(seconds: 4), (Timer t) async {
       bus = await prov.fetchBus(bus);
       print('${bus.lat} ${bus.lng}');
       /// For polyline
