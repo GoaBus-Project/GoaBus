@@ -38,15 +38,20 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchBusLocation(Bus bus) async {
     final prov = Provider.of<HomeProvider>(context, listen: false);
+    prov.markers.clear();
     bus = await prov.fetchBus(bus);
+    prov.setStopsMarkers(bus);
     prov.startEndPoints.clear();
     prov.startEndPoints.add(prov.destinationBusStop);
     prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
     await prov.getPolyline();
-    timer = Timer.periodic(Duration(seconds: 3), (Timer t) async {
+    timer = Timer.periodic(Duration(seconds: 6), (Timer t) async {
       bus = await prov.fetchBus(bus);
-      prov.startEndPoints.removeAt(1);
-      prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
+      print('${bus.lat} ${bus.lng}');
+      /// For polyline
+      // prov.startEndPoints.removeAt(1);
+      // prov.startEndPoints.add(LatLng(bus.lat, bus.lng));
+      ///
       _googleMapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(bus.lat, bus.lng),

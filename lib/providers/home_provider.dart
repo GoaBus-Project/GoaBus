@@ -32,7 +32,6 @@ class HomeProvider with ChangeNotifier {
     multiLine: false,
   );
 
-
   void get init async {
     busesModel = BusesModel(buses: []);
     routesModel = RoutesModel(routes: []);
@@ -45,6 +44,8 @@ class HomeProvider with ChangeNotifier {
     routesModel = await RoutesRepository().fetchRoutes();
     busStopsModel = await BusStopsRepository().fetchBusStops();
   }
+
+  String get getEmail => LoginRepository().getEmail.toString();
 
   void _addPolyLine() {
     PolylineId id = PolylineId("poly");
@@ -84,31 +85,19 @@ class HomeProvider with ChangeNotifier {
     if (exists) {
       destinationBusStop =
           LatLng(double.parse(route.end.lat), double.parse(route.end.lng));
-      markers.add(Marker(
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          infoWindow: InfoWindow(
-              title: route.end.stopName,
-              snippet: destinationBusStop.toString()),
-          markerId: MarkerId(destinationBusStop.toString()),
-          position: destinationBusStop));
+      notifyListeners();
+      return exists;
     } else {
       route.intermediate.stop.forEach((stop) {
         exists = stop.stopName.toLowerCase().contains(destination);
         if (exists) {
           destinationBusStop =
               LatLng(double.parse(stop.lat), double.parse(stop.lng));
-          markers.add(Marker(
-              icon: BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueGreen),
-              infoWindow: InfoWindow(
-                  title: stop.stopName, snippet: destinationBusStop.toString()),
-              markerId: MarkerId(destinationBusStop.toString()),
-              position: destinationBusStop));
+          return;
         }
       });
+      if (exists) return exists;
     }
-    notifyListeners();
     return exists;
   }
 
@@ -184,16 +173,71 @@ class HomeProvider with ChangeNotifier {
   }
 
   Future<Bus> fetchBus(Bus bus) async {
-    markers.removeWhere((element) => element.markerId == MarkerId(bus.busNo));
+    markers.removeWhere((element) =>
+        element.infoWindow.title.toString() == bus.busNo.toString());
+
     Bus updatedBus = await BusRepository().fetchBusLocation(bus);
     markers.add(Marker(
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-        infoWindow: InfoWindow(title: bus.busNo, snippet: bus.driver),
-        markerId: MarkerId(bus.busNo),
-        position: LatLng(bus.lat, bus.lng)));
+        infoWindow:
+            InfoWindow(title: updatedBus.busNo, snippet: updatedBus.driver),
+        markerId: MarkerId(updatedBus.busNo),
+        position: LatLng(updatedBus.lat, updatedBus.lng)));
+    // print('new ' + MarkerId(updatedBus.busNo).toString());
     notifyListeners();
     return updatedBus;
   }
 
-  String get getEmail => LoginRepository().getEmail.toString();
+  bool _checkDestination(BusRoute route, Trip trip) {
+    return route.name.replaceAll(' ', '') ==
+            trip.routeName.replaceAll(' ', '') &&
+        route.name.replaceAll(' ', '').split('-')[1].toLowerCase() ==
+            destination.replaceAll(' ', '');
+  }
+
+  void setStopsMarkers(Bus bus) {
+    markers.clear();
+    notifyListeners();
+    bus.trips.forEach((trip) {
+      routesModel.routes.forEach((route) {
+        if (_checkDestination(route, trip)) {
+          /// Add start point marker
+          markers.add(Marker(
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueGreen),
+              infoWindow: InfoWindow(title: route.start.stopName.toString()),
+              markerId: MarkerId(LatLng(double.parse(route.start.lat),
+                      double.parse(route.start.lng))
+                  .toString()),
+              position: LatLng(double.parse(route.start.lat),
+                  double.parse(route.start.lng))));
+
+          /// Add intermediate markers
+          route.intermediate.stop.forEach((stop) {
+            markers.add(Marker(
+                icon: BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueYellow),
+                infoWindow: InfoWindow(title: stop.stopName.toString()),
+                markerId: MarkerId(
+                    LatLng(double.parse(stop.lat), double.parse(stop.lng))
+                        .toString()),
+                position:
+                    LatLng(double.parse(stop.lat), double.parse(stop.lng))));
+          });
+
+          /// Add end point marker
+          markers.add(Marker(
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueRed),
+              infoWindow: InfoWindow(title: route.end.stopName.toString()),
+              markerId: MarkerId(LatLng(
+                      double.parse(route.end.lat), double.parse(route.end.lng))
+                  .toString()),
+              position: LatLng(
+                  double.parse(route.end.lat), double.parse(route.end.lng))));
+          notifyListeners();
+        }
+      });
+    });
+  }
 }
