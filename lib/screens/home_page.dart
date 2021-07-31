@@ -115,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     TextField(
                       decoration: new InputDecoration(
+                        prefixIcon:Icon(Icons.search),
                           filled: true,
                           border: new OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
@@ -158,6 +159,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           TextField(
                                             decoration: new InputDecoration(
+                                                prefixIcon:Icon(Icons.search),
                                                 border: new OutlineInputBorder(
                                                   borderRadius:
                                                       const BorderRadius.all(
@@ -178,6 +180,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           TextField(
                                             decoration: new InputDecoration(
+                                                prefixIcon:Icon(Icons.search),
                                                 border: new OutlineInputBorder(
                                                   borderRadius:
                                                       const BorderRadius.all(

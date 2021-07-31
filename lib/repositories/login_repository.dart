@@ -16,7 +16,7 @@ class LoginRepository {
       // UserCredential userCredential =
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: email.replaceAll(' ', ''), password: password)
+          email: email.replaceAll(' ', ''), password: password)
           .whenComplete(() => message = 'success');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -36,9 +36,9 @@ class LoginRepository {
     try {
       UserCredential user = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-            email: email,
-            password: password,
-          );
+        email: email,
+        password: password,
+      );
       if(user.user!.email != '')
         message = 'success';
     } on FirebaseAuthException catch (e) {

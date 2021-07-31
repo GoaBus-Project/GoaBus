@@ -18,7 +18,7 @@ class HomeProvider with ChangeNotifier {
   late BusesModel busesModel = BusesModel(buses: []);
   late RoutesModel routesModel = RoutesModel(routes: []);
   late BusStopsModel busStopsModel = BusStopsModel(busStops: []);
-  late LatLng destinationBusStop;
+  late LatLng destinationBusStop = LatLng(0.0, 0.0);
   List<LatLng> startEndPoints = [];
   final Set<Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
