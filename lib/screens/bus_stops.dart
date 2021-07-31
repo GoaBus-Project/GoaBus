@@ -43,7 +43,6 @@ class _BusStopsScreenState extends State<BusStopsScreen> {
             ),
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
-              _googleMapController = controller;
             },
             onCameraMove: (cameraPosition) {
               prov.setLatLng(cameraPosition.target);
