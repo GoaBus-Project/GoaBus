@@ -1,5 +1,6 @@
 import 'package:drivers_app/common/color_pallete.dart';
 import 'package:drivers_app/providers/homepage_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +51,131 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.all(15.0),
               shape: CircleBorder(),
             )),
+            SizedBox(height: 100),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton.extended(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 600,
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text("Enter Custom Message"),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 200,
+                                          margin: const EdgeInsets.only(right: 50),
+                                          child:TextField(
+                                            maxLines: 4,
+                                            decoration: InputDecoration(
+                                              labelText: "Enter Message",
+                                              fillColor: Colors.white,
+                                              border: new OutlineInputBorder(
+                                                borderRadius: new BorderRadius.circular(25.0),
+                                                borderSide: new BorderSide(
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: (){},
+                                            child: Icon(Icons.send)
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                        margin: const EdgeInsets.only(top: 30,bottom: 30),
+                                        child: Center(child: Text("===============OR=============="))
+                                    ),
+                                    ListTile(
+                                      title: Text("Breakdown"),
+                                      onTap: (){},
+                                    ),
+                                    ListTile(
+                                      title: Text("Hijacked"),
+                                      onTap: (){},
+                                    ),
+                                    ListTile(
+                                      title: Text("Accident"),
+                                        onTap: (){}
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    label: Row(
+                      children: [
+                        Icon(Icons.dangerous_rounded),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("SOS")
+                      ],
+                    )),
+                SizedBox(
+                  width: 50,
+                ),
+                FloatingActionButton.extended(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 200,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.lock,
+                                        color: Palette.secondary,
+                                      ),
+                                      labelText: 'New Password',
+                                    ),
+                                    onChanged: (value) {},
+                                  ),
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.lock,
+                                        color: Palette.secondary,
+                                      ),
+                                      labelText: 'Confirm New Password',
+                                    ),
+                                    onChanged: (value) {},
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: (){},
+                                      child: Text("Submit")
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    label: Row(
+                      children: [
+                        Icon(Icons.settings),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Settings")
+                      ],
+                    ))
+              ],
+            )
           ],
         );
       }),

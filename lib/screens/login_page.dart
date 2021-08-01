@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Icons.lock_outlined,
                                 color: Palette.secondary,
                               ),
-                              labelText: 'Bus Number',
+                              labelText: 'Password',
                             ),
                           ),
                         ),
