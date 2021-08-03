@@ -12,13 +12,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final textController = TextEditingController();
+  String _newPassword = '', _confirmPassword = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Center(child: Text("DRIVER APP")),
+        title: Center(child: Text("GoaBus Driver".toUpperCase())),
         backgroundColor: Palette.secondary,
       ),
       body: Consumer<HomePageProvider>(builder: (context, prov, _) {
@@ -69,46 +70,48 @@ class _HomePageState extends State<HomePage> {
                                       title: Text("Enter Custom Message"),
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
                                           width: 200,
-                                          margin: const EdgeInsets.only(right: 50),
-                                          child:TextField(
+                                          margin:
+                                              const EdgeInsets.only(right: 50),
+                                          child: TextField(
                                             maxLines: 4,
                                             decoration: InputDecoration(
                                               labelText: "Enter Message",
                                               fillColor: Colors.white,
                                               border: new OutlineInputBorder(
-                                                borderRadius: new BorderRadius.circular(25.0),
-                                                borderSide: new BorderSide(
-                                                ),
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        25.0),
+                                                borderSide: new BorderSide(),
                                               ),
                                             ),
                                           ),
                                         ),
                                         ElevatedButton(
-                                            onPressed: (){},
-                                            child: Icon(Icons.send)
-                                        ),
+                                            onPressed: () {},
+                                            child: Icon(Icons.send)),
                                       ],
                                     ),
                                     Container(
-                                        margin: const EdgeInsets.only(top: 30,bottom: 30),
-                                        child: Center(child: Text("===============OR=============="))
-                                    ),
+                                        margin: const EdgeInsets.only(
+                                            top: 30, bottom: 30),
+                                        child: Center(
+                                            child: Text(
+                                                "===============OR=============="))),
                                     ListTile(
                                       title: Text("Breakdown"),
-                                      onTap: (){},
+                                      onTap: () {},
                                     ),
                                     ListTile(
                                       title: Text("Hijacked"),
-                                      onTap: (){},
+                                      onTap: () {},
                                     ),
                                     ListTile(
-                                      title: Text("Accident"),
-                                        onTap: (){}
-                                    ),
+                                        title: Text("Accident"), onTap: () {}),
                                   ],
                                 ),
                               ),
@@ -133,9 +136,12 @@ class _HomePageState extends State<HomePage> {
                           context: context,
                           builder: (BuildContext context) {
                             return Container(
-                              height: 200,
+                              height: 250,
                               child: Column(
                                 children: [
+                                  ListTile(
+                                    title: Text("Change Password"),
+                                  ),
                                   TextFormField(
                                     decoration: InputDecoration(
                                       prefixIcon: Icon(
@@ -144,7 +150,9 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       labelText: 'New Password',
                                     ),
-                                    onChanged: (value) {},
+                                    onChanged: (value) {
+                                      _newPassword = value;
+                                    },
                                   ),
                                   TextFormField(
                                     decoration: InputDecoration(
@@ -154,11 +162,61 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       labelText: 'Confirm New Password',
                                     ),
-                                    onChanged: (value) {},
+                                    onChanged: (value) {
+                                      _confirmPassword = value;
+                                    },
                                   ),
-                                  ElevatedButton(
-                                      onPressed: (){},
-                                      child: Text("Submit")
+                                  SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            String message =
+                                                await prov.changePassword(
+                                                    _newPassword,
+                                                    _confirmPassword);
+                                            if (message == 'Success') {
+                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor:
+                                                      Palette.secondary,
+                                                  content: const Text(
+                                                      'Success, you can now sign in with your new password',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                  action: SnackBarAction(
+                                                    label: 'Ok',
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor:
+                                                      Palette.secondary,
+                                                  duration:
+                                                      Duration(seconds: 2),
+                                                  content: Text('$message',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: prov.loading
+                                              ? CircularProgressIndicator(
+                                                  color: Palette.secondary)
+                                              : Text("Submit")),
+                                    ],
                                   ),
                                 ],
                               ),

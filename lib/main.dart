@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/login_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(DriverApp());
@@ -20,15 +20,11 @@ class _DriverAppState extends State<DriverApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => HomePageProvider()),
-          ChangeNotifierProvider(create: (context) => LoginPageProvider()),
-        ],
-      child: MaterialApp(
-          title: "DRIVER APP",
-          home: LoginPage()
-      ),
+      providers: [
+        ChangeNotifierProvider(create: (context) => HomePageProvider()),
+        ChangeNotifierProvider(create: (context) => LoginPageProvider()),
+      ],
+      child: MaterialApp(title: "DRIVER APP", home: LoginPage()),
     );
   }
 }
-

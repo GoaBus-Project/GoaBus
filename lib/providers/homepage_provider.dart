@@ -1,12 +1,13 @@
 import 'package:android_intent/android_intent.dart';
 import 'package:drivers_app/repositories/location_repository.dart';
+import 'package:drivers_app/repositories/login_repository.dart';
 import 'package:drivers_app/services/location_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 class HomePageProvider with ChangeNotifier {
-  bool start = false;
+  bool start = false, loading = false;
 
   Future<void> startStopSendingLocation(BuildContext context) async {
     start = !start;
@@ -63,5 +64,37 @@ class HomePageProvider with ChangeNotifier {
         }
       }
     }
+  }
+
+  Future<String> changePassword(
+      String newPassword, String confirmPassword) async {
+    String message = '';
+
+    if (newPassword.isEmpty) {
+      loading = false;
+      notifyListeners();
+      return 'New password cannot be empty';
+    } else if (confirmPassword.isEmpty) {
+      loading = false;
+      notifyListeners();
+      return 'Please confirm password';
+    } else if (newPassword != confirmPassword) {
+      loading = false;
+      notifyListeners();
+      return 'Password mismatch';
+    } else if (newPassword.length < 8) {
+      loading = false;
+      notifyListeners();
+      return 'Password length cannot be less than 8';
+    } else {
+      loading = true;
+      notifyListeners();
+      message =
+          await LoginRepository().changePassword(newPassword).whenComplete(() {
+        loading = false;
+        notifyListeners();
+      });
+    }
+    return message;
   }
 }

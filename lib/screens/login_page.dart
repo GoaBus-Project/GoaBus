@@ -102,10 +102,10 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 20,
                               )),
                           onPressed: () async {
-                            String msg = prov.checkFields();
-                            if(msg != '') {
+                            String _msg = prov.checkFields();
+                            if(_msg != '') {
                               Fluttertoast.showToast(
-                                  msg: msg,
+                                  msg: _msg,
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.CENTER,
                                   timeInSecForIosWeb: 1,
@@ -114,7 +114,8 @@ class _LoginPageState extends State<LoginPage> {
                                   fontSize: 16.0
                               );
                             } else {
-                              if (await prov.login()) {
+                              String _message = await prov.login();
+                              if (_message == 'success') {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -122,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               } else {
                                 Fluttertoast.showToast(
-                                    msg: "Incorrect details",
+                                    msg: '$_message',
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.CENTER,
                                     timeInSecForIosWeb: 1,
