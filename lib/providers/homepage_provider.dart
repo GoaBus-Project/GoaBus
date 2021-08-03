@@ -1,6 +1,7 @@
 import 'package:android_intent/android_intent.dart';
 import 'package:drivers_app/repositories/location_repository.dart';
 import 'package:drivers_app/repositories/login_repository.dart';
+import 'package:drivers_app/repositories/sos_repository.dart';
 import 'package:drivers_app/services/location_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -96,5 +97,14 @@ class HomePageProvider with ChangeNotifier {
       });
     }
     return message;
+  }
+
+  Future<String> sendSOS(String message) async {
+    loading = true;
+    notifyListeners();
+    return await SOSRepository().postSOS(message).whenComplete(() {
+      loading = false;
+      notifyListeners();
+    });
   }
 }

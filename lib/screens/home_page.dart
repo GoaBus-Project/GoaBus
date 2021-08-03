@@ -12,7 +12,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final textController = TextEditingController();
-  String _newPassword = '', _confirmPassword = '';
+  String _newPassword = '', _confirmPassword = '', _sosMessage = '';
+
+  void _sosResponse(String _message) {
+    if (_message == 'success') {
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+          msg: "SOS Sent",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Palette.primary,
+          textColor: Palette.fontColor,
+          fontSize: 16.0);
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+          msg: "$_message",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Palette.primary,
+          textColor: Palette.fontColor,
+          fontSize: 16.0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,29 +113,60 @@ class _HomePageState extends State<HomePage> {
                                                 borderSide: new BorderSide(),
                                               ),
                                             ),
+                                            onChanged: (message) {
+                                              _sosMessage = message;
+                                            },
                                           ),
                                         ),
                                         ElevatedButton(
-                                            onPressed: () {},
-                                            child: Icon(Icons.send)),
+                                            onPressed: () async {
+                                              if(!prov.loading) {
+                                                _sosResponse(await prov
+                                                    .sendSOS(_sosMessage));
+                                              } else return;
+                                            },
+                                            child: prov.loading
+                                                ? SizedBox(
+                                                  height: 12,
+                                                  width: 12,
+                                                  child: CircularProgressIndicator(
+                                                      color: Colors.white),
+                                                )
+                                                : Icon(Icons.send)),
                                       ],
                                     ),
                                     Container(
                                         margin: const EdgeInsets.only(
                                             top: 30, bottom: 30),
-                                        child: Center(
-                                            child: Text(
-                                                "===============OR=============="))),
+                                        child: Divider(
+                                          thickness: 8,
+                                          color: Palette.secondary,
+                                        )),
                                     ListTile(
-                                      title: Text("Breakdown"),
-                                      onTap: () {},
-                                    ),
+                                        title: Text("Breakdown"),
+                                        onTap: () async {
+                                          if(!prov.loading) {
+                                            _sosResponse(
+                                                await prov.sendSOS(
+                                                    'Breakdown'));
+                                          } else return;
+                                        }),
                                     ListTile(
-                                      title: Text("Hijacked"),
-                                      onTap: () {},
-                                    ),
+                                        title: Text("Hijacked"),
+                                        onTap: () async {
+                                          if(!prov.loading) {
+                                            _sosResponse(await prov
+                                                .sendSOS('Bus Hijacked'));
+                                          } else return;
+                                        }),
                                     ListTile(
-                                        title: Text("Accident"), onTap: () {}),
+                                        title: Text("Accident"),
+                                        onTap: () async {
+                                          if(!prov.loading) {
+                                            _sosResponse(await prov
+                                                .sendSOS('Bus Accident'));
+                                          } else return;
+                                        }),
                                   ],
                                 ),
                               ),
@@ -185,7 +240,8 @@ class _HomePageState extends State<HomePage> {
                                                       Palette.secondary,
                                                   content: const Text(
                                                       'Success, you can now sign in with your new password',
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: TextStyle(
                                                           color: Colors.white)),
                                                   action: SnackBarAction(
