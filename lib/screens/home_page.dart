@@ -51,36 +51,40 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-                child: RawMaterialButton(
-              onPressed: () async {
-                prov
-                    .startStopSendingLocation(context)
-                    .catchError((error, stackTrace) {
-                  Fluttertoast.showToast(
-                      msg: "There was some problem",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Palette.primary,
-                      textColor: Palette.fontColor,
-                      fontSize: 16.0);
-                });
-              },
-              elevation: 2.0,
-              fillColor: Palette.secondary,
-              child: Icon(
-                prov.start ? Icons.stop : Icons.location_on_outlined,
-                size: 200.0,
-                color: Palette.primary,
-              ),
-              padding: EdgeInsets.all(15.0),
-              shape: CircleBorder(),
+                child: ElevatedButton(
+                    onPressed: () async {
+                      prov
+                          .startStopSendingLocation(context)
+                          .catchError((error, stackTrace) {
+                        Fluttertoast.showToast(
+                            msg: "There was some problem",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Palette.primary,
+                            textColor: Palette.fontColor,
+                            fontSize: 16.0);
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: Palette.secondary,
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(120)),
+                        padding: EdgeInsets.all(20)),
+                    child: Icon(
+                      prov.start ? Icons.stop : Icons.location_on_outlined,
+                      size: 200.0,
+                      color: Palette.primary,
+                    ),
+              // padding: EdgeInsets.all(15.0),
+              // shape: CircleBorder(),
             )),
             SizedBox(height: 100),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                FloatingActionButton.extended(
+                ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -173,7 +177,13 @@ class _HomePageState extends State<HomePage> {
                             );
                           });
                     },
-                    label: Row(
+                    style: ElevatedButton.styleFrom(
+                        primary: Palette.secondary,
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        padding: EdgeInsets.all(20)),
+                    child: Row(
                       children: [
                         Icon(Icons.dangerous_rounded),
                         SizedBox(
@@ -185,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   width: 50,
                 ),
-                FloatingActionButton.extended(
+                ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -279,7 +289,13 @@ class _HomePageState extends State<HomePage> {
                             );
                           });
                     },
-                    label: Row(
+                    style: ElevatedButton.styleFrom(
+                        primary: Palette.secondary,
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        padding: EdgeInsets.all(20)),
+                    child: Row(
                       children: [
                         Icon(Icons.settings),
                         SizedBox(
